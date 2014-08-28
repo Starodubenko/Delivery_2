@@ -1,0 +1,66 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <display-name>Delivery</display-name>
+
+
+    <!--
+    when i type http://localhost:8087/db/ in browser and server get this req
+    server try to find index.html or index.jsp in your webapp folder
+    and he found it and he accessed it without you controller
+    if you map controller like /controller you should use index.jsp with redirect only
+    i told about it on Thursday
+    -->
+    <servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>com.epam.star.servlet.Controller</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/do/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>Encoding</filter-name>
+        <filter-class>com.epam.star.filter.Encoding</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Encoding</filter-name>
+        <url-pattern>/do/*</url-pattern>
+        <!--<servlet-name>controller</servlet-name>-->
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CacheFilter</filter-name>
+        <filter-class>com.epam.star.filter.CacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>/do/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+if you map them here they will be applied on mapped url-pattern,
+т.е. он щас на все ?
+нет блин, только на звездочку (это сарказм блин)
+ты когда нибудь видел урл в виде звездочки нет
+а как на все ? ясно, и еще на счет Listener
+с ними все отлично, они работают, в другом вопрос,
+
+рисуй тут
+
+впитывай
+ok
+всё? ,да вроде все
+-->
+
+    <listener>
+        <listener-class>com.epam.star.listener.ProjectListener</listener-class>
+    </listener>
+</web-app>
