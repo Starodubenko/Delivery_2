@@ -1,4 +1,4 @@
-package com.epam.star.H2dao;
+package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.PeriodDao;
 import com.epam.star.entity.Period;
@@ -108,7 +108,7 @@ public class H2PeriodDao implements PeriodDao {
     }
 
     @Override
-    public String updateElement(int ID) {
+    public String updateElement(Period period) {
         return null;
     }
 

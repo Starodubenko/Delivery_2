@@ -1,6 +1,7 @@
-package com.epam.star.H2dao;
+package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.ClientDao;
+import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,9 @@ import java.util.List;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_CLIENT = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETE_CLIENT = "DELETE FROM clients WHERE id = ?";
+    private static final String ADD_CLIENT = "INSERT INTO  users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
+            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private Connection conn;
 
     public H2ClientDao(Connection conn) {
@@ -239,9 +241,12 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         String sql = "select * from users where id = " + ID;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+        Client client = null;
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
+            if(resultSet.next())
+            client= getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -256,7 +261,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 } catch (SQLException e) { /* ignored */}
             }
         }
-        return getClientFromResultSet(resultSet);
+        return client;
     }
 
     @Override
@@ -281,8 +286,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 prstm.setString(11, null);
                 prstm.setString(12, null);
                 prstm.setString(13, null);
-                prstm.setString(14, "11");
-                prstm.setBigDecimal(15, new BigDecimal(0));
+                prstm.setInt(14, client.getRole().getId());
+                prstm.setBigDecimal(15, client.getVirtualBalance());
                 prstm.execute();
                 status = "Client added successfully";
             } catch (SQLException e) {
@@ -309,7 +314,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         PreparedStatement prstm = null;
 
         try {
-            prstm = conn.prepareStatement(DELETE_CLIENT);
+            prstm = conn.prepareStatement(UPDATE_CLIENT);
             prstm.setString(1, String.valueOf(ID));
             prstm.execute();
             status = "Client successfully deleted";
@@ -331,11 +336,53 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public String updateElement(int ID) {
-        return null;
+    public String updateElement(Client client) {
+        String status = "Client do not updated";
+
+        PreparedStatement prstm = null;
+
+        try {
+            prstm = conn.prepareStatement(UPDATE_CLIENT);
+            prstm.setInt(1, client.getId());
+            prstm.setString(2, client.getLogin());
+            prstm.setString(3, client.getPassword());
+            prstm.setString(4, client.getFirstName());
+            prstm.setString(5, client.getLastName());
+            prstm.setString(6, client.getMiddleName());
+            prstm.setString(7, client.getAddress());
+            prstm.setString(8, client.getTelephone());
+            prstm.setString(9, client.getMobilephone());
+            prstm.setString(10, null);
+            prstm.setString(11, null);
+            prstm.setString(12, null);
+            prstm.setString(13, null);
+            prstm.setInt(14, client.getRole().getId());
+            prstm.setBigDecimal(15, client.getVirtualBalance());
+            prstm.setInt(16, client.getId());
+            prstm.executeUpdate();
+            status = "Client updated successfully";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (prstm != null) {
+                try {
+                    prstm.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+        }
+        return status;
     }
 
     private Client getClientFromResultSet(ResultSet resultSet) {
+
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        PositionDao positionDao = daoFactory.getPositionDao();
+
         Client client = new Client();
         try {
             client.setId(resultSet.getInt("id"));
@@ -347,7 +394,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setAddress(resultSet.getString("address"));
             client.setTelephone(resultSet.getString("telephone"));
             client.setMobilephone(resultSet.getString("mobilephone"));
-            client.setRole(resultSet.getString("position_name"));
+            client.setRole(positionDao.getElement(resultSet.getInt("position_id")));
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
             e.printStackTrace();

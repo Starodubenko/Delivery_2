@@ -1,4 +1,4 @@
-package com.epam.star.H2dao;
+package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.StatusDao;
 import com.epam.star.entity.Status;
@@ -50,7 +50,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
 
     @Override
     public Status getElement(int ID) {
-        String sql = "SELECT * FROM status WHERE id = " + "'" + ID +"'";
+        String sql = "SELECT * FROM status WHERE id = " + ID;
         Status status = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -110,7 +110,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public String updateElement(int ID) {
+    public String updateElement(Status entity) {
         return null;
     }
 

@@ -1,5 +1,11 @@
 package com.epam.star.action;
 
+import com.epam.star.action.client.ClientRergistrationAction;
+import com.epam.star.action.login.LoginAction;
+import com.epam.star.action.login.LogoutAction;
+import com.epam.star.action.order.CancelOrderAction;
+import com.epam.star.action.order.CreateOrderAction;
+import com.epam.star.action.paycard.PaymentAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +40,10 @@ public class ActionFactory {
         actions.put("GET/welcome", new ShowWelcomePageAction());
 
         actions.put("GET/createOrder", new CreateOrderAction());
+
+        actions.put("GET/cancelOrder", new CancelOrderAction());
+
+        actions.put("POST/payment", new PaymentAction());
 
 
 

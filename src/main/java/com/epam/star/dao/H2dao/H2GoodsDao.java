@@ -1,4 +1,4 @@
-package com.epam.star.H2dao;
+package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.GoodsDao;
 import com.epam.star.entity.Goods;
@@ -111,7 +111,7 @@ public class H2GoodsDao implements GoodsDao {
     }
 
     @Override
-    public String updateElement(int ID) {
+    public String updateElement(Goods goods) {
         return null;
     }
 

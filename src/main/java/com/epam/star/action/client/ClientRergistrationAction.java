@@ -1,14 +1,19 @@
-package com.epam.star.action;
+package com.epam.star.action.client;
 
-import com.epam.star.H2dao.DaoFactory;
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionException;
+import com.epam.star.action.ActionResult;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.entity.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 public class ClientRergistrationAction implements Action {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientRergistrationAction.class);
     private ActionResult login = new ActionResult("login");
 
     @Override

@@ -138,3 +138,8 @@ text{
 .fixed{
     position: fixed;
 }
+
+.paymentform{
+    width: 200px;
+    margin: auto;
+}

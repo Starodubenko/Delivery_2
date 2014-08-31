@@ -1,10 +1,16 @@
-package com.epam.star.action;
+package com.epam.star.action.login;
+
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionException;
+import com.epam.star.action.ActionResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 public class LogoutAction implements Action {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogoutAction.class);
     ActionResult welcome = new ActionResult("welcome", true);
 
     @Override

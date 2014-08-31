@@ -1,6 +1,6 @@
 package com.epam.star.action;
 
-import com.epam.star.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ContactDao;
 import com.epam.star.entity.Contact;
 
@@ -19,7 +19,7 @@ public class ShowWelcomePageAction implements Action {
         ContactDao contactDao = daoFactory.getContactDao();
         List<Contact> contacts = contactDao.getContacts();
 
-        request.setAttribute("contacts",contacts);
+        request.getSession().setAttribute("contacts",contacts);
 
         return login;
     }

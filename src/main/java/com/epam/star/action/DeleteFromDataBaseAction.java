@@ -1,6 +1,6 @@
 package com.epam.star.action;
 
-import com.epam.star.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.entity.Client;
 import org.slf4j.Logger;

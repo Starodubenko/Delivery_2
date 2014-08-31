@@ -1,6 +1,6 @@
 package com.epam.star;
 
-import com.epam.star.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.entity.Order;
 
 import java.sql.SQLException;

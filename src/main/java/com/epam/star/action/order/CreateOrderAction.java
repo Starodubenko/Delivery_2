@@ -1,6 +1,10 @@
-package com.epam.star.action;
+package com.epam.star.action.order;
 
-import com.epam.star.H2dao.DaoFactory;
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionException;
+import com.epam.star.action.ActionResult;
+import com.epam.star.action.login.LoginAction;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.GoodsDao;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.dao.PeriodDao;
@@ -8,6 +12,8 @@ import com.epam.star.dao.StatusDao;
 import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -17,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreateOrderAction implements Action {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
     ActionResult client = new ActionResult("client",true);
 
     @Override
@@ -30,7 +36,7 @@ public class CreateOrderAction implements Action {
         orderDao.insert(order);
 
         AbstractUser user = (AbstractUser)(request.getSession().getAttribute("user"));
-        request.getSession().setAttribute("todayOrders",LoginAction.getTodayOrdersFromDataBase(user,orderDao));
+        request.getSession().setAttribute("todayOrders", LoginAction.getTodayOrdersFromDataBase(user, orderDao));
         request.getSession().setAttribute("pastOrders", LoginAction.getPastOrdersFromDataBase(user, orderDao));
 
         return client;
@@ -38,17 +44,10 @@ public class CreateOrderAction implements Action {
 
     private Order createOrder(HttpServletRequest request) {
 
-        PeriodDao periodDao = null;
-        GoodsDao goodsDao = null;
-        StatusDao statusDao = null;
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            periodDao = daoFactory.getPeriodDao();
-            goodsDao = daoFactory.getGoodsDao();
-            statusDao = daoFactory.getStatusDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        PeriodDao periodDao = daoFactory.getPeriodDao();
+        GoodsDao goodsDao = daoFactory.getGoodsDao();
+        StatusDao statusDao = daoFactory.getStatusDao();
 
         Order order = new Order();
         order.setUser((Client) request.getSession().getAttribute("user"));

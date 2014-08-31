@@ -1,4 +1,4 @@
-package com.epam.star.H2dao;
+package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.ContactDao;
 import com.epam.star.entity.Contact;
@@ -132,7 +132,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public String updateElement(int ID) {
+    public String updateElement(Contact contact) {
         return null;
     }
 
