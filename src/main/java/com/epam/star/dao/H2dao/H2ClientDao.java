@@ -33,7 +33,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -59,7 +59,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -84,7 +84,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -109,7 +109,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -134,7 +134,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -159,7 +159,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -190,7 +190,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -216,12 +216,12 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                     "FROM USERS inner join POSITIONS " +
                     "on users.POSITION_ID = positions.id where POSITION_ID = 11");
             ResultSetMetaData resultSetMD = resultSet.getMetaData();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 result.add(getClientFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (statement != null) {
                 try {
                     statement.close();
@@ -245,11 +245,11 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
-            if(resultSet.next())
-            client= getClientFromResultSet(resultSet);
+            if (resultSet.next())
+                client = getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -271,39 +271,39 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
 
         PreparedStatement prstm = null;
 
-            try {
-                prstm = conn.prepareStatement(ADD_CLIENT);
-                prstm.setString(1, null);
-                prstm.setString(2, client.getLogin());
-                prstm.setString(3, client.getPassword());
-                prstm.setString(4, client.getFirstName());
-                prstm.setString(5, client.getLastName());
-                prstm.setString(6, client.getMiddleName());
-                prstm.setString(7, client.getAddress());
-                prstm.setString(8, client.getTelephone());
-                prstm.setString(9, client.getMobilephone());
-                prstm.setString(10, null);
-                prstm.setString(11, null);
-                prstm.setString(12, null);
-                prstm.setString(13, null);
-                prstm.setInt(14, client.getRole().getId());
-                prstm.setBigDecimal(15, client.getVirtualBalance());
-                prstm.execute();
-                status = "Client added successfully";
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                if (prstm != null) {
-                    try {
-                        prstm.close();
-                    } catch (SQLException e) { /* ignored */}
-                }
-                if (conn != null) {
-                    try {
-                        conn.close();
-                    } catch (SQLException e) { /* ignored */}
-                }
+        try {
+            prstm = conn.prepareStatement(ADD_CLIENT);
+            prstm.setString(1, null);
+            prstm.setString(2, client.getLogin());
+            prstm.setString(3, client.getPassword());
+            prstm.setString(4, client.getFirstName());
+            prstm.setString(5, client.getLastName());
+            prstm.setString(6, client.getMiddleName());
+            prstm.setString(7, client.getAddress());
+            prstm.setString(8, client.getTelephone());
+            prstm.setString(9, client.getMobilephone());
+            prstm.setString(10, null);
+            prstm.setString(11, null);
+            prstm.setString(12, null);
+            prstm.setString(13, null);
+            prstm.setInt(14, client.getRole().getId());
+            prstm.setBigDecimal(15, client.getVirtualBalance());
+            prstm.execute();
+            status = "Client added successfully";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (prstm != null) {
+                try {
+                    prstm.close();
+                } catch (SQLException e) { /* ignored */}
             }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+        }
         return status;
     }
 

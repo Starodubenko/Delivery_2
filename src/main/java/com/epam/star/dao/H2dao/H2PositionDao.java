@@ -22,7 +22,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
 
     @Override
     public Position findByPositionName(String name) {
-        String sql = "SELECT * FROM positions WHERE position_name = " + "'" + name +"'";
+        String sql = "SELECT * FROM positions WHERE position_name = " + "'" + name + "'";
         Position position = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -33,7 +33,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -61,7 +61,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

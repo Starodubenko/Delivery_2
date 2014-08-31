@@ -24,7 +24,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     @Override
     public List<Order> findAllByClientIdToday(int id) {
-        String sql = "SELECT *"+//" orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
+        String sql = "SELECT *" +//" orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -42,7 +42,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 orders.add(getOrderFromResultSet(resultSet));
             }
         } catch (SQLException e) {
@@ -53,7 +53,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     @Override
     public List<Order> findAllByClientIdLastDays(int id) {
-        String sql = "SELECT *"+ //orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
+        String sql = "SELECT *" + //orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -71,7 +71,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 orders.add(getOrderFromResultSet(resultSet));
             }
         } catch (SQLException e) {
@@ -106,10 +106,10 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            order = getOrderFromResultSet(resultSet);
+                order = getOrderFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -161,7 +161,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
 
-
     @Override
     public String deleteElement(int ID) {
         return null;
@@ -186,7 +185,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

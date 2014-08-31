@@ -16,7 +16,7 @@ public class H2GoodsDao implements GoodsDao {
     private static final String DELETE_GOODS = "DELETE FROM goods WHERE id = ?";
     private Connection conn;
 
-    public H2GoodsDao (Connection conn) {
+    public H2GoodsDao(Connection conn) {
         this.conn = conn;
     }
 
@@ -33,7 +33,7 @@ public class H2GoodsDao implements GoodsDao {
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -61,7 +61,7 @@ public class H2GoodsDao implements GoodsDao {
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

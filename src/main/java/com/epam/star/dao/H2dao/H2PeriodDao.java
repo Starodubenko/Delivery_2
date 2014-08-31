@@ -13,7 +13,7 @@ public class H2PeriodDao implements PeriodDao {
     private static final String DELETE_PERIOD = "DELETE FROM period WHERE id = ?";
     private Connection conn;
 
-    public H2PeriodDao (Connection conn) {
+    public H2PeriodDao(Connection conn) {
         this.conn = conn;
     }
 
@@ -31,7 +31,7 @@ public class H2PeriodDao implements PeriodDao {
             periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -59,7 +59,7 @@ public class H2PeriodDao implements PeriodDao {
             period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

@@ -22,7 +22,7 @@ public class CancelOrderAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
         String[] idChecedOrders = request.getParameterValues("IdOrder");
 
-        if(idChecedOrders.length > 0) {
+        if (idChecedOrders.length > 0) {
             DaoFactory daoFactory = DaoFactory.getInstance();
 
             StatusDao statusDao = daoFactory.getStatusDao();
@@ -38,7 +38,7 @@ public class CancelOrderAction implements Action {
                 orderDao.updateElement(order);
             }
         } else
-        LOGGER.error("The order was not selected {}");
+            LOGGER.error("The order was not selected {}");
         return client;
     }
 }

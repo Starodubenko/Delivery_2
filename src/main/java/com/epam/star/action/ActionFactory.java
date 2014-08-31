@@ -13,9 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory {
-    private static Logger logger = LoggerFactory.getLogger(ActionFactory.class);
     static Map<String, Action> actions = new HashMap<>();
-
 
     static {
 //        Reflections reflections = new Reflections(ActionFactory.class.getPackage().getName());
@@ -46,7 +44,6 @@ public class ActionFactory {
         actions.put("POST/payment", new PaymentAction());
 
 
-
 //        for (Class<? extends Action> actionClass : actions) {
 ////            Annotation[] annotations = actionClass.getAnnotations();
 //            //todo foreach on annotations
@@ -64,6 +61,7 @@ public class ActionFactory {
 //        }
     }
 
+    private static Logger logger = LoggerFactory.getLogger(ActionFactory.class);
 
     public static Action getAction(String actionName) {
         return actions.get(actionName);

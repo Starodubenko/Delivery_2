@@ -18,6 +18,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     public H2ContactDao(Connection conn) {
         this.conn = conn;
     }
+
     @Override
     public List<Contact> getContacts() {
         List<Contact> result = new ArrayList<>();
@@ -27,12 +28,12 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CONTACTS");
             ResultSetMetaData resultSetMD = resultSet.getMetaData();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 result.add(getContactFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (statement != null) {
                 try {
                     statement.close();
@@ -57,7 +58,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

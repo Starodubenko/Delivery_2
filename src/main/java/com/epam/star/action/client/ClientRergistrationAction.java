@@ -17,28 +17,27 @@ import java.sql.SQLException;
 
 public class ClientRergistrationAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRergistrationAction.class);
-    private ActionResult login = new ActionResult("welcome",true);
+    private ActionResult login = new ActionResult("welcome", true);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         Validator validator = new Validator();
-        Client client = createClient(request,validator);
+        Client client = createClient(request, validator);
 
         if (client != null) {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PositionDao positionDao = daoFactory.getPositionDao();
             ClientDao clientDao = daoFactory.getClientDao();
+
             client.setRole(positionDao.findByPositionName("client"));
-            clientDao = daoFactory.getClientDao();
             client.setVirtualBalance(new BigDecimal(0));
-            clientDao = daoFactory.getClientDao();
             clientDao.insert(client);
         }
         return login;
     }
 
-    private Client createClient(HttpServletRequest request,Validator validator) {
+    private Client createClient(HttpServletRequest request, Validator validator) {
         Client client = new Client();
 
         boolean login = validator.checkUserName(request.getParameter("login"));

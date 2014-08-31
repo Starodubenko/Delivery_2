@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class PaymentAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAction.class);
     private ActionResult client = new ActionResult("client");
+
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
@@ -32,8 +33,8 @@ public class PaymentAction implements Action {
         StatusPayCard notActivatedStatus = statusPayCard.findByStatusName("not activated");
         StatusPayCard currentStatus = payCard.getStatusPayCard();
 
-        if (currentStatus.equals(notActivatedStatus)){
-            AbstractUser user = (AbstractUser)request.getSession().getAttribute("user");
+        if (currentStatus.equals(notActivatedStatus)) {
+            AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
 
             BigDecimal userbal = user.getVirtualBalance();
             BigDecimal payBal = payCard.getBalance();
@@ -54,9 +55,9 @@ public class PaymentAction implements Action {
                 clientDao.updateElement((Client) user);
             }
             if (!userRole.equals(clientRole))
-                        employeeDao.updateElement((Employee)user);
-        }else
-        LOGGER.error("The payment card have status: {}",payCard.getStatusPayCard().getStatusName());
+                employeeDao.updateElement((Employee) user);
+        } else
+            LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
         return client;
     }
 }

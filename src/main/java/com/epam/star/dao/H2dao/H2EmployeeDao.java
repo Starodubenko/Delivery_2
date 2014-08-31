@@ -38,7 +38,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -50,7 +50,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
                 } catch (SQLException e) { /* ignored */}
             }
         }
-        return  null;
+        return null;
     }
 
     @Override

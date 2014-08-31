@@ -22,7 +22,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
 
     @Override
     public Status findByStatusName(String name) {
-        String sql = "SELECT * FROM status WHERE status_name = " + "'" + name +"'";
+        String sql = "SELECT * FROM status WHERE status_name = " + "'" + name + "'";
         Status status = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -33,7 +33,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -61,7 +61,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

@@ -16,13 +16,13 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
     private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM status_card WHERE id = ?";
     private Connection conn;
 
-    public H2PayCardStatusDao (Connection conn) {
+    public H2PayCardStatusDao(Connection conn) {
         this.conn = conn;
     }
 
     @Override
     public StatusPayCard findByStatusName(String name) {
-        String sql = "SELECT * FROM status_card WHERE status_name = " + "'" +name+"'";
+        String sql = "SELECT * FROM status_card WHERE status_name = " + "'" + name + "'";
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -31,10 +31,10 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            statusPayCard = getStatusPayCardFromResultSet(resultSet);
+                statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -63,7 +63,7 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();

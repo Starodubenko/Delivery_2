@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DaoFactory {
     private static DaoFactory instance = new DaoFactory();
 
-     private final BoneCP connectionPool;
+    private final BoneCP connectionPool;
 
     private DaoFactory() {
 
@@ -39,7 +39,7 @@ public class DaoFactory {
         return instance;
     }
 
-    public H2ClientDao getClientDao(){
+    public H2ClientDao getClientDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -59,7 +59,7 @@ public class DaoFactory {
         return new H2ContactDao(connection);
     }
 
-    public H2EmployeeDao getEmployeeDao(){
+    public H2EmployeeDao getEmployeeDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -69,7 +69,7 @@ public class DaoFactory {
         return new H2EmployeeDao(connection);
     }
 
-    public H2OrderDao getOrderDao(){
+    public H2OrderDao getOrderDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -79,7 +79,7 @@ public class DaoFactory {
         return new H2OrderDao(connection);
     }
 
-    public H2PeriodDao getPeriodDao(){
+    public H2PeriodDao getPeriodDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -89,7 +89,7 @@ public class DaoFactory {
         return new H2PeriodDao(connection);
     }
 
-    public H2StatusDao getStatusDao(){
+    public H2StatusDao getStatusDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -99,7 +99,7 @@ public class DaoFactory {
         return new H2StatusDao(connection);
     }
 
-    public H2GoodsDao getGoodsDao(){
+    public H2GoodsDao getGoodsDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -109,7 +109,7 @@ public class DaoFactory {
         return new H2GoodsDao(connection);
     }
 
-    public H2PayCardDao getPayCardDao(){
+    public H2PayCardDao getPayCardDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -119,7 +119,7 @@ public class DaoFactory {
         return new H2PayCardDao(connection);
     }
 
-    public H2PayCardStatusDao getPayCardStatusDao(){
+    public H2PayCardStatusDao getPayCardStatusDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -129,7 +129,7 @@ public class DaoFactory {
         return new H2PayCardStatusDao(connection);
     }
 
-    public H2PositionDao getPositionDao(){
+    public H2PositionDao getPositionDao() {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();

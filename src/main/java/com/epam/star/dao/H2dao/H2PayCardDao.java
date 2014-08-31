@@ -13,19 +13,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
+public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_PAYCARD = "INSERT INTO pay_card VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_PAYCARD = "UPDATE pay_card SET id = ?, serial_number = ?, secret_number = ?, balance = ?, id_status_pay_card = ?  WHERE id = ?";
     private Connection conn;
 
-    public H2PayCardDao (Connection conn) {
+    public H2PayCardDao(Connection conn) {
         this.conn = conn;
     }
 
     @Override
     public PayCard findBySerialNumber(String serNum) {
-        String sql = "SELECT * FROM pay_card WHERE serial_number = " + "'" + serNum +"'";
+        String sql = "SELECT * FROM pay_card WHERE serial_number = " + "'" + serNum + "'";
         PayCard payCard = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -36,7 +36,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -53,7 +53,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
 
     @Override
     public PayCard findBySecretNumber(String secNum) {
-        String sql = "SELECT * FROM pay_card WHERE secret_number = " + "'" + secNum +"'";
+        String sql = "SELECT * FROM pay_card WHERE secret_number = " + "'" + secNum + "'";
         PayCard payCard = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -61,11 +61,11 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
-            if(resultSet.next())
-            payCard = getPayCardFromResultSet(resultSet);
+            if (resultSet.next())
+                payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -97,7 +97,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -125,7 +125,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
@@ -191,7 +191,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao{
             prstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (prstm != null) {
                 try {
                     prstm.close();
