@@ -22,10 +22,10 @@ public class ActionFactory {
 //        Set<Class<? extends Action>> actions = reflections.getSubTypesOf(Action.class);
 
         actions.put("POST/ClientRegistration", new ClientRergistrationAction());
-        actions.put("GET/ClientRegistration", new ShowPageAction("/WEB-INF/login.jsp"));
+        actions.put("GET/ClientRegistration", new ShowPageAction("/WEB-INF/welcome.jsp"));
 
-        actions.put("POST/login", new LoginAction());
-        actions.put("GET/login", new ShowPageAction("welcome"));
+        actions.put("POST/welcome", new LoginAction());
+        actions.put("GET/welcome", new ShowPageAction("welcome"));
 
         actions.put("GET/logout", new LogoutAction());
 

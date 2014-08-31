@@ -33,11 +33,11 @@
                         <label class="alignHorizontalCenter" for="inputPassword" >Password</label>
                         <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="101287">
                         <input type="submit" class="loginbtn btn btn-primary" value="Login">
+                        <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            Registration
+                        </button>
                     </form>
                     <a href="#" data-toggle="modal" data-target="#myModal">Registration</a>
-                    <button class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        Registration
-                    </button>
                 </div>
             </c:if>
 

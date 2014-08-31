@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ShowWelcomePageAction implements Action {
 
-    private ActionResult login = new ActionResult("login");
+    private ActionResult login = new ActionResult("welcome");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
