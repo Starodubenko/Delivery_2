@@ -1,14 +1,19 @@
 package com.epam.star.entity;
 
-public class Employee extends AbstractUser{
+public class Employee extends AbstractUser {
     private String mobilephone;
     private String identityCard;
     private String workBook;
     private String RNN;
+    private String SIK;
 
     public Employee(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone) {
         super(id, login, password, firstName, lastName, middleName, address, telephone);
         this.mobilephone = mobilephone;
+    }
+
+    public Employee() {
+
     }
 
     public String getSIK() {
@@ -41,12 +46,6 @@ public class Employee extends AbstractUser{
 
     public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
-    }
-
-    private String SIK;
-
-    public Employee() {
-
     }
 
     public String getMobilephone() {

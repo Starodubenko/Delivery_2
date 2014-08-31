@@ -6,6 +6,7 @@ import com.epam.star.action.Post;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.AbstractUser;
@@ -42,36 +43,44 @@ public class LoginAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws SQLException {
 
         DaoFactory daoFactory = DaoFactory.getInstance();
-        EmployeeDao employeeDao = daoFactory.getEmployeeDao();
-        OrderDao orderDao = daoFactory.getOrderDao();
-        ClientDao clientDao = daoFactory.getClientDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
 
-        String login = request.getParameter("authenticationLogin");
-        String password = request.getParameter("authenticationPassword");
-        AbstractUser user = clientDao.findByCredentials(login, password);
-        if (user == null)
-            user = employeeDao.findByCredentials(login, password);
+        daoManager.beginTransaction();
+        try {
+            EmployeeDao employeeDao = daoManager.getEmployeeDao();
+            OrderDao orderDao = daoManager.getOrderDao();
+            ClientDao clientDao = daoManager.getClientDao();
 
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
-        session.setAttribute("userType", "user");
-        session.setAttribute("todayOrders", getTodayOrdersFromDataBase(user, orderDao));
-        session.setAttribute("pastOrders", getPastOrdersFromDataBase(user, orderDao));
+            String login = request.getParameter("authenticationLogin");
+            String password = request.getParameter("authenticationPassword");
+            AbstractUser user = clientDao.findByCredentials(login, password);
+            if (user == null)
+                user = employeeDao.findByCredentials(login, password);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            session.setAttribute("userType", "user");
+            session.setAttribute("todayOrders", getTodayOrdersFromDataBase(user, orderDao));
+            session.setAttribute("pastOrders", getPastOrdersFromDataBase(user, orderDao));
 
 
-        LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
+            LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 
-        if (user == null) {
-            request.setAttribute("loginError", "login.incorrect.login.or.password");
-            return loginn;
+            if (user == null) {
+                request.setAttribute("loginError", "login.incorrect.login.or.password");
+                return loginn;
+            }
+
+            if (user.getRole().getPositionName().equalsIgnoreCase("admin")) return admin;
+
+            if (user.getRole().getPositionName().equalsIgnoreCase("director")) return director;
+
+            if (user.getRole().getPositionName().equalsIgnoreCase("dispatcher")) return dispatcher;
+        } catch (Exception e){
+            daoManager.rollback();
+        }finally {
+            daoManager.closeConnection();
         }
-
-        if (user.getRole().getPositionName().equalsIgnoreCase("admin")) return admin;
-
-        if (user.getRole().getPositionName().equalsIgnoreCase("director")) return director;
-
-        if (user.getRole().getPositionName().equalsIgnoreCase("dispatcher")) return dispatcher;
-
         return client;
     }
 }

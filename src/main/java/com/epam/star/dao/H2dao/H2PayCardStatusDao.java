@@ -34,17 +34,6 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return statusPayCard;
     }
@@ -63,17 +52,6 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return statusPayCard;
     }
@@ -91,17 +69,6 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             statuss = "StatusPayCard added successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return statuss;
     }

@@ -7,6 +7,7 @@ public class PayCard extends AbstractEntity {
     private String serialNumber;
     private String secretNumber;
     private BigDecimal balance;
+    private StatusPayCard statusPayCard;
 
     public StatusPayCard getStatusPayCard() {
         return statusPayCard;
@@ -39,6 +40,4 @@ public class PayCard extends AbstractEntity {
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
-
-    private StatusPayCard statusPayCard;
 }

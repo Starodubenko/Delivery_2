@@ -4,6 +4,7 @@ import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.dao.StatusDao;
 import com.epam.star.entity.Order;
@@ -24,21 +25,29 @@ public class CancelOrderAction implements Action {
 
         if (idChecedOrders.length > 0) {
             DaoFactory daoFactory = DaoFactory.getInstance();
+            DaoManager daoManager = daoFactory.getDaoManager();
 
-            StatusDao statusDao = daoFactory.getStatusDao();
-            OrderDao orderDao = daoFactory.getOrderDao();
+            daoManager.beginTransaction();
+            try {
+                StatusDao statusDao = daoManager.getStatusDao();
+                OrderDao orderDao = daoManager.getOrderDao();
 
-            for (String id : idChecedOrders) {
-                int index = Integer.parseInt(id);
-                Order order = orderDao.getElement(index);
-                Status status = statusDao.findByStatusName("canceled");
-                order.setStatus(status);
+                for (String id : idChecedOrders) {
+                    int index = Integer.parseInt(id);
+                    Order order = orderDao.getElement(index);
+                    Status status = statusDao.findByStatusName("canceled");
+                    order.setStatus(status);
 
-                orderDao = daoFactory.getOrderDao();
-                orderDao.updateElement(order);
+                    orderDao.updateElement(order);
+                }
+            } catch (Exception e){
+                daoManager.rollback();
+            }finally {
+                daoManager.closeConnection();
             }
         } else
             LOGGER.error("The order was not selected {}");
+        request.setAttribute("SelectOrderError","Did not selected orders");
         return client;
     }
 }

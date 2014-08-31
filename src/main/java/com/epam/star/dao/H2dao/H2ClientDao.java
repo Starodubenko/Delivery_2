@@ -33,17 +33,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -59,17 +48,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -84,17 +62,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -109,17 +76,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -134,17 +90,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -159,17 +104,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getClientFromResultSet(resultSet);
     }
@@ -190,17 +124,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return null;
     }
@@ -221,17 +144,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return result;
     }
@@ -249,17 +161,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 client = getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return client;
     }
@@ -292,17 +193,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client added successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return status;
     }
@@ -320,17 +210,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client successfully deleted";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return status;
     }
@@ -363,17 +242,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client updated successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return status;
     }

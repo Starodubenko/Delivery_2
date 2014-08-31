@@ -5,6 +5,7 @@ import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.Client;
 import com.epam.star.util.Validator;
@@ -27,12 +28,22 @@ public class ClientRergistrationAction implements Action {
 
         if (client != null) {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            PositionDao positionDao = daoFactory.getPositionDao();
-            ClientDao clientDao = daoFactory.getClientDao();
+            DaoManager daoManager = daoFactory.getDaoManager();
 
-            client.setRole(positionDao.findByPositionName("client"));
-            client.setVirtualBalance(new BigDecimal(0));
-            clientDao.insert(client);
+            daoManager.beginTransaction();
+            try {
+                PositionDao positionDao = daoManager.getPositionDao();
+                ClientDao clientDao = daoManager.getClientDao();
+
+                client.setRole(positionDao.findByPositionName("client"));
+                client.setVirtualBalance(new BigDecimal(0));
+                clientDao.insert(client);
+                daoManager.commit();
+            } catch (Exception e){
+                daoManager.rollback();
+            }finally {
+                daoManager.closeConnection();
+            }
         }
         return login;
     }

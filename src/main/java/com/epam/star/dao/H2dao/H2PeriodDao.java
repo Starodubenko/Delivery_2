@@ -31,17 +31,6 @@ public class H2PeriodDao implements PeriodDao {
             periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return periodResult;
     }
@@ -59,17 +48,6 @@ public class H2PeriodDao implements PeriodDao {
             period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return period;
     }
@@ -87,17 +65,6 @@ public class H2PeriodDao implements PeriodDao {
             statuss = "Period added successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return statuss;
     }

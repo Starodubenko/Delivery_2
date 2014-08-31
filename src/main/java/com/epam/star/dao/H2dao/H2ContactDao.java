@@ -33,17 +33,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return result;
     }
@@ -58,17 +47,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return getContactFromResultSet(resultSet);
     }
@@ -89,17 +67,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             status = "Contact added successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return status;
     }
@@ -117,17 +84,6 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             status = "Contact deleted successfully ";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return status;
     }

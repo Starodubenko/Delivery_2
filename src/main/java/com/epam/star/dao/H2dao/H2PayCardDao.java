@@ -36,17 +36,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return payCard;
     }
@@ -65,17 +54,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
                 payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return payCard;
     }
@@ -97,17 +75,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return payCard;
     }
@@ -125,17 +92,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return payCard;
     }
@@ -156,17 +112,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             statuss = "PayCard added successfully";
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return statuss;
     }
@@ -191,17 +136,6 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             prstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (prstm != null) {
-                try {
-                    prstm.close();
-                } catch (SQLException e) { /* ignored */}
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) { /* ignored */}
-            }
         }
         return null;
     }

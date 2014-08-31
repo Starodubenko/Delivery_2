@@ -5,6 +5,7 @@ import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.dao.*;
 import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,43 +22,53 @@ public class PaymentAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         DaoFactory daoFactory = DaoFactory.getInstance();
-        PayCardDao payCardDao = daoFactory.getPayCardDao();
-        PayCardStatusDao statusPayCard = daoFactory.getPayCardStatusDao();
-        ClientDao clientDao = daoFactory.getClientDao();
-        EmployeeDao employeeDao = daoFactory.getEmployeeDao();
-        PositionDao userPositionDao = daoFactory.getPositionDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
 
-        String code = request.getParameter("SecretCode");
-        PayCard payCard = payCardDao.findBySecretNumber(code);
+        daoManager.beginTransaction();
+        try {
+            PayCardDao payCardDao = daoManager.getPayCardDao();
+            PayCardStatusDao statusPayCardDao = daoManager.getPayCardStatusDao();
+            ClientDao clientDao = daoManager.getClientDao();
+            EmployeeDao employeeDao = daoManager.getEmployeeDao();
+            PositionDao userPositionDao = daoManager.getPositionDao();
 
-        StatusPayCard notActivatedStatus = statusPayCard.findByStatusName("not activated");
-        StatusPayCard currentStatus = payCard.getStatusPayCard();
+            String code = request.getParameter("SecretCode");
+            PayCard payCard = payCardDao.findBySecretNumber(code);
 
-        if (currentStatus.equals(notActivatedStatus)) {
-            AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+            StatusPayCard notActivatedStatus = statusPayCardDao.findByStatusName("not activated");
+            StatusPayCard currentStatus = payCard.getStatusPayCard();
 
-            BigDecimal userbal = user.getVirtualBalance();
-            BigDecimal payBal = payCard.getBalance();
-            BigDecimal newBal = userbal.add(payBal);
+            if (currentStatus.equals(notActivatedStatus)) {
+                AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
 
-            payCardDao = daoFactory.getPayCardDao();
-            statusPayCard = daoFactory.getPayCardStatusDao();
+                BigDecimal userbal = user.getVirtualBalance();
+                BigDecimal payBal = payCard.getBalance();
+                BigDecimal newBal = userbal.add(payBal);
 
-            payCard.setStatusPayCard(statusPayCard.findByStatusName("activated"));
-            payCardDao.updateElement(payCard);
+                payCard.setStatusPayCard(statusPayCardDao.findByStatusName("activated"));
+                payCardDao.updateElement(payCard);
 
-            user.setVirtualBalance(newBal);
+                user.setVirtualBalance(newBal);
 
-            Position userRole = user.getRole();
-            Position clientRole = userPositionDao.findByPositionName("client");
+                Position userRole = user.getRole();
+                Position clientRole = userPositionDao.findByPositionName("client");
 
-            if (userRole.equals(clientRole)) {
-                clientDao.updateElement((Client) user);
-            }
-            if (!userRole.equals(clientRole))
-                employeeDao.updateElement((Employee) user);
-        } else
-            LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
+                if (userRole.equals(clientRole)) {
+                    clientDao.updateElement((Client) user);
+                }
+                if (!userRole.equals(clientRole))
+                    employeeDao.updateElement((Employee) user);
+            } else
+                LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
+            request.setAttribute("PaymentInfo", "The payment card already activated");
+        } catch (Exception e) {
+            daoManager.rollback();
+            request.setAttribute("PaymentError", "Payment error ! Try again later.");
+        } finally {
+            daoManager.closeConnection();
+        }
+
+
         return client;
     }
 }
