@@ -14,35 +14,35 @@ public class DaoManager {
         this.connection = connection;
     }
 
-    public void beginTransaction(){
+    public void beginTransaction() throws DaoException{
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
     }
 
-    public void commit(){
+    public void commit() throws DaoException{
         try {
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
     }
 
-    public void rollback(){
+    public void rollback() throws DaoException{
         try {
             connection.rollback();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
     }
 
-    public void closeConnection(){
+    public void closeConnection() throws DaoException{
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
     }
 

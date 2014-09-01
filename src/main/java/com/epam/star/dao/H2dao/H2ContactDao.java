@@ -20,7 +20,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public List<Contact> getContacts() {
+    public List<Contact> getContacts() throws DaoException{
         List<Contact> result = new ArrayList<>();
 
         Statement statement = null;
@@ -32,13 +32,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
                 result.add(getContactFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return result;
     }
 
     @Override
-    public Contact getElement(int ID) {
+    public Contact getElement(int ID) throws DaoException{
         String sql = "select * from contacts where id = " + "'" + ID + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -46,13 +46,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getContactFromResultSet(resultSet);
     }
 
     @Override
-    public String insert(Contact contact) {
+    public String insert(Contact contact) throws DaoException{
         String status = "Contact do not added";
 
         PreparedStatement prstm = null;
@@ -66,13 +66,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             prstm.execute();
             status = "Contact added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         String status = "Contact do not deleted";
 
         PreparedStatement prstm = null;
@@ -83,24 +83,24 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             prstm.execute();
             status = "Contact deleted successfully ";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String updateElement(Contact contact) {
+    public String updateElement(Contact contact) throws DaoException{
         return null;
     }
 
-    public Contact getContactFromResultSet(ResultSet resultSet) {
+    public Contact getContactFromResultSet(ResultSet resultSet) throws DaoException{
         Contact contact = new Contact();
         try {
             contact.setId(resultSet.getInt("id"));
             contact.setTelephone(resultSet.getString("telephone"));
             contact.setOwner(resultSet.getString("owner"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return contact;
     }

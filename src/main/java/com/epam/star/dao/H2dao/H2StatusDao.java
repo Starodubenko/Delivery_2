@@ -21,7 +21,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public Status findByStatusName(String name) {
+    public Status findByStatusName(String name) throws DaoException{
         String sql = "SELECT * FROM status WHERE status_name = " + "'" + name + "'";
         Status status = null;
         PreparedStatement prstm = null;
@@ -32,13 +32,13 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
 
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public Status getElement(int ID) {
+    public Status getElement(int ID) throws DaoException{
         String sql = "SELECT * FROM status WHERE id = " + ID;
         Status status = null;
         PreparedStatement prstm = null;
@@ -50,13 +50,13 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             if (resultSet.next())
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String insert(Status status) {
+    public String insert(Status status) throws DaoException{
         String statuss = "Status do not added";
 
         PreparedStatement prstm = null;
@@ -67,28 +67,28 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             prstm.execute();
             statuss = "Status added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(Status entity) {
+    public String updateElement(Status entity) throws DaoException{
         return null;
     }
 
-    private Status getStatusFromResultSet(ResultSet resultSet) {
+    private Status getStatusFromResultSet(ResultSet resultSet) throws DaoException{
         Status status = new Status();
         try {
             status.setId(resultSet.getInt("id"));
             status.setStatusName(resultSet.getString("status_name"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }

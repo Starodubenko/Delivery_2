@@ -21,7 +21,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public Position findByPositionName(String name) {
+    public Position findByPositionName(String name) throws DaoException{
         String sql = "SELECT * FROM positions WHERE position_name = " + "'" + name + "'";
         Position position = null;
         PreparedStatement prstm = null;
@@ -32,13 +32,13 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
 
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return position;
     }
 
     @Override
-    public Position getElement(int ID) {
+    public Position getElement(int ID) throws DaoException{
         String sql = "SELECT * FROM positions WHERE id = " + ID;
         Position position = null;
         PreparedStatement prstm = null;
@@ -49,34 +49,34 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
 
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return position;
     }
 
     @Override
-    public String insert(Position entity) {
+    public String insert(Position entity) throws DaoException{
         return null;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(Position entity) {
+    public String updateElement(Position entity) throws DaoException{
         return null;
     }
 
-    private Position getStatusFromResultSet(ResultSet resultSet) {
+    private Position getStatusFromResultSet(ResultSet resultSet) throws DaoException{
         Position position = new Position();
         try {
             resultSet.next();
             position.setId(resultSet.getInt("id"));
             position.setPositionName(resultSet.getString("position_name"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return position;
     }

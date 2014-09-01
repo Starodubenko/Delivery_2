@@ -7,16 +7,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DaoFactory {
-    private static DaoFactory instance = new DaoFactory();
 
     private final BoneCP connectionPool;
 
-    private DaoFactory() {
+    private DaoFactory() throws DaoException {
 
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
 
         BoneCPConfig config = new BoneCPConfig();
@@ -27,7 +26,7 @@ public class DaoFactory {
         try {
             connectionPool = new BoneCP(config);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         }
 
         //todo move to init() method and call this method from ContextListener
@@ -35,18 +34,23 @@ public class DaoFactory {
 
     //todo create destroy() method for pool shutdowning and  call this method from ContextListener
 
-    public static DaoFactory getInstance(){
-        return instance;
+    public static DaoFactory getInstance() {
+        return InstanceHolder.instance;
     }
 
-    public DaoManager getDaoManager(){
+    public DaoManager getDaoManager() throws DaoException {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return new DaoManager(connection);
     }
+
+    private static class InstanceHolder {
+        private static DaoFactory instance = new DaoFactory();
+    }
+
 }
 

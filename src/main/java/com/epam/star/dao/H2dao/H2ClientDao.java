@@ -7,9 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -23,7 +24,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public Client findByLogin(String login) {
+    public Client findByLogin(String login) throws DaoException {
         String sql = "select * from clients where login = " + "'" + login + "'";
 
         PreparedStatement prstm = null;
@@ -32,13 +33,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findByName(String name) {
+    public Client findByName(String name) throws DaoException{
         String sql = "select * from clients where firstname = " + "'" + name + "'";
 
         PreparedStatement prstm = null;
@@ -47,13 +48,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findBySurnameName(String surName) {
+    public Client findBySurnameName(String surName) throws DaoException{
         String sql = "select * from clients where surname = " + "'" + surName + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -61,13 +62,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findByAddress(String address) {
+    public Client findByAddress(String address) throws DaoException{
         String sql = "select * from clients where address= " + "'" + address + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -75,13 +76,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findByTelephone(String telephone) {
+    public Client findByTelephone(String telephone) throws DaoException{
         String sql = "select * from clients where telephone = " + "'" + telephone + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -89,13 +90,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findByMobilephone(String mobilephone) {
+    public Client findByMobilephone(String mobilephone) throws DaoException{
         String sql = "select * from clients where surname = " + "'" + mobilephone + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -103,13 +104,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return getClientFromResultSet(resultSet);
     }
 
     @Override
-    public Client findByCredentials(String login, String password) {
+    public Client findByCredentials(String login, String password) throws DaoException{
         String sql = "SELECT *" +
                 " FROM USERS" +
                 " inner join POSITIONS" +
@@ -123,13 +124,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             if (resultSet.next())
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return null;
     }
 
     @Override
-    public Client getElement(int ID) {
+    public Client getElement(int ID) throws DaoException{
         String sql = "select * from users where id = " + ID;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -140,13 +141,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             if (resultSet.next())
                 client = getClientFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return client;
     }
 
     @Override
-    public String insert(Client client) {
+    public String insert(Client client) throws DaoException{
 
         String status = "Client do not added";
 
@@ -172,13 +173,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.execute();
             status = "Client added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         String status = "Client do not deleted";
 
         PreparedStatement prstm = null;
@@ -189,13 +190,13 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.execute();
             status = "Client successfully deleted";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String updateElement(Client client) {
+    public String updateElement(Client client) throws DaoException{
         String status = "Client do not updated";
 
         PreparedStatement prstm = null;
@@ -221,12 +222,12 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm.executeUpdate();
             status = "Client updated successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
-    private Client getClientFromResultSet(ResultSet resultSet) {
+    private Client getClientFromResultSet(ResultSet resultSet) throws DaoException{
 
         DaoFactory daoFactory = DaoFactory.getInstance();
         DaoManager daoManager = daoFactory.getDaoManager();
@@ -246,7 +247,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setRole(positionDao.getElement(resultSet.getInt("position_id")));
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return client;
     }

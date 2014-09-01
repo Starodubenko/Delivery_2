@@ -23,7 +23,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public Employee findByCredentials(String login, String password) {
+    public Employee findByCredentials(String login, String password) throws DaoException{
         String sql = "SELECT *" +
                 " FROM USERS" +
                 " inner join POSITIONS" +
@@ -37,18 +37,18 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             if (resultSet.next())
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return null;
     }
 
     @Override
-    public Employee getElement(int ID) {
+    public Employee getElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String insert(Employee employee) {
+    public String insert(Employee employee) throws DaoException{
         String status = "Employee do not added";
 
         PreparedStatement prstm = null;
@@ -73,22 +73,22 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm.execute();
             status = "Employee added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(Employee employee) {
+    public String updateElement(Employee employee) throws DaoException{
         return null;
     }
 
-    private Employee getClientFromResultSet(ResultSet resultSet) {
+    private Employee getClientFromResultSet(ResultSet resultSet) throws DaoException{
         DaoFactory daoFactory = DaoFactory.getInstance();
         DaoManager daoManager = daoFactory.getDaoManager();
         PositionDao positionDao = daoManager.getPositionDao();
@@ -111,7 +111,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             employee.setRole(positionDao.getElement(resultSet.getInt("position_id")));
             employee.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return employee;
     }

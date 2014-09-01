@@ -1,15 +1,20 @@
 package com.epam.star.dao.H2dao;
 
-import java.sql.SQLException;
+public class DaoException extends RuntimeException {
+//    private int detail;//bullshit
 
-public class DaoException extends Exception {
-    private int detail;
-
-    public DaoException(int detail) {
-        this.detail = detail;
+    public DaoException() {
     }
 
-    public DaoException(SQLException e) {
-        super(e);
+    public DaoException(String message) {
+        super(message);
+    }
+
+    public DaoException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DaoException(Throwable cause) {
+        super(cause);
     }
 }

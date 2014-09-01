@@ -42,12 +42,9 @@ public class LoginAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest request) throws SQLException {
 
-        try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DaoManager daoManager = daoFactory.getDaoManager();
 
-            daoManager.beginTransaction();
-            
             EmployeeDao employeeDao = daoManager.getEmployeeDao();
             OrderDao orderDao = daoManager.getOrderDao();
             ClientDao clientDao = daoManager.getClientDao();
@@ -64,7 +61,6 @@ public class LoginAction implements Action {
             session.setAttribute("todayOrders", getTodayOrdersFromDataBase(user, orderDao));
             session.setAttribute("pastOrders", getPastOrdersFromDataBase(user, orderDao));
 
-
             LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 
             if (user == null) {
@@ -77,11 +73,9 @@ public class LoginAction implements Action {
             if (user.getRole().getPositionName().equalsIgnoreCase("director")) return director;
 
             if (user.getRole().getPositionName().equalsIgnoreCase("dispatcher")) return dispatcher;
-        } catch (Exception e){
-            daoManager.rollback();
-        }finally {
+
             daoManager.closeConnection();
-        }
+
         return client;
     }
 }

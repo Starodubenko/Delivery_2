@@ -18,7 +18,7 @@ public class H2PeriodDao implements PeriodDao {
     }
 
     @Override
-    public Period findByPeriod(Time period) {
+    public Period findByPeriod(Time period) throws DaoException{
 
         String sql = "SELECT * FROM period WHERE period = " + "'" + period + "'";
         Period periodResult = null;
@@ -30,13 +30,13 @@ public class H2PeriodDao implements PeriodDao {
 
             periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return periodResult;
     }
 
     @Override
-    public Period getElement(int ID) {
+    public Period getElement(int ID) throws DaoException{
         String sql = "SELECT * FROM period WHERE id = " + ID;
         Period period = null;
         PreparedStatement prstm = null;
@@ -47,13 +47,13 @@ public class H2PeriodDao implements PeriodDao {
 
             period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return period;
     }
 
     @Override
-    public String insert(Period period) {
+    public String insert(Period period) throws DaoException{
         String statuss = "Period do not added";
 
         PreparedStatement prstm = null;
@@ -64,29 +64,29 @@ public class H2PeriodDao implements PeriodDao {
             prstm.execute();
             statuss = "Period added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(Period period) {
+    public String updateElement(Period period) throws DaoException{
         return null;
     }
 
-    private Period getPeriodFromResultSet(ResultSet resultSet) {
+    private Period getPeriodFromResultSet(ResultSet resultSet) throws DaoException{
         Period period = new Period();
         try {
             resultSet.next();
             period.setId(resultSet.getInt("id"));
             period.setPeriod(resultSet.getTime("period"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return period;
     }

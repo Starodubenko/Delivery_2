@@ -21,7 +21,7 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
     }
 
     @Override
-    public StatusPayCard findByStatusName(String name) {
+    public StatusPayCard findByStatusName(String name) throws DaoException{
         String sql = "SELECT * FROM status_card WHERE status_name = " + "'" + name + "'";
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;
@@ -33,13 +33,13 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             if (resultSet.next())
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statusPayCard;
     }
 
     @Override
-    public StatusPayCard getElement(int ID) {
+    public StatusPayCard getElement(int ID) throws DaoException{
         String sql = "SELECT * FROM status_card WHERE id = " + ID;
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;
@@ -51,13 +51,13 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             if (resultSet.next())
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statusPayCard;
     }
 
     @Override
-    public String insert(StatusPayCard statusPayCard) {
+    public String insert(StatusPayCard statusPayCard) throws DaoException{
         String statuss = "StatusPayCard do not added";
 
         PreparedStatement prstm = null;
@@ -68,28 +68,28 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             prstm.execute();
             statuss = "StatusPayCard added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(StatusPayCard entity) {
+    public String updateElement(StatusPayCard entity) throws DaoException{
         return null;
     }
 
-    private StatusPayCard getStatusPayCardFromResultSet(ResultSet resultSet) {
+    private StatusPayCard getStatusPayCardFromResultSet(ResultSet resultSet) throws DaoException{
         StatusPayCard statusPayCard = new StatusPayCard();
         try {
             statusPayCard.setId(resultSet.getInt("id"));
             statusPayCard.setStatusName(resultSet.getString("status_name"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return statusPayCard;
     }

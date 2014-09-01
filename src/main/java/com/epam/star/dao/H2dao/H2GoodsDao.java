@@ -21,7 +21,7 @@ public class H2GoodsDao implements GoodsDao {
     }
 
     @Override
-    public Goods findByGoodsName(String name) {
+    public Goods findByGoodsName(String name) throws DaoException{
         String sql = "SELECT * FROM goods WHERE goods_name = " + "'" + name + "'";
         Goods goods = null;
         PreparedStatement prstm = null;
@@ -32,13 +32,13 @@ public class H2GoodsDao implements GoodsDao {
 
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return goods;
     }
 
     @Override
-    public Goods getElement(int ID) {
+    public Goods getElement(int ID) throws DaoException{
         String sql = "SELECT * FROM goods WHERE id = " + ID;
         Goods goods = null;
         PreparedStatement prstm = null;
@@ -49,13 +49,13 @@ public class H2GoodsDao implements GoodsDao {
 
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return goods;
     }
 
     @Override
-    public String insert(Goods goods) {
+    public String insert(Goods goods) throws DaoException{
         String status = "Goods do not added";
 
         PreparedStatement prstm = null;
@@ -67,22 +67,22 @@ public class H2GoodsDao implements GoodsDao {
             prstm.execute();
             status = "Goods added successfully";
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) {
+    public String deleteElement(int ID) throws DaoException{
         return null;
     }
 
     @Override
-    public String updateElement(Goods goods) {
+    public String updateElement(Goods goods) throws DaoException{
         return null;
     }
 
-    private Goods getGoodsFromResultSet(ResultSet resultSet) {
+    private Goods getGoodsFromResultSet(ResultSet resultSet) throws DaoException{
         Goods goods = new Goods();
         try {
             resultSet.next();
@@ -90,7 +90,7 @@ public class H2GoodsDao implements GoodsDao {
             goods.setGoodsName(resultSet.getString("goods_name"));
             goods.setPrice(resultSet.getBigDecimal("price"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e);
         }
         return goods;
     }
