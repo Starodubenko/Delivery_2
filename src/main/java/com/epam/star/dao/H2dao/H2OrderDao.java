@@ -17,6 +17,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final String ADD_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
     private Connection conn;
+    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private DaoManager daoManager = daoFactory.getDaoManager();
 
     public H2OrderDao(Connection conn) {
         this.conn = conn;
@@ -24,7 +26,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     @Override
     public List<Order> findAllByClientIdToday(int id) throws DaoException{
-        String sql = "SELECT *" +//" orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
+        String sql = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -38,14 +40,13 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                orders.add(getOrderFromResultSet(resultSet,daoManager));
+                orders.add(getOrderFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -57,7 +58,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     @Override
     public List<Order> findAllByClientIdLastDays(int id) throws DaoException{
-        String sql = "SELECT *" + //orders.id,order_date,user_id,lastname,goods_name,count,delivery_date,period,additional_info,status_name" +
+        String sql = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -71,14 +72,12 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet,daoManager); //вот
+                Order order = getOrderFromResultSet(resultSet);
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -110,14 +109,12 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         Order order = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                order = getOrderFromResultSet(resultSet,daoManager);
+                order = getOrderFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -184,14 +181,14 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         return null;
     }
 
-    private Order getOrderFromResultSet(ResultSet resultSet,DaoManager daoManager) throws DaoException{
+    private Order getOrderFromResultSet(ResultSet resultSet) throws DaoException{
         Order order = new Order();
 
         PeriodDao periodDao = daoManager.getPeriodDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
         StatusDao statusDao = daoManager.getStatusDao();
         ClientDao clientDao = daoManager.getClientDao();
-
+ 
         try {
             order.setId(resultSet.getInt("id"));
             order.setOrderDate(resultSet.getDate("order_date"));

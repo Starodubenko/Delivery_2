@@ -17,6 +17,8 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
     private Connection conn;
+    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private DaoManager daoManager = daoFactory.getDaoManager();
 
     public H2EmployeeDao(Connection conn) {
         this.conn = conn;
@@ -93,8 +95,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     private Employee getClientFromResultSet(ResultSet resultSet) throws DaoException{
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+
         PositionDao positionDao = daoManager.getPositionDao();
 
         Employee employee = new Employee();

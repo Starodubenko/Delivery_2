@@ -18,6 +18,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final String ADD_PAYCARD = "INSERT INTO pay_card VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_PAYCARD = "UPDATE pay_card SET id = ?, serial_number = ?, secret_number = ?, balance = ?, id_status_pay_card = ?  WHERE id = ?";
     private Connection conn;
+    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private DaoManager daoManager = daoFactory.getDaoManager();
 
     public H2PayCardDao(Connection conn) {
         this.conn = conn;
@@ -48,6 +50,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
         PayCard payCard = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
@@ -64,8 +67,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
 
     @Override
     public PayCard findByStatus(String status) throws DaoException{
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+
         H2PayCardStatusDao h2PayCardStatusDao = daoManager.getPayCardStatusDao();
 
         StatusPayCard statusPayCard = h2PayCardStatusDao.findByStatusName(status);
@@ -92,6 +94,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
         PayCard payCard = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
@@ -154,8 +157,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     }
 
     private PayCard getPayCardFromResultSet(ResultSet resultSet) throws DaoException{
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+
         PayCardStatusDao payCardStatusDao = daoManager.getPayCardStatusDao();
         PayCard payCard = new PayCard();
         try {

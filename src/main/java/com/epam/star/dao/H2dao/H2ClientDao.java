@@ -18,6 +18,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private Connection conn;
+    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private DaoManager daoManager = daoFactory.getDaoManager();
 
     public H2ClientDao(Connection conn) {
         this.conn = conn;
@@ -251,8 +253,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
 
     private Client getClientFromResultSet(ResultSet resultSet) throws DaoException{
 
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
         PositionDao positionDao = daoManager.getPositionDao();
 
         Client client = new Client();
@@ -270,8 +270,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
-            closeStatement(null,resultSet);
         }
         return client;
     }
