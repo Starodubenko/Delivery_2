@@ -34,6 +34,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -49,6 +51,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -63,6 +67,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -77,6 +83,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -91,6 +99,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -105,6 +115,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return getClientFromResultSet(resultSet);
     }
@@ -125,6 +137,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 return getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return null;
     }
@@ -142,6 +156,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 client = getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return client;
     }
@@ -174,6 +190,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -191,6 +209,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client successfully deleted";
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -223,6 +243,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             status = "Client updated successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -248,7 +270,27 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(null,resultSet);
         }
         return client;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

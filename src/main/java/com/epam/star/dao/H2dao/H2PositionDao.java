@@ -33,6 +33,8 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return position;
     }
@@ -50,6 +52,8 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return position;
     }
@@ -79,5 +83,23 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             throw new DaoException(e);
         }
         return position;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

@@ -49,6 +49,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             }
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return orders;
     }
@@ -76,11 +78,13 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet,daoManager);
+                Order order = getOrderFromResultSet(resultSet,daoManager); //вот
                 orders.add(order);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return orders;
     }
@@ -116,6 +120,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 order = getOrderFromResultSet(resultSet,daoManager);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return order;
     }
@@ -141,6 +147,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             status = "Order added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -170,6 +178,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return null;
     }
@@ -196,7 +206,24 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-
         return order;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

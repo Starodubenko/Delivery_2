@@ -34,6 +34,8 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,resultSet);
         }
         return statusPayCard;
     }
@@ -52,6 +54,8 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return statusPayCard;
     }
@@ -69,6 +73,8 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             statuss = "StatusPayCard added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        }finally {
+            closeStatement(prstm,null);
         }
         return statuss;
     }
@@ -92,5 +98,23 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
             throw new DaoException(e);
         }
         return statusPayCard;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

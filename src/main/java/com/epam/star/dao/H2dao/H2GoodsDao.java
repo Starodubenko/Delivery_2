@@ -33,6 +33,8 @@ public class H2GoodsDao implements GoodsDao {
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return goods;
     }
@@ -50,6 +52,8 @@ public class H2GoodsDao implements GoodsDao {
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return goods;
     }
@@ -68,6 +72,8 @@ public class H2GoodsDao implements GoodsDao {
             status = "Goods added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -93,5 +99,23 @@ public class H2GoodsDao implements GoodsDao {
             throw new DaoException(e);
         }
         return goods;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

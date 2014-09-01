@@ -23,16 +23,18 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     public List<Contact> getContacts() throws DaoException{
         List<Contact> result = new ArrayList<>();
 
-        Statement statement = null;
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
         try {
-            statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM CONTACTS");
-            ResultSetMetaData resultSetMD = resultSet.getMetaData();
+            prstm = conn.prepareStatement("SELECT * FROM CONTACTS");
+            resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getContactFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return result;
     }
@@ -47,6 +49,8 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             resultSet = prstm.executeQuery();
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return getContactFromResultSet(resultSet);
     }
@@ -67,6 +71,8 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             status = "Contact added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -84,6 +90,8 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             status = "Contact deleted successfully ";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return status;
     }
@@ -103,5 +111,23 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             throw new DaoException(e);
         }
         return contact;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

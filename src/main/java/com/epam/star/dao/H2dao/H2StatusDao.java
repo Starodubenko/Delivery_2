@@ -33,6 +33,8 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return status;
     }
@@ -51,6 +53,8 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return status;
     }
@@ -68,6 +72,8 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             statuss = "Status added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return statuss;
     }
@@ -91,5 +97,23 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             throw new DaoException(e);
         }
         return status;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

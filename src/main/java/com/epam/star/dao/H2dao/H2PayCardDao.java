@@ -36,6 +36,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return payCard;
     }
@@ -54,6 +56,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
                 payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return payCard;
     }
@@ -76,6 +80,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return payCard;
     }
@@ -93,6 +99,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard = getPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return payCard;
     }
@@ -113,6 +121,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             statuss = "PayCard added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return statuss;
     }
@@ -137,6 +147,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             prstm.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return null;
     }
@@ -157,5 +169,23 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             throw new DaoException(e);
         }
         return payCard;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }

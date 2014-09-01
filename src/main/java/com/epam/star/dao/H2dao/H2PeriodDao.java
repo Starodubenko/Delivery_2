@@ -31,6 +31,8 @@ public class H2PeriodDao implements PeriodDao {
             periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return periodResult;
     }
@@ -48,6 +50,8 @@ public class H2PeriodDao implements PeriodDao {
             period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
         }
         return period;
     }
@@ -65,6 +69,8 @@ public class H2PeriodDao implements PeriodDao {
             statuss = "Period added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,null);
         }
         return statuss;
     }
@@ -89,5 +95,23 @@ public class H2PeriodDao implements PeriodDao {
             throw new DaoException(e);
         }
         return period;
+    }
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
     }
 }
