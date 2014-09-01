@@ -7,10 +7,11 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Order order = DaoFactory.getInstance().getOrderDao().getElement(1);
+        Order order = DaoFactory.getInstance()
+                .getDaoManager()
+                .getOrderDao().getElement(1);
 
         System.out.println(order.getOrderDate());
         System.out.println(order.getDeliveryDate());
-
     }
 }

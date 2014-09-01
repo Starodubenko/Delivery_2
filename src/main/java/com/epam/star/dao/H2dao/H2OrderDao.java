@@ -38,12 +38,14 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        DaoManager daoManager = daoFactory.getDaoManager();
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                orders.add(getOrderFromResultSet(resultSet));
+                orders.add(getOrderFromResultSet(resultSet,daoManager));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,12 +69,15 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        DaoManager daoManager = daoFactory.getDaoManager();
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                orders.add(getOrderFromResultSet(resultSet));
+                Order order = getOrderFromResultSet(resultSet,daoManager);
+                orders.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,12 +106,14 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         Order order = null;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        DaoManager daoManager = daoFactory.getDaoManager();
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                order = getOrderFromResultSet(resultSet);
+                order = getOrderFromResultSet(resultSet,daoManager);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,14 +174,13 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         return null;
     }
 
-    private Order getOrderFromResultSet(ResultSet resultSet) {
+    private Order getOrderFromResultSet(ResultSet resultSet,DaoManager daoManager) {
         Order order = new Order();
 
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        PeriodDao periodDao = daoFactory.getPeriodDao();
-        GoodsDao goodsDao = daoFactory.getGoodsDao();
-        StatusDao statusDao = daoFactory.getStatusDao();
-        ClientDao clientDao = daoFactory.getClientDao();
+        PeriodDao periodDao = daoManager.getPeriodDao();
+        GoodsDao goodsDao = daoManager.getGoodsDao();
+        StatusDao statusDao = daoManager.getStatusDao();
+        ClientDao clientDao = daoManager.getClientDao();
 
         try {
             order.setId(resultSet.getInt("id"));
@@ -190,7 +196,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         return order;
     }

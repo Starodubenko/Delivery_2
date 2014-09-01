@@ -23,7 +23,7 @@ import java.util.List;
 public class LoginAction implements Action {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
-    private ActionResult loginn = new ActionResult("login");
+    private ActionResult loginn = new ActionResult("welcome");
     private ActionResult client = new ActionResult("client", true);
     private ActionResult dispatcher = new ActionResult("dispatcher", true);
     private ActionResult admin = new ActionResult("admin", true);

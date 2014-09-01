@@ -61,7 +61,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     @Override
     public PayCard findByStatus(String status) {
         DaoFactory daoFactory = DaoFactory.getInstance();
-        H2PayCardStatusDao h2PayCardStatusDao = daoFactory.getPayCardStatusDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        H2PayCardStatusDao h2PayCardStatusDao = daoManager.getPayCardStatusDao();
 
         StatusPayCard statusPayCard = h2PayCardStatusDao.findByStatusName(status);
         String sql = "SELECT * FROM pay_card WHERE ID_STATUS = " + statusPayCard.getId();
@@ -142,7 +143,8 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
 
     private PayCard getPayCardFromResultSet(ResultSet resultSet) {
         DaoFactory daoFactory = DaoFactory.getInstance();
-        PayCardStatusDao payCardStatusDao = daoFactory.getPayCardStatusDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        PayCardStatusDao payCardStatusDao = daoManager.getPayCardStatusDao();
         PayCard payCard = new PayCard();
         try {
             payCard.setId(resultSet.getInt("id"));

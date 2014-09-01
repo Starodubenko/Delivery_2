@@ -1,8 +1,5 @@
 package com.epam.star.action;
 
-import com.epam.star.dao.H2dao.DaoFactory;
-import com.epam.star.dao.ClientDao;
-import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,15 +12,15 @@ public class DeleteFromDataBaseAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws SQLException{
-        String tableName = request.getParameter("TableName");
-        LOGGER.debug("Name of table which got in GetDataFromDBAction: {}", tableName);
-
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        ClientDao clientDao = daoFactory.getClientDao();
-        Client client = clientDao.findByName("Lina");
-
-
-
+//        String tableName = request.getParameter("TableName");
+//        LOGGER.debug("Name of table which got in GetDataFromDBAction: {}", tableName);
+//
+//        DaoFactory daoFactory = DaoFactory.getInstance();
+//        ClientDao clientDao = daoFactory.getClientDao();
+//        Client client = clientDao.findByName("Lina");
+//
+//
+//
         return null;
     }
 }

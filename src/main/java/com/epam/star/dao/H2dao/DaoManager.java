@@ -14,7 +14,7 @@ public class DaoManager {
         this.connection = connection;
     }
 
-    public void beginTransaction() {
+    public void beginTransaction(){
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -22,7 +22,7 @@ public class DaoManager {
         }
     }
 
-    public void commit() {
+    public void commit(){
         try {
             connection.commit();
         } catch (SQLException e) {
@@ -30,7 +30,7 @@ public class DaoManager {
         }
     }
 
-    public void rollback() {
+    public void rollback(){
         try {
             connection.rollback();
         } catch (SQLException e) {

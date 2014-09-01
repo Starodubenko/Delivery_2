@@ -129,26 +129,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public List<Client> getAllClients() {
-        List<Client> result = new ArrayList<>();
-
-        Statement statement = null;
-        try {
-            statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * " +
-                    "FROM USERS inner join POSITIONS " +
-                    "on users.POSITION_ID = positions.id where POSITION_ID = 11");
-            ResultSetMetaData resultSetMD = resultSet.getMetaData();
-            while (resultSet.next()) {
-                result.add(getClientFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @Override
     public Client getElement(int ID) {
         String sql = "select * from users where id = " + ID;
         PreparedStatement prstm = null;
@@ -249,7 +229,8 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private Client getClientFromResultSet(ResultSet resultSet) {
 
         DaoFactory daoFactory = DaoFactory.getInstance();
-        PositionDao positionDao = daoFactory.getPositionDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        PositionDao positionDao = daoManager.getPositionDao();
 
         Client client = new Client();
         try {

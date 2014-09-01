@@ -2,6 +2,7 @@ package com.epam.star.action;
 
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ContactDao;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.entity.Contact;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,8 @@ public class ShowWelcomePageAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         DaoFactory daoFactory = DaoFactory.getInstance();
-        ContactDao contactDao = daoFactory.getContactDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        ContactDao contactDao = daoManager.getContactDao();
         List<Contact> contacts = contactDao.getContacts();
 
         request.getSession().setAttribute("contacts",contacts);

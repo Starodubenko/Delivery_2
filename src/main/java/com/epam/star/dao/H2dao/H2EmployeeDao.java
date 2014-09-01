@@ -90,7 +90,8 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
 
     private Employee getClientFromResultSet(ResultSet resultSet) {
         DaoFactory daoFactory = DaoFactory.getInstance();
-        PositionDao positionDao = daoFactory.getPositionDao();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        PositionDao positionDao = daoManager.getPositionDao();
 
         Employee employee = new Employee();
         try {

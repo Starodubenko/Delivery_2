@@ -35,11 +35,11 @@ public class DaoFactory {
 
     //todo create destroy() method for pool shutdowning and  call this method from ContextListener
 
-    public static DaoFactory getInstance() {
+    public static DaoFactory getInstance(){
         return instance;
     }
 
-    public DaoManager getDaoManager() {
+    public DaoManager getDaoManager(){
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
