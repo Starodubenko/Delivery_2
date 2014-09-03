@@ -83,13 +83,13 @@ public class CreateOrderAction implements Action {
             order.setStatus(statusDao != null ? statusDao.findByStatusName("waiting") : null);
             order.setOrderDate(new Date());
 
+                BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+
+                BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
 
             if (onlinePayment) {
-                BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
-                BigDecimal res = user.getVirtualBalance().subtract(goodsPricee);
-
                 user.setVirtualBalance(res);
-                clientDao.updateElement((Client) user);
+                clientDao.updateElement(user);
             }
         } catch (Exception e){
             request.setAttribute("CreateOrderError","You made a mistake, check all fields");
