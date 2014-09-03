@@ -1,7 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
-import com.epam.star.entity.Order;
+import com.epam.star.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,13 +183,56 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 
     private Order getOrderFromResultSet(ResultSet resultSet) throws DaoException{
         Order order = new Order();
-
+//        DaoManager daoManager = daoFactory.getDaoManager();
         PeriodDao periodDao = daoManager.getPeriodDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
         StatusDao statusDao = daoManager.getStatusDao();
         ClientDao clientDao = daoManager.getClientDao();
- 
+//        Client user = (Client)daoManager.executeAndCloce(new DaoComand() {
+//            @Override
+//            public Object execute(DaoManager daoManager)  {
+//                try {
+//                    return daoManager.getClientDao().getElement(resultSet.getInt("user_id"));
+//                } catch (SQLException e) {
+//                   throw new DaoException(e);
+//                }
+//            }
+//        });
+//        daoManager = daoFactory.getDaoManager();
+//        Goods goods = (Goods)daoManager.executeAndCloce(new DaoComand() {
+//            @Override
+//            public Object execute(DaoManager daoManager) {
+//                try {
+//                    return daoManager.getGoodsDao().getElement(resultSet.getInt("goods_id"));
+//                } catch (SQLException e) {
+//                    throw new DaoException(e);
+//                }
+//            }
+//        });
+//        daoManager = daoFactory.getDaoManager();
+//        Period period = (Period)daoManager.executeAndCloce(new DaoComand() {
+//            @Override
+//            public Object execute(DaoManager daoManager) {
+//                try {
+//                    return daoManager.getPeriodDao().getElement(resultSet.getInt("period_id"));
+//                } catch (SQLException e) {
+//                    throw new DaoException(e);
+//                }
+//            }
+//        });
+//        daoManager = daoFactory.getDaoManager();
+//        Status status = (Status)daoManager.executeAndCloce(new DaoComand() {
+//            @Override
+//            public Object execute(DaoManager daoManager)  {
+//                try {
+//                    return daoManager.getStatusDao().getElement(resultSet.getInt("status_id"));
+//                } catch (SQLException e) {
+//                    throw new DaoException(e);
+//                }
+//            }
+//        });
         try {
+
             order.setId(resultSet.getInt("id"));
             order.setOrderDate(resultSet.getDate("order_date"));
             order.setUser(clientDao.getElement(resultSet.getInt("user_id")));
@@ -203,6 +246,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         }
+
         return order;
     }
 

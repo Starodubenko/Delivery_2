@@ -1,6 +1,7 @@
 package com.epam.star.action;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 public class ActionException extends Exception{
     private int detail;
@@ -11,6 +12,9 @@ public class ActionException extends Exception{
 
     public ActionException(SQLException e) {
         super(e);
+    }
+
+    public ActionException(ParseException e) {
     }
 
     @Override

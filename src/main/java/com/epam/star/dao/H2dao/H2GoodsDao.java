@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class H2GoodsDao implements GoodsDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -18,6 +20,25 @@ public class H2GoodsDao implements GoodsDao {
 
     public H2GoodsDao(Connection conn) {
         this.conn = conn;
+    }
+
+    public List<Goods> getAllGoods(){
+        List<Goods> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT * FROM goods");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                result.add(getGoodsFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
     }
 
     @Override
@@ -30,6 +51,7 @@ public class H2GoodsDao implements GoodsDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
+            if (resultSet.next())
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -49,6 +71,7 @@ public class H2GoodsDao implements GoodsDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
+            if (resultSet.next())
             goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -91,7 +114,6 @@ public class H2GoodsDao implements GoodsDao {
     private Goods getGoodsFromResultSet(ResultSet resultSet) throws DaoException{
         Goods goods = new Goods();
         try {
-            resultSet.next();
             goods.setId(resultSet.getInt("id"));
             goods.setGoodsName(resultSet.getString("goods_name"));
             goods.setPrice(resultSet.getBigDecimal("price"));

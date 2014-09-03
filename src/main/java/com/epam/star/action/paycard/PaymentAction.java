@@ -58,9 +58,11 @@ public class PaymentAction implements Action {
                 }
                 if (!userRole.equals(clientRole))
                     employeeDao.updateElement((Employee) user);
-            } else
+            } else {
                 LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
-            request.setAttribute("PaymentInfo", "The payment card already activated");
+                request.setAttribute("PaymentInfo", "The payment card already activated");
+            }
+            daoManager.commit();
         } catch (Exception e) {
             daoManager.rollback();
             request.setAttribute("PaymentError", "Payment error ! Try again later.");

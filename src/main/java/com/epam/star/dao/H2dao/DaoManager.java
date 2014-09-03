@@ -1,5 +1,6 @@
 package com.epam.star.dao.H2dao;
 
+import com.epam.star.dao.DaoComand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,18 @@ public class DaoManager {
             connection.close();
         } catch (SQLException e) {
             throw new DaoException(e);
+        }
+    }
+
+    public Object executeAndCloce(DaoComand comand) throws DaoException{
+        try{
+            return comand.execute(this);
+        }finally {
+            try {
+                this.connection.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
         }
     }
 

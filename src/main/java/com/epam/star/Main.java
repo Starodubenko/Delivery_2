@@ -1,17 +1,14 @@
 package com.epam.star;
 
-import com.epam.star.dao.H2dao.DaoFactory;
-import com.epam.star.entity.Order;
+import com.epam.star.entity.Period;
 
 import java.sql.SQLException;
+import java.sql.Time;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Order order = DaoFactory.getInstance()
-                .getDaoManager()
-                .getOrderDao().getElement(1);
-
-        System.out.println(order.getOrderDate());
-        System.out.println(order.getDeliveryDate());
+        Period period = new Period();
+        period.setPeriod(new Time(14,00,00));
+        System.out.println("Time is " + period.getPeriod());
     }
 }

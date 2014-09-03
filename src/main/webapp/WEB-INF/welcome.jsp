@@ -17,7 +17,7 @@
             <c:if test="${not empty user}">
                 <div id="autorized" class="border panel panel-default">
                     <form action="<c:url value="/do/logout"/>">
-                        <p align="center" >Welcome</p>
+                        <p align="center">Welcome</p>
                         <p align="center" class="name_surname">${user.getFirstName()}</p>
                         <p align="center" class="name_surname">${user.getLastName()}</p>
                         <br>

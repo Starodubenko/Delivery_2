@@ -1,4 +1,4 @@
-$('.datepicker').datepicker({
+$('#Date').datepicker({
      dateFormat: 'dd.mm.yy'
 });
 

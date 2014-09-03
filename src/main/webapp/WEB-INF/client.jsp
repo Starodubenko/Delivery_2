@@ -8,8 +8,8 @@
 <head>
     <title>Welcome</title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <%--<link rel='stylesheet' href='<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.min.css"/>'>--%>
-    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker.css"/>'>
+        <link rel='stylesheet' href='<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.min.css"/>'>
+    <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker.css"/>'>--%>
     <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
@@ -22,9 +22,7 @@
                 <div id="autorized" class="border panel panel-default">
                     <form action="<c:url value="/do/logout"/>">
                         <p align="center">Welcome</p>
-
                         <p align="center" class="name_surname">${user.getFirstName()}</p>
-
                         <p align="center" class="name_surname">${user.getLastName()}</p>
                         <br>
                         <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
@@ -163,7 +161,7 @@
                     </table>
                 </div>
             </div>
-            <button class="createOrderButton btn btn-primary" data-toggle="modal" data-target="#createOrder">
+            <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal" data-target="#createOrder">
                 Create an Order
             </button>
             <input type="submit" class="cancelOrderButton btn btn-primary" data-toggle="modal"
@@ -192,20 +190,24 @@
 
                     <div class="orderText form-group">
                         <label for="Date">Delivery date</label>
-                        <input type="text" name="deliverydate" value="Date" class="datepicker form-control" id="Date">
+                        <input type="text" name="deliverydate" value="Date" class="form-control" id="Date">
                     </div>
                     <div class="orderText form-group">
                         <label for="PeriodTime">Delivery time</label>
                         <select class="form-control" name="deliverytime" value="Time" class="form-control"
                                 id="PeriodTime">
-                            <option>1</option>
+                            <c:forEach var="period" items="${periods}">
+                                <option>${period.period}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="orderText form-group">
                         <label for="GoodsName">Goods type</label>
                         <select class="form-control" name="goodsname" value="Goods name" class="form-control"
                                 id="GoodsName">
-                            <option>1</option>
+                            <c:forEach var="goodss" items="${goods}">
+                                <option>${goodss.getGoodsName()}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="orderText form-group">
@@ -265,9 +267,9 @@
 <script src="<c:url value="/script/client.js"/>"></script>
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
+<%--<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>--%>
 
-    <%--<script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>--%>
+    <script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>

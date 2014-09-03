@@ -3,14 +3,12 @@ package com.epam.star.action.login;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionResult;
 import com.epam.star.action.Post;
-import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
+import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
-import com.epam.star.entity.AbstractEntity;
-import com.epam.star.entity.AbstractUser;
-import com.epam.star.entity.Order;
+import com.epam.star.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,9 +39,7 @@ public class LoginAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws SQLException {
-
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DaoManager daoManager = daoFactory.getDaoManager();
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
             EmployeeDao employeeDao = daoManager.getEmployeeDao();
             OrderDao orderDao = daoManager.getOrderDao();
@@ -55,11 +51,17 @@ public class LoginAction implements Action {
             if (user == null)
                 user = employeeDao.findByCredentials(login, password);
 
+            List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
+            List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
+
+
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            session.setAttribute("userType", "user");
+            session.setAttribute("periods", periods);
+            session.setAttribute("goods", goods);
             session.setAttribute("todayOrders", getTodayOrdersFromDataBase(user, orderDao));
             session.setAttribute("pastOrders", getPastOrdersFromDataBase(user, orderDao));
+
 
             LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 

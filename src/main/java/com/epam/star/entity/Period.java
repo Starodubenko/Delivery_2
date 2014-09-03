@@ -13,4 +13,5 @@ public class Period extends AbstractEntity {
     public void setPeriod(Time period) {
         this.period = period;
     }
+
 }

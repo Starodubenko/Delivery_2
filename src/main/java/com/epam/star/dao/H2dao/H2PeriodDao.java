@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class H2PeriodDao implements PeriodDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -15,6 +17,25 @@ public class H2PeriodDao implements PeriodDao {
 
     public H2PeriodDao(Connection conn) {
         this.conn = conn;
+    }
+
+    public List<Period> getAllPeriods(){
+        List<Period> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT * FROM period");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                result.add(getPeriodFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
     }
 
     @Override
@@ -28,6 +49,7 @@ public class H2PeriodDao implements PeriodDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
+            if (resultSet.next())
             periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -47,6 +69,7 @@ public class H2PeriodDao implements PeriodDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
+            if (resultSet.next())
             period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -88,7 +111,6 @@ public class H2PeriodDao implements PeriodDao {
     private Period getPeriodFromResultSet(ResultSet resultSet) throws DaoException{
         Period period = new Period();
         try {
-            resultSet.next();
             period.setId(resultSet.getInt("id"));
             period.setPeriod(resultSet.getTime("period"));
         } catch (SQLException e) {
