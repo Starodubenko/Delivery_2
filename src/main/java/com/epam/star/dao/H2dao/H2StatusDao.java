@@ -30,6 +30,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
 
+            if (resultSet.next())
             status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);

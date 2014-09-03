@@ -5,8 +5,8 @@ import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.action.login.LoginAction;
 import com.epam.star.dao.*;
-import com.epam.star.dao.h2dao.DaoFactory;
-import com.epam.star.dao.h2dao.DaoManager;
+import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Order;
@@ -58,12 +58,15 @@ public class CreateOrderAction implements Action {
             ClientDao clientDao = daoManager.getClientDao();
 
             String paymentType = request.getParameter("PaymentType");
-            AbstractUser user = (Client)request.getAttribute("user");
+            Client user = (Client)request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
 
-            boolean f;
-            if (paymentType.equals("online") && clientBalance.compareTo(goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice()) == 0)
-                f = true; else  f = false;
+            BigDecimal goodsPrice = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+            boolean online = paymentType.equals("online");
+
+            boolean onlinePayment;
+            if (online && clientBalance.compareTo(goodsPrice) == 0)
+                onlinePayment = true; else  onlinePayment = false;
 
 
             order = new Order();
@@ -80,8 +83,14 @@ public class CreateOrderAction implements Action {
             order.setStatus(statusDao != null ? statusDao.findByStatusName("waiting") : null);
             order.setOrderDate(new Date());
 
-            user.setVirtualBalance(user.getVirtualBalance().divide(goodsDao.findByGoodsName("goodsname").getPrice()));
-            clientDao.updateElement((Client)user);
+
+            if (onlinePayment) {
+                BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+                BigDecimal res = user.getVirtualBalance().subtract(goodsPricee);
+
+                user.setVirtualBalance(res);
+                clientDao.updateElement((Client) user);
+            }
         } catch (Exception e){
             request.setAttribute("CreateOrderError","You made a mistake, check all fields");
         }
