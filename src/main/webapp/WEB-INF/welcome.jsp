@@ -33,11 +33,10 @@
                         <label class="alignHorizontalCenter" for="inputPassword" >Password</label>
                         <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="101287">
                         <input type="submit" class="loginbtn btn btn-primary" value="Login">
-                        <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal" data-target="RegistrationForm">
                             Registration
                         </button>
                     </form>
-                    <a href="#" data-toggle="modal" data-target="#myModal">Registration</a>
                 </div>
             </c:if>
 
@@ -99,13 +98,13 @@
         </form>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="RegistrationForm" tabindex="-1" role="dialog" aria-labelledby="RegistrationFormLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Registration form</h4>
+                    <h4 class="modal-title" id="RegistrationFormLabel">Registration form</h4>
                 </div>
                 <form action="${pageContext.request.contextPath}/do/ClientRegistration" method="post">
                     <div class="registration">

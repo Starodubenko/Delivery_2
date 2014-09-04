@@ -17,6 +17,10 @@ public class ActionException extends Exception{
     public ActionException(ParseException e) {
     }
 
+    public ActionException(Exception e) {
+
+    }
+
     @Override
     public String toString() {
 //        if ()

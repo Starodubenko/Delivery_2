@@ -5,7 +5,7 @@
     </head>
     <body background="style/img/background.jpg" onload="">
 
-    <c:redirect url="http://localhost:8080/do/welcome"/>
+    <c:redirect url="/do/welcome"/>
 
     </body>
     </html>

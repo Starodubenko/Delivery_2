@@ -1,5 +1,8 @@
-package com.epam.star.action;
+package com.epam.star.action.show;
 
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionException;
+import com.epam.star.action.ActionResult;
 import com.epam.star.dao.ContactDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;

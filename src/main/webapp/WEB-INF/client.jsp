@@ -29,6 +29,9 @@
                     </form>
                 </div>
             </c:if>
+            <c:if test="${empty user}">
+                <c:redirect url="/do/welcome"/>
+            </c:if>
         </div>
 
         <div class="eWalet panel panel-default">

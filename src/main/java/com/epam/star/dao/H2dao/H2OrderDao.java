@@ -14,8 +14,8 @@ import java.util.List;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
+    private static final String ADD_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
     private Connection conn;
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private DaoManager daoManager = daoFactory.getDaoManager();
@@ -140,6 +140,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.setString(7, order.getAdditionalInfo());
             prstm.setInt(8, order.getStatus().getId());
             prstm.setDate(9, order.getOrderDate());
+            prstm.setBigDecimal(10, order.getOrderCost());
             prstm.execute();
             status = "Order added successfully";
         } catch (SQLException e) {
@@ -167,11 +168,12 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.setInt(3, order.getCount());
             prstm.setInt(4, order.getPeriod().getId());
             prstm.setInt(5, order.getGoods().getId());
-            prstm.setDate(6, order.getDeliveryDate());
-            prstm.setString(7, order.getAdditionalInfo());
-            prstm.setInt(8, order.getStatus().getId());
-            prstm.setDate(9, order.getOrderDate());
-            prstm.setInt(10, order.getId());
+            prstm.setBigDecimal(6,order.getOrderCost());
+            prstm.setDate(7, order.getDeliveryDate());
+            prstm.setString(8, order.getAdditionalInfo());
+            prstm.setInt(9, order.getStatus().getId());
+            prstm.setDate(10, order.getOrderDate());
+            prstm.setInt(11, order.getId());
             prstm.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -237,6 +239,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             order.setOrderDate(resultSet.getDate("order_date"));
             order.setUser(clientDao.getElement(resultSet.getInt("user_id")));
             order.setGoods(goodsDao.getElement(resultSet.getInt("goods_id")));
+            order.setOrderCost(resultSet.getBigDecimal("order_cost"));
             order.setCount(resultSet.getInt("count"));
             order.setDeliveryDate(resultSet.getDate("delivery_date"));
             order.setPeriod(periodDao.getElement(resultSet.getInt("period_id")));

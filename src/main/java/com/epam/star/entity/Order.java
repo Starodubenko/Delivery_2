@@ -1,5 +1,6 @@
 package com.epam.star.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Order extends AbstractEntity {
@@ -12,6 +13,24 @@ public class Order extends AbstractEntity {
     private String additionalInfo;
     private Status status;
     private Date orderDate;
+
+    public BigDecimal getOrderCost() {
+        return orderCost;
+    }
+
+    public void setOrderCost(BigDecimal orderCost) {
+        this.orderCost = orderCost;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    private BigDecimal orderCost;
 
     public Date getOrderDate() {
         return orderDate;

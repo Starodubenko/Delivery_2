@@ -7,15 +7,13 @@ import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.dao.OrderDao;
-import com.epam.star.entity.*;
+import com.epam.star.entity.AbstractUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.List;
 
 @Post
 public class LoginAction implements Action {
@@ -27,22 +25,11 @@ public class LoginAction implements Action {
     private ActionResult admin = new ActionResult("admin", true);
     private ActionResult director = new ActionResult("director", true);
 
-    public static List<Order> getTodayOrdersFromDataBase(AbstractEntity user, OrderDao orderDao) {
-        List<Order> todayOrders = orderDao.findAllByClientIdToday(user.getId());
-        return todayOrders;
-    }
-
-    public static List<Order> getPastOrdersFromDataBase(AbstractEntity user, OrderDao orderDao) {
-        List<Order> pastOrders = orderDao.findAllByClientIdLastDays(user.getId());
-        return pastOrders;
-    }
-
     @Override
     public ActionResult execute(HttpServletRequest request) throws SQLException {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
             EmployeeDao employeeDao = daoManager.getEmployeeDao();
-            OrderDao orderDao = daoManager.getOrderDao();
             ClientDao clientDao = daoManager.getClientDao();
 
             String login = request.getParameter("authenticationLogin");
@@ -51,17 +38,8 @@ public class LoginAction implements Action {
             if (user == null)
                 user = employeeDao.findByCredentials(login, password);
 
-            List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
-            List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
-
-
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            session.setAttribute("periods", periods);
-            session.setAttribute("goods", goods);
-            session.setAttribute("todayOrders", getTodayOrdersFromDataBase(user, orderDao));
-            session.setAttribute("pastOrders", getPastOrdersFromDataBase(user, orderDao));
-
 
             LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 

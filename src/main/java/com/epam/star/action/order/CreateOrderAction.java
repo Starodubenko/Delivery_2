@@ -3,11 +3,9 @@ package com.epam.star.action.order;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
-import com.epam.star.action.login.LoginAction;
 import com.epam.star.dao.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Order;
 import org.slf4j.Logger;
@@ -33,11 +31,6 @@ public class CreateOrderAction implements Action {
             Order order = createOrder(request,daoManager);
             orderDao.insert(order);
 
-            AbstractUser user = (AbstractUser)(request.getSession().getAttribute("user"));
-
-            request.getSession().removeAttribute("todayOrders");
-            request.getSession().setAttribute("todayOrders", LoginAction.getTodayOrdersFromDataBase(user, orderDao));
-
             daoManager.commit();
         } catch (Exception e){
             daoManager.rollback();
@@ -48,32 +41,25 @@ public class CreateOrderAction implements Action {
         return client;
     }
 
-    private Order createOrder(HttpServletRequest request, DaoManager daoManager) {
+    private Order createOrder(HttpServletRequest request, DaoManager daoManager) throws ActionException {
 
         Order order = null;
         try {
             PeriodDao periodDao = daoManager.getPeriodDao();
             GoodsDao goodsDao = daoManager.getGoodsDao();
             StatusDao statusDao = daoManager.getStatusDao();
-            ClientDao clientDao = daoManager.getClientDao();
 
-            String paymentType = request.getParameter("PaymentType");
-            Client user = (Client)request.getSession().getAttribute("user");
+            Client user = (Client) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
-
-            BigDecimal goodsPrice = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
-            boolean online = paymentType.equals("online");
-
-            boolean onlinePayment;
-            if (online && clientBalance.compareTo(goodsPrice) == 0)
-                onlinePayment = true; else  onlinePayment = false;
-
+            BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+            BigDecimal orderCost = goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount")));
 
             order = new Order();
-            order.setUser((Client) request.getSession().getAttribute("user"));
+            order.setUser(user);
             order.setCount(Integer.parseInt(request.getParameter("goodscount")));
             order.setPeriod(periodDao.findByPeriod(Time.valueOf(request.getParameter("deliverytime"))));
             order.setGoods(goodsDao != null ? goodsDao.findByGoodsName(request.getParameter("goodsname")) : null);
+            order.setOrderCost(orderCost);
             try {
                 order.setDeliveryDate(new SimpleDateFormat("dd.MM.yyyy").parse(request.getParameter("deliverydate")));
             } catch (ParseException e) {
@@ -83,18 +69,37 @@ public class CreateOrderAction implements Action {
             order.setStatus(statusDao != null ? statusDao.findByStatusName("waiting") : null);
             order.setOrderDate(new Date());
 
-                BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+            debitFunds(request,daoManager);
 
-                BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
-
-            if (onlinePayment) {
-                user.setVirtualBalance(res);
-                clientDao.updateElement(user);
-            }
         } catch (Exception e){
             request.setAttribute("CreateOrderError","You made a mistake, check all fields");
+            throw new ActionException(e);
         }
 
         return order;
+    }
+
+    private void debitFunds(HttpServletRequest request,DaoManager daoManager){
+        boolean onlinePayment;
+
+        String paymentType = request.getParameter("PaymentType");
+        Client user = (Client)request.getSession().getAttribute("user");
+
+        GoodsDao goodsDao = daoManager.getGoodsDao();
+        ClientDao clientDao = daoManager.getClientDao();
+        BigDecimal goodsPrice = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+        boolean online = paymentType.equals("online");
+
+        BigDecimal clientBalance = user.getVirtualBalance();
+        BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
+        BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
+
+        if (online && (clientBalance.compareTo(goodsPrice) == 0 || clientBalance.compareTo(goodsPrice) == 1))
+            onlinePayment = true; else  onlinePayment = false;
+
+        if (onlinePayment) {
+            user.setVirtualBalance(res);
+            clientDao.updateElement(user);
+        }
     }
 }

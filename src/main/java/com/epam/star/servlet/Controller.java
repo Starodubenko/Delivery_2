@@ -34,10 +34,9 @@ public class Controller extends HttpServlet {
             e.printStackTrace();
         }
         if (result.isRedirect()) {
-            resp.sendRedirect(req.getContextPath()+"/do/" + result.getView()); //redirect goes to some action (/do/welcome or something like that)
+            resp.sendRedirect(req.getContextPath()+"/do/" + result.getView());
             return;
         }
-        //forward goes to some page (welcome.jsp index.jsp etc) so you need to add "/WEB-INF/" "jsp" here or in every action
         req.getRequestDispatcher("/WEB-INF/"+result.getView()+".jsp").forward(req, resp);
     }
 }
