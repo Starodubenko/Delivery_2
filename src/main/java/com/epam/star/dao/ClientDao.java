@@ -3,6 +3,7 @@ package com.epam.star.dao;
 import com.epam.star.entity.Client;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface ClientDao extends Dao<Client> {
 
@@ -13,4 +14,8 @@ public interface ClientDao extends Dao<Client> {
     public Client findByTelephone(String telephone);
     public Client findByMobilephone(String telephone);
     public Client findByCredentials(String login, String password);
+
+    List<Client> findRange(int firsPosition, int count);
+
+    List<Client> getAll();
 }

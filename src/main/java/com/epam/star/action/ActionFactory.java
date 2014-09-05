@@ -6,10 +6,7 @@ import com.epam.star.action.login.LogoutAction;
 import com.epam.star.action.order.CancelOrderAction;
 import com.epam.star.action.order.CreateOrderAction;
 import com.epam.star.action.paycard.PaymentAction;
-import com.epam.star.action.show.ShowClientPageAction;
-import com.epam.star.action.show.ShowDispatcherPageAction;
-import com.epam.star.action.show.ShowPageAction;
-import com.epam.star.action.show.ShowWelcomePageAction;
+import com.epam.star.action.show.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +34,9 @@ public class ActionFactory {
 
         actions.put("GET/dispatcher", new ShowDispatcherPageAction());
 
-        actions.put("GET/admin", new ShowPageAction("admin"));
+        actions.put("GET/admin", new ShowAdminPageAction());
+
+        actions.put("GET/database", new ShowDataBasePageAction());
 
         actions.put("GET/welcome", new ShowWelcomePageAction());
 

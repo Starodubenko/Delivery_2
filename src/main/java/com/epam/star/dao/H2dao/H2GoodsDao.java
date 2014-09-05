@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2GoodsDao implements GoodsDao {
+public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_GOODS = "INSERT INTO goods VALUES (?, ?, ?)";
     private static final String DELETE_GOODS = "DELETE FROM goods WHERE id = ?";

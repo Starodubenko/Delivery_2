@@ -18,7 +18,9 @@
                 <div id="autorized" class="border panel panel-default">
                     <form action="<c:url value="/do/logout"/>">
                         <p align="center">Welcome</p>
+
                         <p align="center" class="name_surname">${user.getFirstName()}</p>
+
                         <p align="center" class="name_surname">${user.getLastName()}</p>
                         <br>
                         <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
@@ -30,15 +32,95 @@
             </c:if>
         </div>
 
-        <div class="topTable">
-            <table>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
+        <ul id="change" class="pagination">
+            <li><a href="${pagename}?page=${pageNumber-1}&rows=${rowsCount}" form="back">&laquo;</a></li>
+            <li>
+                <c:forEach items="${paginationlist}" var="pl">
+                    <li><a href="${pagename}?page=${pl.intValue()}&rows=${rowsCount}" name="page">${pl.intValue()}</a></li>
+                </c:forEach>
+            </li>
+            <li><a href="${pagename}?page=${pageNumber+1}&rows=${rowsCount}" form="next">&raquo;</a></li>
+        </ul>
+
+        <div class="orderList panel panel-default">
+            <ul class="nav nav-tabs  nav-justified" role="tablist">
+                <li class="active"><a href="#Clients" role="tab" data-toggle="tab">Clients</a></li>
+                <li><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="orderListHeight tab-pane active" id="Clients" style="overflow: scroll">
+                    <table class="table table-hover">
+                        <tr>
+                            <th></th>
+                            <th>ID</th>
+                            <th>Firs name</th>
+                            <th>Last name</th>
+                            <th>Middle name</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Mobilephone</th>
+                        </tr>
+                        <c:forEach var="row" items="${list}">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>${row.getId()}</td>
+                                <td>${row.getOrderDate()}</td>
+                                <td>${row.getGoods().getGoodsName()}</td>
+                                <td>${row.getCount()}</td>
+                                <td>${row.getDeliveryDate()}</td>
+                                <td>${row.getPeriod().getPeriod()}</td>
+                                <td>${row.getAdditionalInfo()}</td>
+                                <td>${row.getStatus().getStatusName()}</td>
+                                <td>
+                                    <button>
+                                        Order
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                <div class="orderListHeight tab-pane" id="Orders" style="overflow: scroll">
+                    <table class="table table-hover">
+                        <tr>
+                            <th></th>
+                            <th>ID</th>
+                            <th>Order date</th>
+                            <th>Goods name</th>
+                            <th>Goods count</th>
+                            <th>Delivry date</th>
+                            <th>Delivry time</th>
+                            <th>Additional info</th>
+                            <th>Status</th>
+                        </tr>
+                        <c:forEach var="row" items="${pastOrders}">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>${row.getId()}</td>
+                                <td>${row.getOrderDate()}</td>
+                                <td>${row.getGoods().getGoodsName()}</td>
+                                <td>${row.getCount()}</td>
+                                <td>${row.getDeliveryDate()}</td>
+                                <td>${row.getPeriod().getPeriod()}</td>
+                                <td>${row.getAdditionalInfo()}</td>
+                                <td>${row.getStatus().getStatusName()}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div class="contactInformation panel panel-default" style="overflow-y: scroll">
@@ -48,16 +130,6 @@
         </div>
     </div>
 
-    <div>
-        <form action="${pageContext.request.contextPath}/controller">
-            <input type="submit" value="Go to DataBase">
-            <ul class="pager">
-                <li class="previous"><a href="#">&larr; Older</a></li>
-                <li class="next"><a href="#">Newer &rarr;</a></li>
-            </ul>
-            <input type="hidden" name="actionName" value="DeleteFromDataBaseAction"> //
-        </form>
-    </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

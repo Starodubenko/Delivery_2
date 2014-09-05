@@ -2,6 +2,8 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.PositionDao;
+import com.epam.star.entity.AbstractEntity;
+import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +13,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_CLIENT = "INSERT INTO  users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private Connection conn;
@@ -23,6 +28,25 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
 
     public H2ClientDao(Connection conn) {
         this.conn = conn;
+    }
+
+    @Override
+    public List getAll() {
+        List<Client> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT * FROM users");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result.add(getClientFromResultSet(resultSet));
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
     }
 
     @Override
@@ -143,6 +167,27 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             closeStatement(prstm,resultSet);
         }
         return null;
+    }
+
+    @Override
+    public List findRange(int firsPosition, int count) {
+        List<Client> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(RANGE_CLIENT);
+            prstm.setInt(1,count);
+            prstm.setInt(2,firsPosition);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result.add(getClientFromResultSet(resultSet));
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
     }
 
     @Override
