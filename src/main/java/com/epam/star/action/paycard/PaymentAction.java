@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class PaymentAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAction.class);
-    private ActionResult client = new ActionResult("client");
+    private ActionResult client = new ActionResult("registration");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -51,7 +51,7 @@ public class PaymentAction implements Action {
                 user.setVirtualBalance(newBal);
 
                 Position userRole = user.getRole();
-                Position clientRole = userPositionDao.findByPositionName("client");
+                Position clientRole = userPositionDao.findByPositionName("registration");
 
                 if (userRole.equals(clientRole)) {
                     clientDao.updateElement((Client) user);

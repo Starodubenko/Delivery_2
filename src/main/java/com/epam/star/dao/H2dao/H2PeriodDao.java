@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2PeriodDao implements PeriodDao {
+public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_PERIOD = "INSERT INTO period VALUES (?, ?)";
     private static final String DELETE_PERIOD = "DELETE FROM period WHERE id = ?";
@@ -135,5 +135,15 @@ public class H2PeriodDao implements PeriodDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
     }
 }

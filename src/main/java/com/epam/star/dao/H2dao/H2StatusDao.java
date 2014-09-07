@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -116,5 +117,15 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
     }
 }

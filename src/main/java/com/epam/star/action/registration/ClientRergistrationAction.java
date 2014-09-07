@@ -1,4 +1,4 @@
-package com.epam.star.action.client;
+package com.epam.star.action.registration;
 
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
@@ -35,7 +35,7 @@ public class ClientRergistrationAction implements Action {
                 PositionDao positionDao = daoManager.getPositionDao();
                 ClientDao clientDao = daoManager.getClientDao();
 
-                client.setRole(positionDao.findByPositionName("client"));
+                client.setRole(positionDao.findByPositionName("registration"));
                 client.setVirtualBalance(new BigDecimal(0));
                 clientDao.insert(client);
                 daoManager.commit();

@@ -7,9 +7,10 @@
 
 <head>
     <title>Welcome</title>
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.min.css"/>'>
-    <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker.css"/>'>--%>
+        <%--<link rel='stylesheet' href='<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.min.css"/>'>--%>
+
     <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
@@ -103,6 +104,7 @@
                             <th>Order date</th>
                             <th>Goods name</th>
                             <th>Goods count</th>
+                            <th>Order cost</th>
                             <th>Delivry date</th>
                             <th>Delivry time</th>
                             <th>Additional info</th>
@@ -121,6 +123,7 @@
                                 <td>${row.getOrderDate()}</td>
                                 <td>${row.getGoods().getGoodsName()}</td>
                                 <td>${row.getCount()}</td>
+                                <td>${row.getOrderCost()}</td>
                                 <td>${row.getDeliveryDate()}</td>
                                 <td>${row.getPeriod().getPeriod()}</td>
                                 <td>${row.getAdditionalInfo()}</td>
@@ -137,6 +140,7 @@
                             <th>Order date</th>
                             <th>Goods name</th>
                             <th>Goods count</th>
+                            <th>Order cost</th>
                             <th>Delivry date</th>
                             <th>Delivry time</th>
                             <th>Additional info</th>
@@ -155,6 +159,7 @@
                                 <td>${row.getOrderDate()}</td>
                                 <td>${row.getGoods().getGoodsName()}</td>
                                 <td>${row.getCount()}</td>
+                                <td>${row.getOrderCost()}</td>
                                 <td>${row.getDeliveryDate()}</td>
                                 <td>${row.getPeriod().getPeriod()}</td>
                                 <td>${row.getAdditionalInfo()}</td>
@@ -191,11 +196,11 @@
             <form action="${pageContext.request.contextPath}/do/createOrder">
                 <div class="registration">
 
-                    <div class="orderText form-group">
+                    <div class="orderText form-group has-error has-feedback">
                         <label for="Date">Delivery date</label>
-                        <input type="text" name="deliverydate" value="Date" class="form-control" id="Date">
+                        <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
                     </div>
-                    <div class="orderText form-group">
+                    <div class="orderText form-group has-success">
                         <label for="PeriodTime">Delivery time</label>
                         <select class="form-control" name="deliverytime" value="Time" class="form-control"
                                 id="PeriodTime">
@@ -267,12 +272,11 @@
 </div>
 
 
-<script src="<c:url value="/script/client.js"/>"></script>
-<script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
-<script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-<%--<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>--%>
 
-    <script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>
+<script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+<%--<script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>--%>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>

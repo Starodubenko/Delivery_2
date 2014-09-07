@@ -1,6 +1,6 @@
 package com.epam.star.action;
 
-import com.epam.star.action.client.ClientRergistrationAction;
+import com.epam.star.action.registration.ClientRergistrationAction;
 import com.epam.star.action.login.LoginAction;
 import com.epam.star.action.login.LogoutAction;
 import com.epam.star.action.order.CancelOrderAction;
@@ -28,7 +28,7 @@ public class ActionFactory {
 
         actions.put("GET/logout", new LogoutAction());
 
-//        actions.put("GET/client", new ShowPageAction("client"));
+//        actions.put("GET/registration", new ShowPageAction("registration"));
 
         actions.put("GET/director", new ShowPageAction("director"));
 
@@ -47,6 +47,8 @@ public class ActionFactory {
         actions.put("POST/payment", new PaymentAction());
 
         actions.put("GET/client", new ShowClientPageAction());
+
+        actions.put("GET/searching", new SeachAction<>());
 
 
 //        for (Class<? extends Action> actionClass : actions) {

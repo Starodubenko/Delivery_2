@@ -2,8 +2,6 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.PositionDao;
-import com.epam.star.entity.AbstractEntity;
-import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,16 +29,16 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public List getAll() {
-        List<Client> result = new ArrayList<>();
+    public int getAll() {
+        int result = 0;
 
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement("SELECT * FROM users");
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users");
             resultSet = prstm.executeQuery();
             while (resultSet.next())
-                result.add(getClientFromResultSet(resultSet));
+                result = resultSet.getInt("count(*)");
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

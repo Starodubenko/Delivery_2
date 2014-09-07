@@ -17,5 +17,5 @@ public interface ClientDao extends Dao<Client> {
 
     List<Client> findRange(int firsPosition, int count);
 
-    List<Client> getAll();
+    int getAll();
 }

@@ -9,8 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public class H2PayCardStatusDao implements PayCardStatusDao {
+public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_STATUS_PAY_CARD = "INSERT INTO status_card VALUES (?, ?)";
     private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM status_card WHERE id = ?";
@@ -116,5 +117,15 @@ public class H2PayCardStatusDao implements PayCardStatusDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
     }
 }

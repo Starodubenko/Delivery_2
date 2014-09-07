@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class CreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
-    ActionResult client = new ActionResult("client",true);
+    ActionResult client = new ActionResult("registration",true);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException{

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionPool {
-    private static final int MAX_POOL_SIZE = 10;
+    private static final int MAX_POOL_SIZE = 1000;
     private static int CURRENT_POOL_SIZE;
     private static List<Connection> connectionList = new ArrayList<>(MAX_POOL_SIZE);
 

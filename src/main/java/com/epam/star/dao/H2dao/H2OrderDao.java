@@ -15,7 +15,9 @@ import java.util.List;
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
+
     private Connection conn;
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private DaoManager daoManager = daoFactory.getDaoManager();
@@ -269,5 +271,45 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        List<Order> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(RANGE_ORDERS);
+            prstm.setInt(1,rowsCount);
+            prstm.setInt(2,startRow);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result.add(getOrderFromResultSet(resultSet));
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
+    }
+
+    @Override
+    public int getAll() {
+        int result = 0;
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM orders");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm,resultSet);
+        }
+        return result;
     }
 }

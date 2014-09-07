@@ -13,6 +13,7 @@ public class Order extends AbstractEntity {
     private String additionalInfo;
     private Status status;
     private Date orderDate;
+    private BigDecimal orderCost;
 
     public BigDecimal getOrderCost() {
         return orderCost;
@@ -29,8 +30,6 @@ public class Order extends AbstractEntity {
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
-
-    private BigDecimal orderCost;
 
     public Date getOrderDate() {
         return orderDate;

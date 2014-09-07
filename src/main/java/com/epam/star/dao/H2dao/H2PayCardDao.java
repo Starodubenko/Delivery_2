@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -189,5 +190,15 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
     }
 }

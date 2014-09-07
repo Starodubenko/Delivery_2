@@ -130,4 +130,14 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
             }
         }
     }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
+    }
 }

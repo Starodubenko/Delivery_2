@@ -17,7 +17,7 @@ public class DeleteFromDataBaseAction implements Action {
 //
 //        DaoFactory daoFactory = DaoFactory.getInstance();
 //        ClientDao clientDao = daoFactory.getClientDao();
-//        Client client = clientDao.findByName("Lina");
+//        Client registration = clientDao.findByName("Lina");
 //
 //
 //

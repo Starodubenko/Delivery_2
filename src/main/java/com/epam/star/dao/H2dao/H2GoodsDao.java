@@ -140,4 +140,14 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             }
         }
     }
+
+    @Override
+    public List findRange(int startRow, int rowsCount) {
+        return null;
+    }
+
+    @Override
+    public int getAll() {
+        return 0;
+    }
 }

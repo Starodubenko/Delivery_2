@@ -1,19 +1,16 @@
 $('#Date').datepicker({
-     dateFormat: 'dd.mm.yy'
-});
-
-                                //switcher tabs of table with orders
- $('#myTab a[href="#Today"]').tab('show') // Select tab by name
- $('#myTab a:first').tab('show') // Select first tab
-
+    format: 'mm.dd.yyyy',
+    startDate: '-3d'
+})
                 //change class the clicked row (active or warning)
  $(document).ready(function(){
      $('input[type="checkbox"]').mousedown(function () {
-         ind = $(this).attr("value")-3;
-         $("tr:eq("+ind+")").addClass('success');
+         ind = $(this).parents('tr').get(0).rowIndex;
+         alert(ind);
+         $("tr:eq("+ind+")").addClass('bg-success');
      }).mouseup(function () {
-         $("tr:eq("+ind+")").removeClass('success');
-         $("tr:eq("+ind+")").toggleClass('warning');
+         $("tr:eq("+ind+")").removeClass('bg-success');
+         $("tr:eq("+ind+")").toggleClass('bg-info');
      });
  });
 
