@@ -1,8 +1,21 @@
 package com.epam.star.action;
 
+import org.json.JSONObject;
+
 public class ActionResult {
     private String view;
     private boolean redirection;
+
+    public JSONObject getJson() {
+        return json;
+    }
+
+    public ActionResult(JSONObject json) {
+
+        this.json = json;
+    }
+
+    private JSONObject json;
 
     public ActionResult() {
 
@@ -27,6 +40,10 @@ public class ActionResult {
 
     public boolean isRedirect() {
         return redirection;
+    }
+    public boolean isJson() {
+        if(json == null) return false;
+        else return true;
     }
 
     public void setRedirect(boolean redirection) {

@@ -33,6 +33,9 @@ public class Controller extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+//        if (result.isJson()) req.setAttribute("json",result.getJson());
+
         if (result.isRedirect()) {
             resp.sendRedirect(req.getContextPath()+"/do/" + result.getView());
             return;

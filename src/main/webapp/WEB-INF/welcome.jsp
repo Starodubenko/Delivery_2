@@ -29,14 +29,24 @@
                 <div id="unAutorized" class="border panel panel-default">
                     <form action="${pageContext.request.contextPath}/do/login" method="post">
                         <label class="alignHorizontalCenter" for="inputLogin">Login</label>
-                        <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Vano34">
+                        <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
                         <label class="alignHorizontalCenter" for="inputPassword" >Password</label>
-                        <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="101287">
+                        <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="EleEle">
                         <input type="submit" class="loginbtn btn btn-primary" value="Login">
                         <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal" data-target="RegistrationForm">
                             Registration
                         </button>
                     </form>
+                    <div id="errorRegistration">
+                        <label>fsdfsdfsdf</label>
+                    </div>
+                    <button type="button" class="registrationbtn btn btn-primary" id="registration">
+                        Registration
+                    </button>
+                    <button type="button" class="registrationbtn btn btn-primary" id="Gotoclientpage">
+                        Go to client page
+                    </button>
+
                 </div>
             </c:if>
 
@@ -161,9 +171,12 @@
         </div>
     </div>
 
-    <script src="<c:url value="/script/client.js"/>"></script>
+    <a href="ajax_test">Go to Ajax Test</a>
+
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/script/welcome.js"/>"></script>
+    <%--<script src="<c:url value="/script/client.js"/>"></script>--%>
     </body>
     </html>
 </fmt:bundle>

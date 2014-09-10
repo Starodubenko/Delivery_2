@@ -44,13 +44,13 @@
                     <li>
                         <c:forEach items="${clientsPaginationlist}" var="pl">
                     <li><a href="${clientsPagename}?clientspage=${pl.intValue()}&rows=${clientsRowsCount}"
-                           name="clientspage">${pl.intValue()}</a></li>
+                           name="clientspage" id="pagee" type="submit">${pl.intValue()}</a></li>
                     </c:forEach>
                     </li>
                     <li><a href="${clientsPagename}?clientspage=${clientsPageNumber+1}&rows=${clientsRowsCount}"
                            form="next">&raquo;</a></li>
                 </ul>
-                <table class="table table-hover">
+                <table class="table table-hover" ID="clientsTable">
                     <tr>
                         <th></th>
                         <th>ID</th>
@@ -93,14 +93,15 @@
                     <li><a href="${ordersPagename}?orderspage=${ordersPageNumber-1}" form="back">&laquo;</a></li>
                     <li>
                         <c:forEach items="${ordersPaginationlist}" var="pl">
-                    <li><a href="${ordersPagename}?orderspage=${pl.intValue()}&rows=${ordersRowsCount}"
-                           name="orderspage">${pl.intValue()}</a></li>
+                    <li><a href="#"<%--"${ordersPagename}?orderspage=${pl.intValue()}&rows=${ordersRowsCount}"--%>
+                           name="orderspage" class="page">${pl.intValue()}</a>
+                    </li>
                     </c:forEach>
                     </li>
                     <li><a href="${ordersPagename}?orderspage=${ordersPageNumber+1}&rows=${ordersRowsCount}"
                            form="next">&raquo;</a></li>
                 </ul>
-                <table class="table table-hover">
+                <table class="table table-hover" ID="ordersTable">
                     <tr>
                         <th></th>
                         <th>ID</th>
@@ -226,7 +227,8 @@
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/script/dispatcher.js"/>"></script>
+<script src="<c:url value="/script/ajaxTest.js"/>"></script>
+    <%--<script src="<c:url value="/script/dispatcher.js"/>"></script>--%>
 </body>
 </html>
 </fmt:bundle>
