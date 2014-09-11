@@ -14,7 +14,9 @@ $(document).ready(function () {
         var password = $('#inputPassword').val();
 
         $.post("ajaxLogin", {authenticationLogin: login, authenticationPassword: password}, function (data) {
+            console.log("ok");
             console.log(data);
+            console.log(data.Json);
 //            if (data.json.errorView == "") location.href = data.json.roleView;
 //            else $('#errorRegistration').html(data.json.errorView);
         })

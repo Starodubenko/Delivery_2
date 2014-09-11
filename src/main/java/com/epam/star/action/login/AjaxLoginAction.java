@@ -7,6 +7,7 @@ import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
+import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.AbstractUser;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 public class AjaxLoginAction implements Action {
-    private ActionResult result = new ActionResult(new JSONObject());
+    private ActionResult result = new ActionResult("ajaxLogin");
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
 
     @Override
@@ -26,6 +27,7 @@ public class AjaxLoginAction implements Action {
 
         EmployeeDao employeeDao = daoManager.getEmployeeDao();
         ClientDao clientDao = daoManager.getClientDao();
+        PositionDao positionDao = daoManager.getPositionDao();
 
         String login = request.getParameter("authenticationLogin");
         String password = request.getParameter("authenticationPassword");
@@ -38,14 +40,16 @@ public class AjaxLoginAction implements Action {
 
         LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 
+        JSONObject json = result.getJson();
         if (user != null) {
-            if (user.getRole().equals("client")) result.getJson().put("roleView", "client");
-            if (user.getRole().equals("dispatcher")) result.getJson().put("roleView", "dispatcher");
-            if (user.getRole().equals("admin")) result.getJson().put("roleView", "admin");
+            if (user.getRole().equals(positionDao.findByPositionName("Client"))) json.put("roleView", "client");
+            if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) json.append("roleView", "dispatcher");
+            if (user.getRole().equals(positionDao.findByPositionName("Admin"))) json.put("roleView", "admin");
         }
-        else result.getJson().put("errorView", "client");
+        else json.put("errorView", "client");
 
-        request.setAttribute("json",result.getJson());
+        request.setAttribute("json",json);
+        result.setJson(json);
 
         return result;
     }

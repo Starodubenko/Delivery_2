@@ -34,17 +34,18 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
                 " where POSITION_ID != 11 and LOGIN = " + "'" + login + "'" + "and PASSWORD = " + "'" + password + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
+        Employee employee = null;
         try {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next())
-                return getClientFromResultSet(resultSet);
+                employee = getClientFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             closeStatement(prstm,resultSet);
         }
-        return null;
+        return employee;
     }
 
     @Override

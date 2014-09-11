@@ -41,9 +41,15 @@ public class ActionResult {
     public boolean isRedirect() {
         return redirection;
     }
+
+    public void setJson(JSONObject json) {
+        this.json = json;
+    }
+
     public boolean isJson() {
         if(json == null) return false;
         else return true;
+
     }
 
     public void setRedirect(boolean redirection) {
