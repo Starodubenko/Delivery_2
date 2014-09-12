@@ -1,6 +1,7 @@
 package com.epam.star.action;
 
 import com.epam.star.action.login.AjaxLoginAction;
+import com.epam.star.action.registration.AjaxClientRegistration;
 import com.epam.star.action.registration.ClientRergistrationAction;
 import com.epam.star.action.login.LoginAction;
 import com.epam.star.action.login.LogoutAction;
@@ -56,6 +57,8 @@ public class ActionFactory {
         actions.put("GET/ajaxTable", new ShowAjaxTestAction());
 
         actions.put("POST/ajaxLogin", new AjaxLoginAction());
+
+        actions.put("POST/ajaxClientRegistration", new AjaxClientRegistration());
 
 
 

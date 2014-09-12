@@ -8,7 +8,7 @@
     <head>
         <title>Welcome</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/style/login.css"/>'>
+        <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
     </head>
     <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 

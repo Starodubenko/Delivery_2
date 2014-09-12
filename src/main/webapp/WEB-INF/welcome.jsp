@@ -8,7 +8,7 @@
     <head>
         <title>Welcome</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <link rel='stylesheet' href='<c:url value="/style/login.css"/>'>
+        <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
     </head>
     <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 
@@ -27,26 +27,17 @@
             </c:if>
             <c:if test="${empty user}">
                 <div id="unAutorized" class="border panel panel-default">
-                    <form action="${pageContext.request.contextPath}/do/login" method="post">
                         <label class="alignHorizontalCenter" for="inputLogin">Login</label>
                         <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
                         <label class="alignHorizontalCenter" for="inputPassword" >Password</label>
                         <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="EleEle">
-                        <input type="submit" class="loginbtn btn btn-primary" value="Login">
-                        <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal" data-target="RegistrationForm">
+                        <input type="button" class="loginbtn btn btn-primary" value="Login"  id="goLogin">
+                        <button class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#RegistrationForm">
                             Registration
                         </button>
-                    </form>
-                    <div id="errorRegistration">
-                        <label>fsdfsdfsdf</label>
+                    <div id="errorLogin">
+                        <label></label>
                     </div>
-                    <button type="button" class="registrationbtn btn btn-primary" id="registration">
-                        Registration
-                    </button>
-                    <button type="button" class="registrationbtn btn btn-primary" id="Gotoclientpage">
-                        Go to client page
-                    </button>
-
                 </div>
             </c:if>
 
@@ -116,57 +107,54 @@
                             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="RegistrationFormLabel">Registration form</h4>
                 </div>
-                <form action="${pageContext.request.contextPath}/do/ClientRegistration" method="post">
                     <div class="registration">
-                        <div class="form-group">
+                        <div class="form-group" id="loginDiv">
                             <label for="Login" class="name_surname">Login</label>
-                            <input type="text" name="login" value="Ivanov99" class="form-control"
-                                   id="Login">
+                            <input type="text" name="login" value="Ivanov99" class="form-control" id="Login">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="loginInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="passwordDiv">
                             <label for="Password" class="name_surname">Password</label>
-                            <input type="text" name="password" value="Ivanov9" class="form-control"
-                                   id="Password">
+                            <input type="text" name="password" value="Ivanov9" class="form-control" id="Password">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="passwordInput"></p>
                         </div>
-                        <div class="form-group">
-                            <label for="Firsname" class="name_surname">Firsname</label>
-                            <input type="text" name="firstname" value="Ivan" class="form-control"
-                                   id="Firsname">
+                        <div class="form-group" id="firstnameDiv">
+                            <label for="Firstname" class="name_surname">Firsname</label>
+                            <input type="text" name="firstname" value="Ivan" class="form-control" id="Firstname">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="firstnameInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="lastnameDiv">
                             <label for="Lastname" class="name_surname">Lastname</label>
-                            <input type="text" name="lastname" value="Ivanov" class="form-control"
-                                   id="Lastname">
+                            <input type="text" name="lastname" value="Ivanov" class="form-control" id="Lastname">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="lastnameInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="middlenameDiv">
                             <label for="Middlename" class="name_surname">Middlename</label>
-                            <input type="text" name="middlename" value="Ivanovich" class="form-control"
-                                   id="Middlename">
+                            <input type="text" name="middlename" value="Ivanovich" class="form-control" id="Middlename">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="middlenameInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="addressDiv">
                             <label for="Address" class="name_surname">Address</label>
-                            <input type="text" name="address" value="Ivanova-32" class="form-control"
-                                   id="Address">
+                            <input type="text" name="address" value="Ivanova-32" class="form-control" id="Address">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="addressInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="telephoneDiv">
                             <label for="Telephone" class="name_surname">Telephone</label>
-                            <input type="text" name="telephone" value="87212965896" class="form-control"
-                                   id="Telephone">
+                            <input type="text" name="telephone" value="87212965896" class="form-control" id="Telephone">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="telephoneInput"></p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="mobilephoneDiv">
                             <label for="Mobilephone" class="name_surname">Mobilephone</label>
-                            <input type="text" name="mobilephone" value="87007778958" class="form-control"
-                                   id="Mobilephone">
+                            <input type="text" name="mobilephone" value="87007778958" class="form-control" id="Mobilephone">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="mobilephoneInput"></p>
                         </div>
+
+                        <p id="registrationSuccessful"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close registration form
-                        </button>
-                        <button type="submit" class="btn btn-primary">Registration</button>
+                        <button class="btn btn-default" data-dismiss="modal">Close registration form</button>
+                        <button class="btn btn-primary" id="goRegistration">Registration</button>
                     </div>
-                    <input type="hidden" name="actionName" value="ClientRegistrationAction">
-                    <input type="hidden" name="TableName" value="Clients">
-                </form>
             </div>
         </div>
     </div>
@@ -176,7 +164,6 @@
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/script/welcome.js"/>"></script>
-    <%--<script src="<c:url value="/script/client.js"/>"></script>--%>
     </body>
     </html>
 </fmt:bundle>

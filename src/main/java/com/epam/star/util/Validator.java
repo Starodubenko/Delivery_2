@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
     private final String USER_NAME = "^[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}$";
-    private final String USER_PASSWORD = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$";
+    private final String USER_PASSWORD = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$";
     private final String DATE = "(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d";
     private final String TIME = "^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$";
     private final String TELEPHONE_NUMBER = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";

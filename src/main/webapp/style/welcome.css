@@ -97,3 +97,8 @@ text{
     margin-left: 30%;
     margin-right: 30%;
 }
+
+.errorRegistationLabel{
+    margin-left: 20%;
+    color: brown;
+}

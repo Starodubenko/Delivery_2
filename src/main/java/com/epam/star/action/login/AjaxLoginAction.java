@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 public class AjaxLoginAction implements Action {
-    private ActionResult result = new ActionResult("ajaxLogin");
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
+    private ActionResult result = new ActionResult("json");
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxLoginAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -40,16 +40,15 @@ public class AjaxLoginAction implements Action {
 
         LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 
-        JSONObject json = result.getJson();
+        JSONObject json = new JSONObject();
         if (user != null) {
             if (user.getRole().equals(positionDao.findByPositionName("Client"))) json.put("roleView", "client");
-            if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) json.append("roleView", "dispatcher");
+            if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) json.put("roleView", "dispatcher");
             if (user.getRole().equals(positionDao.findByPositionName("Admin"))) json.put("roleView", "admin");
         }
-        else json.put("errorView", "client");
+        else json.put("errorMessage", "Login or password was introduced with error");
 
         request.setAttribute("json",json);
-        result.setJson(json);
 
         return result;
     }
