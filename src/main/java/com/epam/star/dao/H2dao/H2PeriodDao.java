@@ -19,7 +19,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
         this.conn = conn;
     }
 
-    public List<Period> getAllPeriods(){
+    public List<Period> getAllPeriods() {
         List<Period> result = new ArrayList<>();
 
         PreparedStatement prstm = null;
@@ -33,13 +33,13 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return result;
     }
 
     @Override
-    public Period findByPeriod(Time period) throws DaoException{
+    public Period findByPeriod(Time period) throws DaoException {
 
         String sql = "SELECT * FROM period WHERE period = " + "'" + period + "'";
         Period periodResult = null;
@@ -50,17 +50,17 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            periodResult = getPeriodFromResultSet(resultSet);
+                periodResult = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return periodResult;
     }
 
     @Override
-    public Period getElement(int ID) throws DaoException{
+    public Period getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM period WHERE id = " + ID;
         Period period = null;
         PreparedStatement prstm = null;
@@ -70,17 +70,17 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            period = getPeriodFromResultSet(resultSet);
+                period = getPeriodFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return period;
     }
 
     @Override
-    public String insert(Period period) throws DaoException{
+    public String insert(Period period) throws DaoException {
         String statuss = "Period do not added";
 
         PreparedStatement prstm = null;
@@ -93,22 +93,22 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Period period) throws DaoException{
+    public String updateElement(Period period) throws DaoException {
         return null;
     }
 
-    private Period getPeriodFromResultSet(ResultSet resultSet) throws DaoException{
+    private Period getPeriodFromResultSet(ResultSet resultSet) throws DaoException {
         Period period = new Period();
         try {
             period.setId(resultSet.getInt("id"));
@@ -119,7 +119,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
         return period;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -143,7 +143,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

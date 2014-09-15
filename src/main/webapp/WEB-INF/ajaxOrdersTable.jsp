@@ -3,6 +3,7 @@
 
 
 <table class="table table-hover" ID="ordersTable">
+    <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
     <tr>
         <th></th>
         <th>ID</th>

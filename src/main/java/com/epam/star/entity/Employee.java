@@ -1,15 +1,19 @@
 package com.epam.star.entity;
 
+import java.math.BigDecimal;
+
 public class Employee extends AbstractUser {
-    private String mobilephone;
     private String identityCard;
     private String workBook;
     private String RNN;
     private String SIK;
 
-    public Employee(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone) {
-        super(id, login, password, firstName, lastName, middleName, address, telephone);
-        this.mobilephone = mobilephone;
+    public Employee(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance, String mobilephone1, String identityCard, String workBook, String RNN, String SIK) {
+        super(id, login, password, firstName, lastName, middleName, address, telephone, mobilephone, role, virtualBalance);
+        this.identityCard = identityCard;
+        this.workBook = workBook;
+        this.RNN = RNN;
+        this.SIK = SIK;
     }
 
     public Employee() {
@@ -46,14 +50,5 @@ public class Employee extends AbstractUser {
 
     public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
-    }
-
-    public String getMobilephone() {
-
-        return mobilephone;
-    }
-
-    public void setMobilephone(String mobilephone) {
-        this.mobilephone = mobilephone;
     }
 }

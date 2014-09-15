@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
-    private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
-    private static final String ADD_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
+    private static final String INSERT_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
-    private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
+    private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, paid = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
 
     private Connection conn;
     private DaoFactory daoFactory = DaoFactory.getInstance();
@@ -27,7 +27,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllByClientIdToday(int id) throws DaoException{
+    public List<Order> findAllByClientIdToday(int id) throws DaoException {
         String sql = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
@@ -53,13 +53,13 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return orders;
     }
 
     @Override
-    public List<Order> findAllByClientIdLastDays(int id) throws DaoException{
+    public List<Order> findAllByClientIdLastDays(int id) throws DaoException {
         String sql = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
@@ -85,28 +85,28 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return orders;
     }
 
     @Override
-    public Order findByClientAddress(String address) throws DaoException{
+    public Order findByClientAddress(String address) throws DaoException {
         return null;
     }
 
     @Override
-    public Order findByPeriod(String period) throws DaoException{
+    public Order findByPeriod(String period) throws DaoException {
         return null;
     }
 
     @Override
-    public Order findByGoods(String period) throws DaoException{
+    public Order findByGoods(String period) throws DaoException {
         return null;
     }
 
     @Override
-    public Order getElement(int ID) throws DaoException{
+    public Order getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM Orders WHERE id = " + ID;
         Order order = null;
         PreparedStatement prstm = null;
@@ -120,19 +120,19 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return order;
     }
 
     @Override
-    public String insert(Order order) throws DaoException{
+    public String insert(Order order) throws DaoException {
         String status = "Order do not added";
 
         PreparedStatement prstm = null;
 
         try {
-            prstm = conn.prepareStatement(ADD_ORDER);
+            prstm = conn.prepareStatement(INSERT_ORDER);
             prstm.setString(1, null);
             prstm.setInt(2, order.getUser().getId());
             prstm.setInt(3, order.getCount());
@@ -143,24 +143,25 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.setInt(8, order.getStatus().getId());
             prstm.setDate(9, order.getOrderDate());
             prstm.setBigDecimal(10, order.getOrderCost());
+            prstm.setBigDecimal(11, order.getPaid());
             prstm.execute();
             status = "Order added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return status;
     }
 
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Order order) throws DaoException{
+    public String updateElement(Order order) throws DaoException {
 
         PreparedStatement prstm = null;
         try {
@@ -170,84 +171,41 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.setInt(3, order.getCount());
             prstm.setInt(4, order.getPeriod().getId());
             prstm.setInt(5, order.getGoods().getId());
-            prstm.setBigDecimal(6,order.getOrderCost());
-            prstm.setDate(7, order.getDeliveryDate());
-            prstm.setString(8, order.getAdditionalInfo());
-            prstm.setInt(9, order.getStatus().getId());
-            prstm.setDate(10, order.getOrderDate());
-            prstm.setInt(11, order.getId());
+            prstm.setBigDecimal(6, order.getOrderCost());
+            prstm.setBigDecimal(7, order.getPaid());
+            prstm.setDate(8, order.getDeliveryDate());
+            prstm.setString(9, order.getAdditionalInfo());
+            prstm.setInt(10, order.getStatus().getId());
+            prstm.setDate(11, order.getOrderDate());
+            prstm.setInt(12, order.getId());
             prstm.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return null;
     }
 
-    private Order getOrderFromResultSet(ResultSet resultSet) throws DaoException{
+    private Order getOrderFromResultSet(ResultSet resultSet) throws DaoException {
         Order order = new Order();
-//        DaoManager daoManager = daoFactory.getDaoManager();
         PeriodDao periodDao = daoManager.getPeriodDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
         StatusDao statusDao = daoManager.getStatusDao();
         ClientDao clientDao = daoManager.getClientDao();
-//        Client user = (Client)daoManager.executeAndCloce(new DaoComand() {
-//            @Override
-//            public Object execute(DaoManager daoManager)  {
-//                try {
-//                    return daoManager.getClientDao().getElement(resultSet.getInt("user_id"));
-//                } catch (SQLException e) {
-//                   throw new DaoException(e);
-//                }
-//            }
-//        });
-//        daoManager = daoFactory.getDaoManager();
-//        Goods goods = (Goods)daoManager.executeAndCloce(new DaoComand() {
-//            @Override
-//            public Object execute(DaoManager daoManager) {
-//                try {
-//                    return daoManager.getGoodsDao().getElement(resultSet.getInt("goods_id"));
-//                } catch (SQLException e) {
-//                    throw new DaoException(e);
-//                }
-//            }
-//        });
-//        daoManager = daoFactory.getDaoManager();
-//        Period period = (Period)daoManager.executeAndCloce(new DaoComand() {
-//            @Override
-//            public Object execute(DaoManager daoManager) {
-//                try {
-//                    return daoManager.getPeriodDao().getElement(resultSet.getInt("period_id"));
-//                } catch (SQLException e) {
-//                    throw new DaoException(e);
-//                }
-//            }
-//        });
-//        daoManager = daoFactory.getDaoManager();
-//        Status status = (Status)daoManager.executeAndCloce(new DaoComand() {
-//            @Override
-//            public Object execute(DaoManager daoManager)  {
-//                try {
-//                    return daoManager.getStatusDao().getElement(resultSet.getInt("status_id"));
-//                } catch (SQLException e) {
-//                    throw new DaoException(e);
-//                }
-//            }
-//        });
-        try {
 
+        try {
             order.setId(resultSet.getInt("id"));
             order.setOrderDate(resultSet.getDate("order_date"));
             order.setUser(clientDao.getElement(resultSet.getInt("user_id")));
             order.setGoods(goodsDao.getElement(resultSet.getInt("goods_id")));
             order.setOrderCost(resultSet.getBigDecimal("order_cost"));
+            order.setPaid(resultSet.getBigDecimal("paid"));
             order.setCount(resultSet.getInt("count"));
             order.setDeliveryDate(resultSet.getDate("delivery_date"));
             order.setPeriod(periodDao.getElement(resultSet.getInt("period_id")));
             order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
             order.setStatus(statusDao.getElement(resultSet.getInt("status_id")));
-
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -255,7 +213,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         return order;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -281,21 +239,21 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         ResultSet resultSet = null;
         try {
             prstm = conn.prepareStatement(RANGE_ORDERS);
-            prstm.setInt(1,rowsCount);
-            prstm.setInt(2,startRow);
+            prstm.setInt(1, rowsCount);
+            prstm.setInt(2, startRow);
             resultSet = prstm.executeQuery();
             while (resultSet.next())
                 result.add(getOrderFromResultSet(resultSet));
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return result;
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         int result = 0;
 
         PreparedStatement prstm = null;
@@ -308,7 +266,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return result;
     }

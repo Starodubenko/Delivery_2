@@ -8,14 +8,20 @@ import java.util.List;
 public interface ClientDao extends Dao<Client> {
 
     public Client findByLogin(String name) throws SQLException;
+
     public Client findByName(String name) throws SQLException;
+
     public Client findBySurnameName(String surName);
+
     public Client findByAddress(String address);
+
     public Client findByTelephone(String telephone);
+
     public Client findByMobilephone(String telephone);
+
     public Client findByCredentials(String login, String password);
 
     List<Client> findRange(int firsPosition, int count);
 
-    int getAll();
+    int getRecordsCount();
 }

@@ -16,6 +16,8 @@ import java.util.List;
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_EMPLOYEE = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
+            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
     private Connection conn;
     private DaoFactory daoFactory = DaoFactory.getInstance();
@@ -26,7 +28,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public Employee findByCredentials(String login, String password) throws DaoException{
+    public Employee findByCredentials(String login, String password) throws DaoException {
         String sql = "SELECT *" +
                 " FROM USERS" +
                 " inner join POSITIONS" +
@@ -43,18 +45,18 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return employee;
     }
 
     @Override
-    public Employee getElement(int ID) throws DaoException{
+    public Employee getElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String insert(Employee employee) throws DaoException{
+    public String insert(Employee employee) throws DaoException {
         String status = "Employee do not added";
 
         PreparedStatement prstm = null;
@@ -81,22 +83,51 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Employee employee) throws DaoException{
-        return null;
+    public String updateElement(Employee employee) throws DaoException {
+        String status = "Employee do not updated";
+
+        PreparedStatement prstm = null;
+
+        try {
+            prstm = conn.prepareStatement(UPDATE_EMPLOYEE);
+            prstm.setInt(1, employee.getId());
+            prstm.setString(2, employee.getLogin());
+            prstm.setString(3, employee.getPassword());
+            prstm.setString(4, employee.getFirstName());
+            prstm.setString(5, employee.getLastName());
+            prstm.setString(6, employee.getMiddleName());
+            prstm.setString(7, employee.getAddress());
+            prstm.setString(8, employee.getTelephone());
+            prstm.setString(9, employee.getMobilephone());
+            prstm.setString(10, employee.getIdentityCard());
+            prstm.setString(11, employee.getWorkBook());
+            prstm.setString(12, employee.getRNN());
+            prstm.setString(13, employee.getSIK());
+            prstm.setInt(14, employee.getRole().getId());
+            prstm.setBigDecimal(15, employee.getVirtualBalance());
+            prstm.setInt(16, employee.getId());
+            prstm.executeUpdate();
+            status = "Employee updated successfully";
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, null);
+        }
+        return status;
     }
 
-    private Employee getClientFromResultSet(ResultSet resultSet) throws DaoException{
+    private Employee getClientFromResultSet(ResultSet resultSet) throws DaoException {
 
         PositionDao positionDao = daoManager.getPositionDao();
 
@@ -123,7 +154,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         return employee;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -147,7 +178,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

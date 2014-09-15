@@ -38,103 +38,132 @@
             <li id="t2"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
         </ul>
         <div class="tab-content">
-            <div class="orderListHeight tab-pane active" id="Clients" style="overflow-y: scroll">
-                <ul id="change" class="pagination">
-                    <li><a href="${clientsPagename}?clientspage=${clientsPageNumber-1}" form="back">&laquo;</a></li>
-                    <li>
-                        <c:forEach items="${clientsPaginationlist}" var="pl">
-                    <li><a href="${clientsPagename}?clientspage=${pl.intValue()}&rows=${clientsRowsCount}"
-                           name="clientspage" id="pagee" type="submit">${pl.intValue()}</a></li>
-                    </c:forEach>
-                    </li>
-                    <li><a href="${clientsPagename}?clientspage=${clientsPageNumber+1}&rows=${clientsRowsCount}"
-                           form="next">&raquo;</a></li>
-                </ul>
-                <table class="table table-hover" ID="clientsTable">
-                    <tr>
-                        <th></th>
-                        <th>ID</th>
-                        <th>Firs name</th>
-                        <th>Middle name</th>
-                        <th>Last name</th>
-                        <th>Address</th>
-                        <th>Telephone</th>
-                        <th>Mobilephone</th>
-                        <th>Create order</th>
-                    </tr>
-                    <c:forEach var="row" items="${clientsList}">
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="radio" name="IdOrder" value="${row.getId()}">
-                                    </label>
-                                </div>
-                            </td>
-                            <td>${row.getId()}</td>
-                            <td>${row.getFirstName()}</td>
-                            <td>${row.getMiddleName()}</td>
-                            <td>${row.getLastName()}</td>
-                            <td>${row.getAddress()}</td>
-                            <td>${row.getTelephone()}</td>
-                            <td>${row.getMobilephone()}</td>
-                            <td>
-                                <form></form>
-                                <button name="">
-                                    Order
-                                </button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </div>
-            <div class="orderListHeight tab-pane" id="Orders" style="overflow: scroll">
+            <div class="orderListHeight tab-pane active" id="Clients">
+                    <%--<ul id="change" class="pagination">--%>
+                    <%--<li><a href=""&lt;%&ndash;${clientsPagename}?clientspage=${clientsPageNumber-1}"&ndash;%&gt; form="back" id="cBackPage">&laquo;</a></li>--%>
+                    <%--<c:forEach items="${clientsPaginationlist}" var="pl">--%>
+                    <%--<li><a href="${clientsPagename}?clientspage=${pl.intValue()}&rows=${clientsRowsCount}"--%>
+                    <%--name="clientspage" type="submit">${pl.intValue()}</a></li>--%>
+                    <%--</c:forEach>--%>
+                    <%--<li><a href="${clientsPagename}?clientspage=${clientsPageNumber+1}&rows=${clientsRowsCount}"--%>
+                    <%--form="next" id="nextPage">&raquo;</a></li>--%>
+                    <%--</ul>--%>
                 <ul id="changee" class="pagination">
-                    <li><a href="${ordersPagename}?orderspage=${ordersPageNumber-1}" form="back">&laquo;</a></li>
-                    <li>
-                        <c:forEach items="${ordersPaginationlist}" var="pl">
-                    <li><a href="#"<%--"${ordersPagename}?orderspage=${pl.intValue()}&rows=${ordersRowsCount}"--%>
-                           name="orderspage" class="page">${pl.intValue()}</a>
-                    </li>
+                    <li id="cBack"><a href="#">&laquo;</a></li>
+
+                    <c:forEach items="${clientsPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="cNumbered"><a href="#"
+                                                                                                      class="page">${pl.intValue()}</a>
+                        </li>
                     </c:forEach>
-                    </li>
-                    <li><a href="${ordersPagename}?orderspage=${ordersPageNumber+1}&rows=${ordersRowsCount}"
-                           form="next">&raquo;</a></li>
+
+                    <li id="cNext"><a href="#">&raquo;</a></li>
                 </ul>
-                <table class="table table-hover" ID="ordersTable">
-                    <tr>
-                        <th></th>
-                        <th>ID</th>
-                        <th>Order date</th>
-                        <th>Goods name</th>
-                        <th>Goods count</th>
-                        <th>Order cost</th>
-                        <th>Delivry date</th>
-                        <th>Delivry time</th>
-                        <th>Additional info</th>
-                        <th>Status</th>
-                    </tr>
-                    <c:forEach var="row" items="${ordersList}">
+                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                    <table class="table table-hover" ID="clientsTable">
+                        <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
                         <tr>
-                            <td>
-                                <div class="checkbox">
+                            <th>ID</th>
+                            <th>Firs name</th>
+                            <th>Middle name</th>
+                            <th>Last name</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Mobilephone</th>
+                            <th>Create order</th>
+                        </tr>
+                        <c:forEach var="row" items="${clientsList}">
+                            <tr>
+                                <td>${row.getId()}</td>
+                                <td>${row.getFirstName()}</td>
+                                <td>${row.getMiddleName()}</td>
+                                <td>${row.getLastName()}</td>
+                                <td>${row.getAddress()}</td>
+                                <td>${row.getTelephone()}</td>
+                                <td>${row.getMobilephone()}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#createOrder">
+                                        Order
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+            </div>
+            <div class="orderListHeight tab-pane" id="Orders">
+                    <%--<ul id="changee" class="pagination">--%>
+                    <%--<li><a href="${ordersPagename}?orderspage=${ordersPageNumber-1}&rows=${ordersRowsCount}" form="back">&laquo;</a></li>--%>
+
+                    <%--<c:forEach items="${ordersPaginationlist}" var="pl">--%>
+                    <%--<li><a href="${ordersPagename}?orderspage=${pl.intValue()}&rows=${ordersRowsCount}"name="orderspage" class="page">${pl.intValue()}</a></li>--%>
+                    <%--</c:forEach>--%>
+
+                    <%--<li><a href="${ordersPagename}?orderspage=${ordersPageNumber+1}&rows=${ordersRowsCount}" form="next">&raquo;</a></li>--%>
+                    <%--</ul>--%>
+                <ul id="changee" class="pagination">
+                    <li id="oBack"><a href="#">&laquo;</a></li>
+
+                    <c:forEach items="${ordersPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="oNumbered"><a href="#"
+                                                                                                      class="page">${pl.intValue()}</a>
+                        </li>
+                    </c:forEach>
+
+                    <li id="oNext"><a href="#">&raquo;</a></li>
+                </ul>
+                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                    <table class="table table-hover" ID="ordersTable">
+                        <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+                        <tr>
+                            <th>
+                                <p> Check all</p>
+
+                                <div id="checkAll" class="checkbox">
                                     <label>
                                         <input type="checkbox" name="IdOrder" value="${row.getId()}">
                                     </label>
                                 </div>
-                            </td>
-                            <td>${row.getId()}</td>
-                            <td>${row.getOrderDate()}</td>
-                            <td>${row.getGoods().getGoodsName()}</td>
-                            <td>${row.getCount()}</td>
-                            <td>${row.getOrderCost()}</td>
-                            <td>${row.getDeliveryDate()}</td>
-                            <td>${row.getPeriod().getPeriod()}</td>
-                            <td>${row.getAdditionalInfo()}</td>
-                            <td>${row.getStatus().getStatusName()}</td>
+                            </th>
+                            <th>ID</th>
+                            <th>Order date</th>
+                            <th>Goods name</th>
+                            <th>Goods count</th>
+                            <th>Order cost</th>
+                            <th>Delivry date</th>
+                            <th>Delivry time</th>
+                            <th>Additional info</th>
+                            <th>Status</th>
                         </tr>
-                    </c:forEach>
-                </table>
+                        <c:forEach var="row" items="${ordersList}">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>${row.getId()}</td>
+                                <td>${row.getOrderDate()}</td>
+                                <td>${row.getGoods().getGoodsName()}</td>
+                                <td>${row.getCount()}</td>
+                                <td>${row.getOrderCost()}</td>
+                                <td>${row.getDeliveryDate()}</td>
+                                <td>${row.getPeriod().getPeriod()}</td>
+                                <td>${row.getAdditionalInfo()}</td>
+                                <td>${row.getStatus().getStatusName()}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
+                       data-target="#cancelOrder" value="Cancel the Order">
+                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
+                       data-target="#cancelOrder" value="accept the order">
+                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
+                       data-target="#cancelOrder" value="restore order">
             </div>
         </div>
 
@@ -161,64 +190,62 @@
 </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="createOrder" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Registration form</h4>
+                <h4 class="modal-title" id="createOrderLabel">Create order</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/do/ClientRegistration" method="post">
+            <form action="${pageContext.request.contextPath}/do/createOrder">
                 <div class="registration">
-                    <div class="form-group">
-                        <label for="Login" class="name_surname">Login</label>
-                        <input type="text" name="login" value="Ivanov99" class="form-control"
-                               id="Login">
+
+                    <div class="orderText form-group has-error has-feedback">
+                        <label for="Date">Delivery date</label>
+                        <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
+                    </div>
+                    <div class="orderText form-group has-success">
+                        <label for="PeriodTime">Delivery time</label>
+                        <select class="form-control" name="deliverytime" value="Time" class="form-control"
+                                id="PeriodTime">
+                            <c:forEach var="period" items="${periods}">
+                                <option>${period.period}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="orderText form-group">
+                        <label for="GoodsName">Goods type</label>
+                        <select class="form-control" name="goodsname" value="Goods name" class="form-control"
+                                id="GoodsName">
+                            <c:forEach var="goodss" items="${goods}">
+                                <option>${goodss.getGoodsName()}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="orderText form-group">
+                        <label for="Count">Goods count</label>
+                        <input type="text" name="goodscount" value="Count" class="form-control" id="Count">
                     </div>
                     <div class="form-group">
-                        <label for="Password" class="name_surname">Password</label>
-                        <input type="text" name="password" value="Ivanov9" class="form-control"
-                               id="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="Firsname" class="name_surname">Firsname</label>
-                        <input type="text" name="firstname" value="Ivan" class="form-control"
-                               id="Firsname">
-                    </div>
-                    <div class="form-group">
-                        <label for="Lastname" class="name_surname">Lastname</label>
-                        <input type="text" name="lastname" value="Ivanov" class="form-control"
-                               id="Lastname">
-                    </div>
-                    <div class="form-group">
-                        <label for="Middlename" class="name_surname">Middlename</label>
-                        <input type="text" name="middlename" value="Ivanovich" class="form-control"
-                               id="Middlename">
-                    </div>
-                    <div class="form-group">
-                        <label for="Address" class="name_surname">Address</label>
-                        <input type="text" name="address" value="Ivanova-32" class="form-control"
-                               id="Address">
-                    </div>
-                    <div class="form-group">
-                        <label for="Telephone" class="name_surname">Telephone</label>
-                        <input type="text" name="telephone" value="87212965896" class="form-control"
-                               id="Telephone">
-                    </div>
-                    <div class="form-group">
-                        <label for="Mobilephone" class="name_surname">Mobilephone</label>
-                        <input type="text" name="mobilephone" value="87007778958" class="form-control"
-                               id="Mobilephone">
+                        <label for="Additional Information">Additional Information</label>
+                        <textarea name="additionalinformation" value="Count" class="form-control"
+                                  id="Additional Information">
+                        </textarea>
                     </div>
                 </div>
+                <div class="paymentType form-group">
+                    <label class="paymentTypeContent">Online</label><input type="radio" name="PaymentType"
+                                                                           value="online">
+                    <label class="paymentTypeContent">Cache</label><input type="radio" name="PaymentType" value="cache">
+                </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close registration form
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close order form
                     </button>
-                    <button type="submit" class="btn btn-primary">Registration</button>
+                    <button type="submit" class="btn btn-primary">Create order</button>
                 </div>
-                <input type="hidden" name="actionName" value="ClientRegistrationAction">
-                <input type="hidden" name="TableName" value="Clients">
             </form>
         </div>
     </div>
@@ -227,8 +254,8 @@
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/script/ajaxTest.js"/>"></script>
-    <%--<script src="<c:url value="/script/dispatcher.js"/>"></script>--%>
+    <%--<script src="<c:url value="/script/ajaxTest.js"/>"></script>--%>
+<script src="<c:url value="/script/dispatcher.js"/>"></script>
 </body>
 </html>
 </fmt:bundle>

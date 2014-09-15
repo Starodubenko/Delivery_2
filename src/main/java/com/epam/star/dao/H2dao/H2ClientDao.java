@@ -29,7 +29,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         int result = 0;
 
         PreparedStatement prstm = null;

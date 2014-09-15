@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class Order extends AbstractEntity {
 
-    private Client user;
+    private AbstractUser user;
     private int count;
     private Period period;
     private Goods goods;
@@ -14,6 +14,53 @@ public class Order extends AbstractEntity {
     private Status status;
     private Date orderDate;
     private BigDecimal orderCost;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+
+        Order order = (Order) o;
+
+        if (count != order.count) return false;
+        if (!additionalInfo.equals(order.additionalInfo)) return false;
+        if (!deliveryDate.equals(order.deliveryDate)) return false;
+        if (!goods.equals(order.goods)) return false;
+        if (!orderCost.equals(order.orderCost)) return false;
+        if (!orderDate.equals(order.orderDate)) return false;
+        if (!paid.equals(order.paid)) return false;
+        if (!period.equals(order.period)) return false;
+        if (!status.equals(order.status)) return false;
+        if (!user.equals(order.user)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user.hashCode();
+        result = 31 * result + count;
+        result = 31 * result + period.hashCode();
+        result = 31 * result + goods.hashCode();
+        result = 31 * result + deliveryDate.hashCode();
+        result = 31 * result + additionalInfo.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + orderDate.hashCode();
+        result = 31 * result + orderCost.hashCode();
+        result = 31 * result + paid.hashCode();
+        return result;
+    }
+
+    public BigDecimal getPaid() {
+
+        return paid;
+    }
+
+    public void setPaid(BigDecimal paid) {
+        this.paid = paid;
+    }
+
+    private BigDecimal paid;
 
     public BigDecimal getOrderCost() {
         return orderCost;
@@ -68,7 +115,7 @@ public class Order extends AbstractEntity {
         return user;
     }
 
-    public void setUser(Client user) {
+    public void setUser(AbstractUser user) {
         this.user = user;
     }
 

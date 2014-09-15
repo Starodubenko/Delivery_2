@@ -22,7 +22,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public StatusPayCard findByStatusName(String name) throws DaoException{
+    public StatusPayCard findByStatusName(String name) throws DaoException {
         String sql = "SELECT * FROM status_card WHERE status_name = " + "'" + name + "'";
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;
@@ -35,14 +35,14 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
                 statusPayCard = getStatusPayCardFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
-            closeStatement(prstm,resultSet);
+        } finally {
+            closeStatement(prstm, resultSet);
         }
         return statusPayCard;
     }
 
     @Override
-    public StatusPayCard getElement(int ID) throws DaoException{
+    public StatusPayCard getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM status_card WHERE id = " + ID;
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;
@@ -56,13 +56,13 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return statusPayCard;
     }
 
     @Override
-    public String insert(StatusPayCard statusPayCard) throws DaoException{
+    public String insert(StatusPayCard statusPayCard) throws DaoException {
         String statuss = "StatusPayCard do not added";
 
         PreparedStatement prstm = null;
@@ -74,23 +74,23 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
             statuss = "StatusPayCard added successfully";
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
-            closeStatement(prstm,null);
+        } finally {
+            closeStatement(prstm, null);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(StatusPayCard entity) throws DaoException{
+    public String updateElement(StatusPayCard entity) throws DaoException {
         return null;
     }
 
-    private StatusPayCard getStatusPayCardFromResultSet(ResultSet resultSet) throws DaoException{
+    private StatusPayCard getStatusPayCardFromResultSet(ResultSet resultSet) throws DaoException {
         StatusPayCard statusPayCard = new StatusPayCard();
         try {
             statusPayCard.setId(resultSet.getInt("id"));
@@ -101,7 +101,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
         return statusPayCard;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -125,7 +125,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

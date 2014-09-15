@@ -9,5 +9,5 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract List<T> findRange(int startRow, int rowsCount);
 
-    public abstract int getAll();
+    public abstract int getRecordsCount();
 }

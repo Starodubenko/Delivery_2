@@ -22,7 +22,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public Status findByStatusName(String name) throws DaoException{
+    public Status findByStatusName(String name) throws DaoException {
         String sql = "SELECT * FROM status WHERE status_name = " + "'" + name + "'";
         Status status = null;
         PreparedStatement prstm = null;
@@ -32,17 +32,17 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            status = getStatusFromResultSet(resultSet);
+                status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return status;
     }
 
     @Override
-    public Status getElement(int ID) throws DaoException{
+    public Status getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM status WHERE id = " + ID;
         Status status = null;
         PreparedStatement prstm = null;
@@ -52,17 +52,17 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            status = getStatusFromResultSet(resultSet);
+                status = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return status;
     }
 
     @Override
-    public String insert(Status status) throws DaoException{
+    public String insert(Status status) throws DaoException {
         String statuss = "Status do not added";
 
         PreparedStatement prstm = null;
@@ -75,22 +75,22 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return statuss;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Status entity) throws DaoException{
+    public String updateElement(Status entity) throws DaoException {
         return null;
     }
 
-    private Status getStatusFromResultSet(ResultSet resultSet) throws DaoException{
+    private Status getStatusFromResultSet(ResultSet resultSet) throws DaoException {
         Status status = new Status();
         try {
             status.setId(resultSet.getInt("id"));
@@ -101,7 +101,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
         return status;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -125,7 +125,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

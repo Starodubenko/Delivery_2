@@ -60,6 +60,10 @@ public class ActionFactory {
 
         actions.put("POST/ajaxClientRegistration", new AjaxClientRegistration());
 
+        actions.put("GET/ajaxChangeClientsPage", new AjaxChangeClientsPage());
+
+        actions.put("GET/ajaxChangeOrdersPage", new AjaxChangeOrdersPage());
+
 
 
 

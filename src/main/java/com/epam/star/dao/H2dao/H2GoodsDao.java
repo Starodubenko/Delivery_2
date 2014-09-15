@@ -22,7 +22,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         this.conn = conn;
     }
 
-    public List<Goods> getAllGoods(){
+    public List<Goods> getAllGoods() {
         List<Goods> result = new ArrayList<>();
 
         PreparedStatement prstm = null;
@@ -36,13 +36,13 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return result;
     }
 
     @Override
-    public Goods findByGoodsName(String name) throws DaoException{
+    public Goods findByGoodsName(String name) throws DaoException {
         String sql = "SELECT * FROM goods WHERE goods_name = " + "'" + name + "'";
         Goods goods = null;
         PreparedStatement prstm = null;
@@ -52,17 +52,17 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            goods = getGoodsFromResultSet(resultSet);
+                goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return goods;
     }
 
     @Override
-    public Goods getElement(int ID) throws DaoException{
+    public Goods getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM goods WHERE id = " + ID;
         Goods goods = null;
         PreparedStatement prstm = null;
@@ -72,17 +72,17 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            goods = getGoodsFromResultSet(resultSet);
+                goods = getGoodsFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return goods;
     }
 
     @Override
-    public String insert(Goods goods) throws DaoException{
+    public String insert(Goods goods) throws DaoException {
         String status = "Goods do not added";
 
         PreparedStatement prstm = null;
@@ -96,22 +96,22 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Goods goods) throws DaoException{
+    public String updateElement(Goods goods) throws DaoException {
         return null;
     }
 
-    private Goods getGoodsFromResultSet(ResultSet resultSet) throws DaoException{
+    private Goods getGoodsFromResultSet(ResultSet resultSet) throws DaoException {
         Goods goods = new Goods();
         try {
             goods.setId(resultSet.getInt("id"));
@@ -123,7 +123,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         return goods;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -147,7 +147,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

@@ -22,7 +22,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public Position findByPositionName(String name) throws DaoException{
+    public Position findByPositionName(String name) throws DaoException {
         String sql = "SELECT * FROM positions WHERE position_name = " + "'" + name + "'";
         Position position = null;
         PreparedStatement prstm = null;
@@ -32,17 +32,17 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            position = getStatusFromResultSet(resultSet);
+                position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return position;
     }
 
     @Override
-    public Position getElement(int ID) throws DaoException{
+    public Position getElement(int ID) throws DaoException {
         String sql = "SELECT * FROM positions WHERE id = " + ID;
         Position position = null;
         PreparedStatement prstm = null;
@@ -52,31 +52,31 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-            position = getStatusFromResultSet(resultSet);
+                position = getStatusFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return position;
     }
 
     @Override
-    public String insert(Position entity) throws DaoException{
+    public String insert(Position entity) throws DaoException {
         return null;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Position entity) throws DaoException{
+    public String updateElement(Position entity) throws DaoException {
         return null;
     }
 
-    private Position getStatusFromResultSet(ResultSet resultSet) throws DaoException{
+    private Position getStatusFromResultSet(ResultSet resultSet) throws DaoException {
         Position position = new Position();
         try {
             position.setId(resultSet.getInt("id"));
@@ -87,7 +87,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
         return position;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -111,7 +111,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

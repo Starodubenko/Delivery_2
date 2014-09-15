@@ -1,26 +1,75 @@
-$(document).ready(function(){
-    $('li[id="t1"]').click(function () {
-//        $.session("table","clients");
-        document.set.session("table","clients");
-    })
+$(document).ready(function () {
+    $('#cBack').click(function () {
+        var page = $('#clientsPageNumber').val() - 1;
+        $.get("ajaxChangeClientsPage",
+            {
+                clientspage: page
+            },
+            function (data) {
+                $('#clientsTable').html(data);
+            })
+    });
 
-    $('li[id="t2"]').click(function () {
-//        $.session("table","orders");
-        document.set.session("table","orders");
-
-    })
-
-    alert($.session("table"));
-//    if ($(document).getAttribute("table") == "clients"){
-//        $('div[id="Clients"]').addClass('active');
-//        $('div[id="Orders"]').removeClass('active');
-//    }
-//
-//    if ($(document).getAttribute("table") == "orders"){
-//        $('div[id="Clients"]').removeClass('active');
-//        $('div[id="Orders"]').addClass('active');
-//    }
+    $('li[class="cNumbered"]').click(function () {
+        var page = $(this).attr('value');
+        $.get("ajaxChangeClientsPage",
+            {
+                clientspage: page
+            },
+            function (data) {
+                $('#clientsTable').html(data);
+            })
+    });
 
 
+    $('#cNext').click(function () {
+        var page = $('#clientsPageNumber').val() - 1 + 2;
+        $.get("ajaxChangeClientsPage",
+            {
+                clientspage: page
+            },
+            function (data) {
+                $('#clientsTable').html(data);
+            })
+    });
+
+    $('#oBack').click(function () {
+        var page = $('#ordersPageNumber').val() - 1;
+        $.get("ajaxChangeOrdersPage",
+            {
+                orderspage: page
+            },
+            function (data) {
+                $('#ordersTable').html(data);
+            })
+    });
+
+    $('li[class="oNumbered"]').click(function () {
+        var page = $(this).attr('value');
+        $.get("ajaxChangeOrdersPage",
+            {
+                orderspage: page
+            },
+            function (data) {
+                $('#ordersTable').html(data);
+            })
+    });
+
+    $('#oNext').click(function () {
+        var page = $('#ordersPageNumber').val() - 1 + 2;
+        $.get("ajaxChangeOrdersPage",
+            {
+                orderspage: page
+            },
+            function (data) {
+                $('#ordersTable').html(data);
+            })
+    });
+
+    $.fn.toggleCheckbox = function () {
+        this.attr('checked', !this.attr('checked'));
+    };
+
+    $('#checkAll').find(':checkbox').toggleCheckbox();
 });
 

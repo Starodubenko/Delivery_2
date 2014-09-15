@@ -20,7 +20,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public List<Contact> getContacts() throws DaoException{
+    public List<Contact> getContacts() throws DaoException {
         List<Contact> result = new ArrayList<>();
 
         PreparedStatement prstm = null;
@@ -34,13 +34,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return result;
     }
 
     @Override
-    public Contact getElement(int ID) throws DaoException{
+    public Contact getElement(int ID) throws DaoException {
         String sql = "select * from contacts where id = " + "'" + ID + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -50,13 +50,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,resultSet);
+            closeStatement(prstm, resultSet);
         }
         return getContactFromResultSet(resultSet);
     }
 
     @Override
-    public String insert(Contact contact) throws DaoException{
+    public String insert(Contact contact) throws DaoException {
         String status = "Contact do not added";
 
         PreparedStatement prstm = null;
@@ -72,13 +72,13 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return status;
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException{
+    public String deleteElement(int ID) throws DaoException {
         String status = "Contact do not deleted";
 
         PreparedStatement prstm = null;
@@ -91,17 +91,17 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeStatement(prstm,null);
+            closeStatement(prstm, null);
         }
         return status;
     }
 
     @Override
-    public String updateElement(Contact contact) throws DaoException{
+    public String updateElement(Contact contact) throws DaoException {
         return null;
     }
 
-    public Contact getContactFromResultSet(ResultSet resultSet) throws DaoException{
+    public Contact getContactFromResultSet(ResultSet resultSet) throws DaoException {
         Contact contact = new Contact();
         try {
             contact.setId(resultSet.getInt("id"));
@@ -113,7 +113,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
         return contact;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet){
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
                 prstm.close();
@@ -137,7 +137,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public int getAll() {
+    public int getRecordsCount() {
         return 0;
     }
 }

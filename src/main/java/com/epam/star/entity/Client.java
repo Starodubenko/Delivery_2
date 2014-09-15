@@ -1,24 +1,13 @@
 package com.epam.star.entity;
 
+import java.math.BigDecimal;
+
 public class Client extends AbstractUser {
-    private String mobilephone;
 
     public Client() {
     }
 
-    protected Client(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone,String mobilephone) {
-        super(id, login, password, firstName, lastName, middleName, address, telephone);
-        this.mobilephone = mobilephone;
+    public Client(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance) {
+        super(id, login, password, firstName, lastName, middleName, address, telephone, mobilephone, role, virtualBalance);
     }
-
-
-
-    public String getMobilephone() {
-        return mobilephone;
-    }
-
-    public void setMobilephone(String mobilephone) {
-        this.mobilephone = mobilephone;
-    }
-
 }

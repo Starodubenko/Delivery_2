@@ -17,14 +17,14 @@ public class Pagination<T, E extends AbstractH2Dao> {
         int rowsCount = DEFAULT_ROWS_COUNT;
         int pageNumber = DEFAULT_PAGE_NUMBER;
 
-        String pageString = request.getParameter(targetName+"page");
-        String rowsString = request.getParameter(targetName+"rows");
+        String pageString = request.getParameter(targetName + "page");
+        String rowsString = request.getParameter(targetName + "rows");
         if (rowsString != null) rowsCount = Integer.valueOf(rowsString);
         if (pageString != null) pageNumber = Integer.valueOf(pageString);
         int firstRow = pageNumber * rowsCount - DEFAULT_ROWS_COUNT;
 
         List<T> tableList = genericDao.findRange(firstRow, rowsCount);
-        int tableLenght = genericDao.getAll();
+        int tableLenght = genericDao.getRecordsCount();
         List<Integer> paginationList = new ArrayList<>();
         for (int i = 0; i < tableLenght / rowsCount + 1; i++) {
             paginationList.add(i + 1);

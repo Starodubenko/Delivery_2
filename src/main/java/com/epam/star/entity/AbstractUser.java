@@ -10,22 +10,24 @@ public abstract class AbstractUser extends AbstractEntity {
     private String middleName;
     private String address;
     private String telephone;
+    private String mobilephone;
+
+    public String getMobilephone() {
+        return mobilephone;
+    }
+
+    public void setMobilephone(String mobilephone) {
+        this.mobilephone = mobilephone;
+    }
+
     private Position role;
     private BigDecimal VirtualBalance;
-
-    public Position getRole() {
-        return role;
-    }
-
-    public void setRole(Position role) {
-        this.role = role;
-    }
 
     protected AbstractUser() {
         super();
     }
 
-    protected AbstractUser(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone) {
+    protected AbstractUser(int id, String login, String password, String firstName, String lastName, String middleName, String address, String telephone, String mobilephone, Position role, BigDecimal virtualBalance) {
         super(id);
         this.login = login;
         this.password = password;
@@ -34,6 +36,17 @@ public abstract class AbstractUser extends AbstractEntity {
         this.middleName = middleName;
         this.address = address;
         this.telephone = telephone;
+        this.mobilephone = mobilephone;
+        this.role = role;
+        VirtualBalance = virtualBalance;
+    }
+
+    public Position getRole() {
+        return role;
+    }
+
+    public void setRole(Position role) {
+        this.role = role;
     }
 
     public BigDecimal getVirtualBalance() {

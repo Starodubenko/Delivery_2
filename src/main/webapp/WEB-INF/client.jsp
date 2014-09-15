@@ -23,7 +23,9 @@
                 <div id="autorized" class="border panel panel-default">
                     <form action="<c:url value="/do/logout"/>">
                         <p align="center">Welcome</p>
+
                         <p align="center" class="name_surname">${user.getFirstName()}</p>
+
                         <p align="center" class="name_surname">${user.getLastName()}</p>
                         <br>
                         <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
@@ -49,24 +51,24 @@
     <div class="banner panel panel-default">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <%--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>--%>
-                <%--<li data-target="#carousel-example-generic" data-slide-to="1"></li>--%>
+                    <%--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>--%>
+                    <%--<li data-target="#carousel-example-generic" data-slide-to="1"></li>--%>
                 <li data-target="#carousel-example-generic" data-slide-to="2"></li>
             </ol>
 
             <div class="carousel-inner">
-                <%--<div class="item active">--%>
+                    <%--<div class="item active">--%>
                     <%--<img src="<c:url value="/style/img/water/water.jpg"/>" alt="...">--%>
 
                     <%--<div class="carousel-caption">--%>
                     <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="item">--%>
+                    <%--</div>--%>
+                    <%--<div class="item">--%>
                     <%--<img src="<c:url value="/style/img/water/water1.jpg"/>" alt="...">--%>
 
                     <%--<div class="carousel-caption">--%>
                     <%--</div>--%>
-                <%--</div>--%>
+                    <%--</div>--%>
                 <div class="item active">
                     <img src="<c:url value="/style/img/water/water2.jpg"/>" alt="...">
 
@@ -105,6 +107,7 @@
                             <th>Goods name</th>
                             <th>Goods count</th>
                             <th>Order cost</th>
+                            <th>Paid</th>
                             <th>Delivry date</th>
                             <th>Delivry time</th>
                             <th>Additional info</th>
@@ -124,6 +127,7 @@
                                 <td>${row.getGoods().getGoodsName()}</td>
                                 <td>${row.getCount()}</td>
                                 <td>${row.getOrderCost()}</td>
+                                <td>${row.getPaid()}</td>
                                 <td>${row.getDeliveryDate()}</td>
                                 <td>${row.getPeriod().getPeriod()}</td>
                                 <td>${row.getAdditionalInfo()}</td>
@@ -141,6 +145,7 @@
                             <th>Goods name</th>
                             <th>Goods count</th>
                             <th>Order cost</th>
+                            <th>Paid</th>
                             <th>Delivry date</th>
                             <th>Delivry time</th>
                             <th>Additional info</th>
@@ -160,6 +165,7 @@
                                 <td>${row.getGoods().getGoodsName()}</td>
                                 <td>${row.getCount()}</td>
                                 <td>${row.getOrderCost()}</td>
+                                <td>${row.getPaid()}</td>
                                 <td>${row.getDeliveryDate()}</td>
                                 <td>${row.getPeriod().getPeriod()}</td>
                                 <td>${row.getAdditionalInfo()}</td>
@@ -169,7 +175,8 @@
                     </table>
                 </div>
             </div>
-            <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal" data-target="#createOrder">
+            <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal"
+                    data-target="#createOrder">
                 Create an Order
             </button>
             <input type="submit" class="cancelOrderButton btn btn-primary" data-toggle="modal"
@@ -255,13 +262,13 @@
                             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="PaymentLabel">Payment</h4>
                 </div>
-                    <div class="paymentform">
-                        <div class="form-group">
-                            <p for="SecretCode" align="center">input the secret code of your payment card</p>
-                            <input type="text" name="SecretCode" placeholder="Enter the secret code" class="form-control"
-                                   id="SecretCode">
-                        </div>
+                <div class="paymentform">
+                    <div class="form-group">
+                        <p for="SecretCode" align="center">input the secret code of your payment card</p>
+                        <input type="text" name="SecretCode" placeholder="Enter the secret code" class="form-control"
+                               id="SecretCode">
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Pay</button>
                 </div>
@@ -272,11 +279,10 @@
 </div>
 
 
-
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-<%--<script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>--%>
+    <%--<script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>--%>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>

@@ -18,25 +18,25 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
-public class CancelOrderAction implements Action {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CancelOrderAction.class);
-    ActionResult client = new ActionResult("client", true);
+public class AjaxCancelOrderAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCancelOrderAction.class);
+    ActionResult client = new ActionResult("ajaxOrdersTable");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-        String[] idChecedOrders = request.getParameterValues("IdOrder");
+        String[] idCheckedOrders = request.getParameterValues("IdOrder");
 
         DaoFactory daoFactory = DaoFactory.getInstance();
         DaoManager daoManager = daoFactory.getDaoManager();
 
         try {
-            if (idChecedOrders.length > 0) {
+            if (idCheckedOrders.length > 0) {
                 daoManager.beginTransaction();
 
                 StatusDao statusDao = daoManager.getStatusDao();
                 OrderDao orderDao = daoManager.getOrderDao();
 
-                for (String id : idChecedOrders) {
+                for (String id : idCheckedOrders) {
                     int index = Integer.parseInt(id);
                     Order order = orderDao.getElement(index);
                     Status status = statusDao.findByStatusName("canceled");
@@ -61,19 +61,15 @@ public class CancelOrderAction implements Action {
 
     private void returnFunds(Order order, DaoManager daoManager) {
 
-        boolean f = order.getPaid().equals(0);
+        ClientDao clientDao = daoManager.getClientDao();
+        Client client = (Client) order.getUser();
 
-        if (!f) {
-            ClientDao clientDao = daoManager.getClientDao();
-            Client client = (Client) order.getUser();
+        BigDecimal goodsCost = order.getOrderCost();
+        BigDecimal clientVBalance = client.getVirtualBalance();
+        BigDecimal summ = clientVBalance.add(goodsCost);
 
-            BigDecimal goodsCost = order.getOrderCost();
-            BigDecimal clientVBalance = client.getVirtualBalance();
-            BigDecimal summ = clientVBalance.add(goodsCost);
+        client.setVirtualBalance(summ);
 
-            client.setVirtualBalance(summ);
-
-            clientDao.updateElement(client);
-        }
+        clientDao.updateElement(client);
     }
 }

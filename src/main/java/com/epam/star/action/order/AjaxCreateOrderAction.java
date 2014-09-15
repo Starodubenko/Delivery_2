@@ -15,18 +15,18 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateOrderAction implements Action {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
-    ActionResult client = new ActionResult("client", true);
+public class AjaxCreateOrderAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCreateOrderAction.class);
+    ActionResult client = new ActionResult("registration", true);
 
     @Override
-    public ActionResult execute(HttpServletRequest request) throws ActionException {
-
+    public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
         try {
             OrderDao orderDao = daoManager.getOrderDao();
@@ -50,8 +50,14 @@ public class CreateOrderAction implements Action {
             PeriodDao periodDao = daoManager.getPeriodDao();
             GoodsDao goodsDao = daoManager.getGoodsDao();
             StatusDao statusDao = daoManager.getStatusDao();
+            ClientDao clientDao = daoManager.getClientDao();
+            EmployeeDao employeeDao = daoManager.getEmployeeDao();
 
-            AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+            AbstractUser user = clientDao.getElement((Integer) request.getAttribute("idUser"));
+            if (user == null)
+                user = employeeDao.getElement((Integer) request.getAttribute("idUser"));
+            if (user == null)
+                user = (AbstractUser) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
             BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
             BigDecimal orderCost = goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount")));
@@ -62,11 +68,6 @@ public class CreateOrderAction implements Action {
             order.setPeriod(periodDao.findByPeriod(Time.valueOf(request.getParameter("deliverytime"))));
             order.setGoods(goodsDao != null ? goodsDao.findByGoodsName(request.getParameter("goodsname")) : null);
             order.setOrderCost(orderCost);
-            boolean res;
-            res = debitFunds(request, daoManager, user);
-            if (res)
-                order.setPaid(orderCost);
-            else order.setPaid(new BigDecimal(0));
             try {
                 order.setDeliveryDate(new SimpleDateFormat("dd.MM.yyyy").parse(request.getParameter("deliverydate")));
             } catch (ParseException e) {
@@ -76,6 +77,8 @@ public class CreateOrderAction implements Action {
             order.setStatus(statusDao != null ? statusDao.findByStatusName("waiting") : null);
             order.setOrderDate(new Date());
 
+            debitFunds(request, daoManager);
+
         } catch (Exception e) {
             request.setAttribute("CreateOrderError", "You made a mistake, check all fields");
             throw new ActionException(e);
@@ -84,10 +87,11 @@ public class CreateOrderAction implements Action {
         return order;
     }
 
-    private boolean debitFunds(HttpServletRequest request, DaoManager daoManager, AbstractUser user) {
+    private void debitFunds(HttpServletRequest request, DaoManager daoManager) {
         boolean onlinePayment;
 
         String paymentType = request.getParameter("PaymentType");
+        AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
 
         StatusDao statusDao = daoManager.getStatusDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
@@ -99,8 +103,6 @@ public class CreateOrderAction implements Action {
 
         BigDecimal clientBalance = user.getVirtualBalance();
         BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
-        if (!user.getRole().equals(statusDao.findByStatusName("Client")))
-            goodsPricee = goodsPricee.divide(new BigDecimal(2));
         BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
 
         if (online && (clientBalance.compareTo(goodsPrice) == 0 || clientBalance.compareTo(goodsPrice) == 1))
@@ -112,8 +114,6 @@ public class CreateOrderAction implements Action {
             if (user.getRole().equals(statusDao.findByStatusName("Client")))
                 clientDao.updateElement((Client) user);
             else employeeDao.updateElement((Employee) user);
-            return true;
         }
-        return false;
     }
 }

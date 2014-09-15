@@ -34,12 +34,10 @@ public class Controller extends HttpServlet {
             e.printStackTrace();
         }
 
-//        if (result.isJson()) req.setAttribute("json",result.getJson());
-
         if (result.isRedirect()) {
-            resp.sendRedirect(req.getContextPath()+"/do/" + result.getView());
+            resp.sendRedirect(req.getContextPath() + "/do/" + result.getView());
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/"+result.getView()+".jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/" + result.getView() + ".jsp").forward(req, resp);
     }
 }
