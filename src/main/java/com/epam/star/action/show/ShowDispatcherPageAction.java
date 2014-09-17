@@ -26,6 +26,8 @@ public class ShowDispatcherPageAction implements Action {
         pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
         pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
 
+        daoManager.closeConnection();
+
         return dispatcher;
     }
 }

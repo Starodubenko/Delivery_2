@@ -3,31 +3,33 @@ package com.epam.star.action.show;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
-import com.epam.star.dao.ContactDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.entity.Contact;
+import com.epam.star.entity.Goods;
+import com.epam.star.entity.Period;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ShowWelcomePageAction implements Action {
-
-    private ActionResult login = new ActionResult("welcome");
+public class ShowCreateOrderPageAction implements Action {
+    ActionResult createOrder = new ActionResult("createOrder");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
-        ContactDao contactDao = daoManager.getContactDao();
-        List<Contact> contacts = contactDao.getContacts();
 
-        request.getSession().setAttribute("contacts", contacts);
+        List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
+        List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
+
+        HttpSession session = request.getSession();
+        session.setAttribute("periods", periods);
+        session.setAttribute("goods", goods);
 
         daoManager.closeConnection();
 
-        return login;
+        return createOrder;
     }
 }
-

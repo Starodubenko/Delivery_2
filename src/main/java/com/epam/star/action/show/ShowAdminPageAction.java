@@ -17,7 +17,7 @@ public class ShowAdminPageAction implements Action {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
 
-
+        daoManager.closeConnection();
         return admin;
     }
 }

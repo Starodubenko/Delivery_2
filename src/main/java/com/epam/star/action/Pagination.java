@@ -23,8 +23,19 @@ public class Pagination<T, E extends AbstractH2Dao> {
         if (pageString != null) pageNumber = Integer.valueOf(pageString);
         int firstRow = pageNumber * rowsCount - DEFAULT_ROWS_COUNT;
 
-        List<T> tableList = genericDao.findRange(firstRow, rowsCount);
-        int tableLenght = genericDao.getRecordsCount();
+        String desiredValue = request.getParameter("desiredValue");
+        String columnName = request.getParameter("columnName");
+
+        List<T> tableList = null;
+        int tableLenght;
+        if (desiredValue != null & desiredValue != "" & columnName != null) {
+            tableList = genericDao.findRangeWithValue(firstRow, rowsCount, columnName, desiredValue);
+            tableLenght = tableList.size();
+        } else {
+            tableList = genericDao.findRange(firstRow, rowsCount);
+            tableLenght = genericDao.getRecordsCount();
+        }
+
         List<Integer> paginationList = new ArrayList<>();
         for (int i = 0; i < tableLenght / rowsCount + 1; i++) {
             paginationList.add(i + 1);

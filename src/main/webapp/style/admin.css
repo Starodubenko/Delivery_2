@@ -1,0 +1,63 @@
+#body {
+    background: url("img/background.jpg");
+    background: no-repeat;
+    background-size: 100%;
+}
+
+.main {
+    width: 1282px;
+    /*height: 1000px;*/
+    margin: 20px auto;
+}
+
+.searchRow {
+    margin: 200px 10px 10px 10px;
+    width: 400px;
+    float: left;
+}
+
+.searcheWidth {
+    width: 150px;
+}
+
+.log {
+    width: 620px;
+    height: 500px;
+    float: left;
+    margin: 10px;
+}
+
+.report {
+    width: 620px;
+    float: left;
+    height: 500px;
+    margin: 10px;
+}
+
+.dataBase {
+    /*margin-top: 200px;*/
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 500px;
+    border-color: #6FBBDB;
+}
+
+.table-data-base {
+    margin: 5px;
+    height: 445px;
+}
+
+.table-name {
+    margin: 200px 10px 10px 10px;
+    float: left;
+    width: 150px;
+}
+
+.data-base-fungtions {
+    margin: 5px;
+
+}
+
+.clear {
+    clear: both;
+}

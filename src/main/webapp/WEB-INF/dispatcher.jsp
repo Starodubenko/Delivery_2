@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <fmt:bundle basename="i18n.messages">
 <html>
@@ -12,25 +13,14 @@
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 
+<t:navigation></t:navigation>
+
 <div class="main panel panel-default">
-    <div class="authentication panel panel-default">
-        <c:if test="${not empty user}">
-            <div id="autorized" class="border panel panel-default">
-                <form action="<c:url value="/do/logout"/>">
-                    <p align="center">Welcome</p>
+    <t:authentication></t:authentication>
 
-                    <p align="center" class="name_surname">${user.getFirstName()}</p>
-
-                    <p align="center" class="name_surname">${user.getLastName()}</p>
-                    <br>
-                    <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
-                </form>
-            </div>
-        </c:if>
-        <c:if test="${empty user}">
-            <c:redirect url="/do/welcome"/>
-        </c:if>
-    </div>
+    <c:if test="${empty user}">
+        <c:redirect url="/do/welcome"/>
+    </c:if>
 
     <div class="orderList panel panel-default">
         <ul class="nav nav-tabs  nav-justified" role="tablist">
@@ -39,25 +29,15 @@
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
-                    <%--<ul id="change" class="pagination">--%>
-                    <%--<li><a href=""&lt;%&ndash;${clientsPagename}?clientspage=${clientsPageNumber-1}"&ndash;%&gt; form="back" id="cBackPage">&laquo;</a></li>--%>
-                    <%--<c:forEach items="${clientsPaginationlist}" var="pl">--%>
-                    <%--<li><a href="${clientsPagename}?clientspage=${pl.intValue()}&rows=${clientsRowsCount}"--%>
-                    <%--name="clientspage" type="submit">${pl.intValue()}</a></li>--%>
-                    <%--</c:forEach>--%>
-                    <%--<li><a href="${clientsPagename}?clientspage=${clientsPageNumber+1}&rows=${clientsRowsCount}"--%>
-                    <%--form="next" id="nextPage">&raquo;</a></li>--%>
-                    <%--</ul>--%>
                 <ul id="changee" class="pagination">
-                    <li id="cBack"><a href="#">&laquo;</a></li>
+                    <li id="cBack"><a href="#page">&laquo;</a></li>
 
                     <c:forEach items="${clientsPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="cNumbered"><a href="#"
-                                                                                                      class="page">${pl.intValue()}</a>
-                        </li>
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="cNumbered"><a
+                                href="#page${pl.intValue()}" class="page">${pl.intValue()}</a></li>
                     </c:forEach>
 
-                    <li id="cNext"><a href="#">&raquo;</a></li>
+                    <li id="cNext"><a href="#page">&raquo;</a></li>
                 </ul>
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="clientsTable">
@@ -83,8 +63,7 @@
                                 <td>${row.getMobilephone()}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#createOrder">
-                                        Order
+                                            data-target="#createOrder">Order
                                     </button>
                                 </td>
                             </tr>
@@ -93,25 +72,15 @@
                 </div>
             </div>
             <div class="orderListHeight tab-pane" id="Orders">
-                    <%--<ul id="changee" class="pagination">--%>
-                    <%--<li><a href="${ordersPagename}?orderspage=${ordersPageNumber-1}&rows=${ordersRowsCount}" form="back">&laquo;</a></li>--%>
-
-                    <%--<c:forEach items="${ordersPaginationlist}" var="pl">--%>
-                    <%--<li><a href="${ordersPagename}?orderspage=${pl.intValue()}&rows=${ordersRowsCount}"name="orderspage" class="page">${pl.intValue()}</a></li>--%>
-                    <%--</c:forEach>--%>
-
-                    <%--<li><a href="${ordersPagename}?orderspage=${ordersPageNumber+1}&rows=${ordersRowsCount}" form="next">&raquo;</a></li>--%>
-                    <%--</ul>--%>
-                <ul id="changee" class="pagination">
-                    <li id="oBack"><a href="#">&laquo;</a></li>
+                <ul id="change" class="pagination">
+                    <li id="oBack"><a href="#page">&laquo;</a></li>
 
                     <c:forEach items="${ordersPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="oNumbered"><a href="#"
-                                                                                                      class="page">${pl.intValue()}</a>
-                        </li>
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="oNumbered"><a
+                                href="#page${pl.intValue()}" class="page">${pl.intValue()}</a></li>
                     </c:forEach>
 
-                    <li id="oNext"><a href="#">&raquo;</a></li>
+                    <li id="oNext"><a href="#page">&raquo;</a></li>
                 </ul>
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="ordersTable">
@@ -171,9 +140,20 @@
             <div class="col-lg-6">
                 <form action="${pageContext.request.contextPath}/do/searching">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="searcheValue">
+                        <span class="searcheWidth input-group-btn">
+                            <select class="form-control" name="columnName">
+                                <option>ID</option>
+                                <option>First name</option>
+                                <option>Middle name</option>
+                                <option>Last name</option>
+                                <option>Address</option>
+                                <option>Telephone</option>
+                                <option>Mobile phone</option>
+                            </select>
+                        </span>
+                        <input type="text" class="form-control" name="desiredValue">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Search</button>
+                            <button class="btn btn-default" type="submit">Search</button>
                         </span>
                     </div>
                     <input type="hidden" name="daoName" value="clientDao">
@@ -182,11 +162,9 @@
         </div>
     </div>
 
-    <div class="contactInformation panel panel-default" style="overflow-y: scroll">
-        <c:forEach var="contact" items="${contacts}">
-            <label>${contact.owner}: ${contact.telephone}</label>
-        </c:forEach>
-    </div>
+    <div class="clear"></div>
+
+    <t:footer></t:footer>
 </div>
 
 

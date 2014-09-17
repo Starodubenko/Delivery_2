@@ -2,6 +2,7 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.PositionDao;
+import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
@@ -19,12 +21,10 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final String UPDATE_EMPLOYEE = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
-    private Connection conn;
-    private DaoFactory daoFactory = DaoFactory.getInstance();
-    private DaoManager daoManager = daoFactory.getDaoManager();
+    private static final String RANGE_EMPLOYEE = "SELECT * FROM users LIMIT ? OFFSET ?";
 
-    public H2EmployeeDao(Connection conn) {
-        this.conn = conn;
+    protected H2EmployeeDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next())
-                employee = getClientFromResultSet(resultSet);
+                employee = getEmployeeFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -127,7 +127,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         return status;
     }
 
-    private Employee getClientFromResultSet(ResultSet resultSet) throws DaoException {
+    private Employee getEmployeeFromResultSet(ResultSet resultSet) throws DaoException {
 
         PositionDao positionDao = daoManager.getPositionDao();
 
@@ -174,11 +174,66 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
 
     @Override
     public List findRange(int startRow, int rowsCount) {
-        return null;
+        List<Employee> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(RANGE_EMPLOYEE);
+            prstm.setInt(1, rowsCount);
+            prstm.setInt(2, startRow);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                result.add(getEmployeeFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
     }
 
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstPosition, int count, String columnName, String desiredValue) {
+        List<Employee> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(RANGE_EMPLOYEE);
+            prstm.setInt(1, count);
+            prstm.setInt(2, firstPosition);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                Employee employee = getEmployeeFromResultSet(resultSet);
+                if (
+                        String.valueOf(employee.getId()).contains(desiredValue) |
+                                employee.getLogin().contains(desiredValue) |
+                                employee.getPassword().contains(desiredValue) |
+                                employee.getLastName().contains(desiredValue) |
+                                employee.getMiddleName().contains(desiredValue) |
+                                employee.getAddress().contains(desiredValue) |
+                                employee.getTelephone().contains(desiredValue) |
+                                employee.getMobilephone().contains(desiredValue) |
+                                employee.getIdentityCard().contains(desiredValue) |
+                                employee.getWorkBook().contains(desiredValue) |
+                                employee.getRNN().contains(desiredValue) |
+                                employee.getSIK().contains(desiredValue)
+
+                        )
+                    result.add(getEmployeeFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
     }
 }

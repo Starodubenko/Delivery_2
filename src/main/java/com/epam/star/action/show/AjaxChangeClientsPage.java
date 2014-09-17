@@ -24,6 +24,8 @@ public class AjaxChangeClientsPage implements Action {
         Pagination pagination = new Pagination();
         pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
 
+        daoManager.closeConnection();
+
         return dispatcher;
     }
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <fmt:bundle basename="i18n.messages">
     <html>
@@ -9,40 +10,14 @@
         <title>Welcome</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
+        <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
     </head>
-    <body background="<c:url value="/style/img/background.jpg"/>" onload="">
+    <body background="<c:url value="/style/img/background.jpg"/>">
+
+    <t:navigation></t:navigation>
 
     <div class="main panel panel-default">
-        <div class="authentication panel panel-default">
-            <c:if test="${not empty user}">
-                <div id="autorized" class="border panel panel-default">
-                    <form action="<c:url value="/do/logout"/>">
-                        <p align="center">Welcome</p>
-
-                        <p align="center" class="name_surname">${user.getFirstName()}</p>
-
-                        <p align="center" class="name_surname">${user.getLastName()}</p>
-                        <br>
-                        <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
-                    </form>
-                </div>
-            </c:if>
-            <c:if test="${empty user}">
-                <div id="unAutorized" class="border panel panel-default">
-                    <label class="alignHorizontalCenter" for="inputLogin">Login</label>
-                    <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
-                    <label class="alignHorizontalCenter" for="inputPassword">Password</label>
-                    <input type="text" name="authenticationPassword" class="form-control" id="inputPassword"
-                           value="EleEle">
-                    <input type="button" class="loginbtn btn btn-primary" value="Login" id="goLogin">
-                    <button class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#RegistrationForm">
-                        Registration
-                    </button>
-                    <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
-                </div>
-            </c:if>
-
-        </div>
+        <t:authentication></t:authentication>
 
         <div class="banner panel panel-default">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -82,22 +57,15 @@
             </div>
         </div>
 
-        <div class="contactInformation panel panel-default" style="overflow-y: scroll">
-            <c:forEach var="contact" items="${contacts}">
-                <label>${contact.owner}: ${contact.telephone}</label>
-            </c:forEach>
-        </div>
-    </div>
+            <%--<div class="contactInformation panel panel-default" style="overflow-y: scroll">--%>
+            <%--<c:forEach var="contact" items="${contacts}">--%>
+            <%--<label>${contact.owner}: ${contact.telephone}</label>--%>
+            <%--</c:forEach>--%>
+            <%--</div>--%>
 
-    <div>
-        <form action="${pageContext.request.contextPath}/controller">
-            <input type="submit" value="Go to DataBase">
-            <ul class="pager">
-                <li class="previous"><a href="#">&larr; Older</a></li>
-                <li class="next"><a href="#">Newer &rarr;</a></li>
-            </ul>
-            <input type="hidden" name="actionName" value="DeleteFromDataBaseAction"> //
-        </form>
+        <div class="clear"></div>
+
+        <t:footer></t:footer>
     </div>
 
     <div class="modal fade" id="RegistrationForm" tabindex="-1" role="dialog" aria-labelledby="RegistrationFormLabel"
@@ -168,8 +136,6 @@
             </div>
         </div>
     </div>
-
-    <a href="ajax_test">Go to Ajax Test</a>
 
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>

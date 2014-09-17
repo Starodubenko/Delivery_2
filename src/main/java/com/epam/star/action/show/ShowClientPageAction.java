@@ -8,9 +8,7 @@ import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.entity.Client;
-import com.epam.star.entity.Goods;
 import com.epam.star.entity.Order;
-import com.epam.star.entity.Period;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,19 +24,19 @@ public class ShowClientPageAction implements Action {
 
         OrderDao orderDao = daoManager.getOrderDao();
         ClientDao clientDao = daoManager.getClientDao();
-        Client currentClient = (Client)request.getSession().getAttribute("user");
+        Client currentClient = (Client) request.getSession().getAttribute("user");
         Client user = clientDao.getElement(currentClient.getId());
 
         List<Order> todayOrders = orderDao.findAllByClientIdToday(user.getId());
         List<Order> pastOrders = orderDao.findAllByClientIdLastDays(user.getId());
 
-        List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
-        List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
+//        List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
+//        List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        session.setAttribute("periods", periods);
-        session.setAttribute("goods", goods);
+//        session.setAttribute("periods", periods);
+//        session.setAttribute("goods", goods);
         session.setAttribute("todayOrders", todayOrders);
         session.setAttribute("pastOrders", pastOrders);
 

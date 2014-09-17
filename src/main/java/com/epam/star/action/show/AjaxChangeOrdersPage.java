@@ -24,6 +24,8 @@ public class AjaxChangeOrdersPage implements Action {
         Pagination pagination = new Pagination();
         pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
 
+        daoManager.closeConnection();
+
         return dispatcher;
     }
 }

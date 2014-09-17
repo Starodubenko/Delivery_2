@@ -15,10 +15,9 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_STATUS = "INSERT INTO  Status VALUES (?, ?)";
     private static final String DELETE_STATUS = "DELETE FROM status WHERE id = ?";
-    private Connection conn;
 
-    public H2StatusDao(Connection conn) {
-        this.conn = conn;
+    protected H2StatusDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -127,5 +126,10 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

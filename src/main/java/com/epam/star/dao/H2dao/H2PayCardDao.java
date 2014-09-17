@@ -18,12 +18,9 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_PAYCARD = "INSERT INTO pay_card VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_PAYCARD = "UPDATE pay_card SET id = ?, serial_number = ?, secret_number = ?, balance = ?, id_status_pay_card = ?  WHERE id = ?";
-    private Connection conn;
-    private DaoFactory daoFactory = DaoFactory.getInstance();
-    private DaoManager daoManager = daoFactory.getDaoManager();
 
-    public H2PayCardDao(Connection conn) {
-        this.conn = conn;
+    protected H2PayCardDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -200,5 +197,10 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

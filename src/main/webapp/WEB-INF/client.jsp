@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <fmt:bundle basename="i18n.messages">
 <html>
@@ -9,87 +10,20 @@
     <title>Welcome</title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-        <%--<link rel='stylesheet' href='<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.min.css"/>'>--%>
 
     <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 
+<t:navigation></t:navigation>
+
 <div class="main panel panel-default">
 
-    <div class="right_top_area">
-        <div class="authentication panel panel-default">
-            <c:if test="${not empty user}">
-                <div id="autorized" class="border panel panel-default">
-                    <form action="<c:url value="/do/logout"/>">
-                        <p align="center">Welcome</p>
+    <div class="client-info">
+        <t:authentication></t:authentication>
 
-                        <p align="center" class="name_surname">${user.getFirstName()}</p>
-
-                        <p align="center" class="name_surname">${user.getLastName()}</p>
-                        <br>
-                        <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
-                    </form>
-                </div>
-            </c:if>
-            <c:if test="${empty user}">
-                <c:redirect url="/do/welcome"/>
-            </c:if>
-        </div>
-
-        <div class="eWalet panel panel-default">
-            <label class="balance"> Your balance: </label>
-            <label> ${user.getVirtualBalance()} </label>
-            <br>
-            <button class="logoutbtn btn btn-primary" data-toggle="modal" data-target="#Payment">
-                Top-up
-            </button>
-        </div>
-
+        <t:payment></t:payment>
     </div>
-
-    <div class="banner panel panel-default">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                    <%--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>--%>
-                    <%--<li data-target="#carousel-example-generic" data-slide-to="1"></li>--%>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol>
-
-            <div class="carousel-inner">
-                    <%--<div class="item active">--%>
-                    <%--<img src="<c:url value="/style/img/water/water.jpg"/>" alt="...">--%>
-
-                    <%--<div class="carousel-caption">--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="item">--%>
-                    <%--<img src="<c:url value="/style/img/water/water1.jpg"/>" alt="...">--%>
-
-                    <%--<div class="carousel-caption">--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                <div class="item active">
-                    <img src="<c:url value="/style/img/water/water2.jpg"/>" alt="...">
-
-                    <div class="carousel-caption">
-                    </div>
-                </div>
-            </div>
-
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-        </div>
-    </div>
-
-    <div class="createOrder panel panel-default">
-
-    </div>
-
 
     <div class="orderList panel panel-default">
         <ul class="nav nav-tabs  nav-justified" role="tablist">
@@ -184,11 +118,9 @@
         </form>
     </div>
 
-    <div class="contactInformation panel panel-default" style="overflow-y: scroll">
-        <c:forEach var="contact" items="${contacts}">
-            <label>${contact.owner}: ${contact.telephone}</label>
-        </c:forEach>
-    </div>
+    <div class="clear"></div>
+
+    <t:footer></t:footer>
 </div>
 
 <div class="modal fade" id="createOrder" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
@@ -279,10 +211,12 @@
 </div>
 
 
+<div class="clear"></div>
+
+
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-    <%--<script src="<c:url value="/webjars/jquery-ui/1.11.1/jquery-ui.js"/>"></script>--%>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>

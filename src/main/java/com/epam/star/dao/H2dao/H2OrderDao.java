@@ -18,12 +18,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, paid = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
 
-    private Connection conn;
-    private DaoFactory daoFactory = DaoFactory.getInstance();
-    private DaoManager daoManager = daoFactory.getDaoManager();
-
-    public H2OrderDao(Connection conn) {
-        this.conn = conn;
+    protected H2OrderDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -263,6 +259,38 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
             while (resultSet.next())
                 result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstPosition, int count, String columnName, String desiredValue) {
+
+        String RANGE_CLIENT = null;
+        try {
+            Integer.parseInt(desiredValue); // if it's number
+            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
+        } catch (Exception e) {
+            columnName = columnName.replace(" ", "");
+            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + "'" + desiredValue + "'" + " LIMIT ? OFFSET ?";
+        }
+
+        List<Order> result = new ArrayList<>();
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(RANGE_CLIENT);
+            prstm.setInt(1, count);
+            prstm.setInt(2, firstPosition);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                result.add(getOrderFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

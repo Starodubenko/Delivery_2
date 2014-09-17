@@ -15,10 +15,9 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2PositionDao.class);
     private static final String ADD_POSITION = "INSERT INTO  positions VALUES (?, ?)";
     private static final String DELETE_POSITION = "DELETE FROM positions WHERE id = ?";
-    private Connection conn;
 
-    public H2PositionDao(Connection conn) {
-        this.conn = conn;
+    protected H2PositionDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -113,5 +112,10 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

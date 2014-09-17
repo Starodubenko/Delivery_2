@@ -1,6 +1,7 @@
 package com.epam.star.action;
 
 import com.epam.star.action.login.AjaxLoginAction;
+import com.epam.star.action.login.GoToPersonalCabinet;
 import com.epam.star.action.registration.AjaxClientRegistration;
 import com.epam.star.action.registration.ClientRergistrationAction;
 import com.epam.star.action.login.LoginAction;
@@ -30,8 +31,6 @@ public class ActionFactory {
 
         actions.put("GET/logout", new LogoutAction());
 
-//        actions.put("GET/registration", new ShowPageAction("registration"));
-
         actions.put("GET/director", new ShowPageAction("director"));
 
         actions.put("GET/dispatcher", new ShowDispatcherPageAction());
@@ -50,7 +49,7 @@ public class ActionFactory {
 
         actions.put("GET/client", new ShowClientPageAction());
 
-        actions.put("GET/searching", new SeachAction<>());
+        actions.put("GET/searching", new SeachAction());
 
         actions.put("GET/ajax_test", new ShowPageAction("ajax_test"));
 
@@ -64,7 +63,9 @@ public class ActionFactory {
 
         actions.put("GET/ajaxChangeOrdersPage", new AjaxChangeOrdersPage());
 
+        actions.put("GET/personal-cabinet", new GoToPersonalCabinet());
 
+        actions.put("GET/createOrder", new ShowCreateOrderPageAction());
 
 
 //        for (Class<? extends Action> actionClass : actions) {

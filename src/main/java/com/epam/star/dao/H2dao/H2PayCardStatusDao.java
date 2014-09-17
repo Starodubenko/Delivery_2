@@ -15,10 +15,9 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_STATUS_PAY_CARD = "INSERT INTO status_card VALUES (?, ?)";
     private static final String DELETE_STATUS_PAY_CARD = "DELETE FROM status_card WHERE id = ?";
-    private Connection conn;
 
-    public H2PayCardStatusDao(Connection conn) {
-        this.conn = conn;
+    protected H2PayCardStatusDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     @Override
@@ -127,5 +126,10 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

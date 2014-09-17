@@ -10,7 +10,12 @@ $(document).ready(function () {
             })
     });
 
+    $('li[value="1"]').addClass("active");
+
     $('li[class="cNumbered"]').click(function () {
+        $('li[class="cNumbered"]').removeClass("active");
+        $(this).addClass("active");
+
         var page = $(this).attr('value');
         $.get("ajaxChangeClientsPage",
             {

@@ -11,7 +11,7 @@ public class Position extends AbstractEntity {
         Position position = (Position) o;
 
         if (positionName != null) {
-            if (!(position.positionName == positionName))
+            if (!(position.positionName.equals(positionName)))
                 return false;
         } else {
             if (!(position.positionName == null))

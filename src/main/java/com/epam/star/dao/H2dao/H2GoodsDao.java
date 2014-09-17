@@ -16,10 +16,9 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_GOODS = "INSERT INTO goods VALUES (?, ?, ?)";
     private static final String DELETE_GOODS = "DELETE FROM goods WHERE id = ?";
-    private Connection conn;
 
-    public H2GoodsDao(Connection conn) {
-        this.conn = conn;
+    protected H2GoodsDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     public List<Goods> getAllGoods() {
@@ -149,5 +148,10 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

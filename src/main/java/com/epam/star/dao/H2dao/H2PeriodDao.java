@@ -13,10 +13,9 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_PERIOD = "INSERT INTO period VALUES (?, ?)";
     private static final String DELETE_PERIOD = "DELETE FROM period WHERE id = ?";
-    private Connection conn;
 
-    public H2PeriodDao(Connection conn) {
-        this.conn = conn;
+    protected H2PeriodDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
     }
 
     public List<Period> getAllPeriods() {
@@ -145,5 +144,10 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     @Override
     public int getRecordsCount() {
         return 0;
+    }
+
+    @Override
+    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+        return null;
     }
 }

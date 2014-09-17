@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public class DaoFactory {
 
     private final BoneCP connectionPool;
-//    private ConnectionPool connectionPool;
 
     private DaoFactory() throws DaoException {
 
@@ -41,9 +40,9 @@ public class DaoFactory {
     }
 
     public DaoManager getDaoManager() throws DaoException {
-        Connection connection = null;
+        Connection connection;
         try {
-            connection = connectionPool.getConnection();//getConnectionFromPool("jdbc:h2:tcp://localhost/FPDB","Rody","1");
+            connection = connectionPool.getConnection();
         } catch (SQLException e) {
             throw new DaoException(e);
         }
