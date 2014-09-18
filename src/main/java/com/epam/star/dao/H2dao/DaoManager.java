@@ -27,7 +27,7 @@ public class DaoManager {
             } catch (InstantiationException e) {
 //                throw new DaoException(e);
             } catch (IllegalAccessException e) {
-//                throw new DaoException(e);
+//                throw new DaoException(e); 
             }
             daoMap.put(daoClass.getSimpleName().toLowerCase(), dao);
         }
