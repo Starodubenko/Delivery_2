@@ -1,5 +1,8 @@
-package com.epam.star.action;
+package com.epam.star.action.database;
 
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionException;
+import com.epam.star.action.ActionResult;
 import com.epam.star.pool.ConnectionPool;
 import com.epam.star.entity.Element;
 import org.slf4j.Logger;
@@ -20,8 +23,8 @@ public class GetDataFromDataBaseAction implements Action {
         LOGGER.debug("Name of table which got in GetDataFromDBAction: {}", tableName);
         if (tableName != null && tableName != "") {
 
-        Connection connection = ConnectionPool.getConnectionFromPool("jdbc:h2:tcp://localhost/F:/Видео Epam/db/FPDB","Rody","1");
-        Statement statement = connection.createStatement();
+            Connection connection = ConnectionPool.getConnectionFromPool("jdbc:h2:tcp://localhost/F:/Видео Epam/db/FPDB", "Rody", "1");
+            Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
             ResultSetMetaData resultSetMD = resultSet.getMetaData();
@@ -33,12 +36,13 @@ public class GetDataFromDataBaseAction implements Action {
             while (resultSet.next()) {
                 List<Element> row = new ArrayList<>();
                 int i = 1;
-                    while(i <= resultSetMD.getColumnCount()){
+                while (i <= resultSetMD.getColumnCount()) {
 
-                        if (f) titlesOfColumns.add(new Element(FirsUpperSymbol(resultSetMD.getColumnName(i).toLowerCase())));
-                        row.add(new Element(resultSet.getString(i)));
-                        i++;
-                    }
+                    if (f)
+                        titlesOfColumns.add(new Element(FirsUpperSymbol(resultSetMD.getColumnName(i).toLowerCase())));
+                    row.add(new Element(resultSet.getString(i)));
+                    i++;
+                }
                 f = false;
 
                 result.add(row);
@@ -48,11 +52,11 @@ public class GetDataFromDataBaseAction implements Action {
 
             ConnectionPool.addConnectionToPool(connection);
         }
-            return null;
+        return null;
     }
 
-    private String FirsUpperSymbol(String s){
-        String result = s.substring(0,1).toUpperCase() + s.substring(1);
+    private String FirsUpperSymbol(String s) {
+        String result = s.substring(0, 1).toUpperCase() + s.substring(1);
         return result;
     }
 }

@@ -1,5 +1,7 @@
-package com.epam.star.action;
+package com.epam.star.action.database;
 
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionResult;
 import com.epam.star.entity.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +38,7 @@ public class InsertToDataBaseAction implements Action {
             List<Element> namesOfColumns = new ArrayList<>();
 
             int i = 2;
-            while(i <= resultSetMD.getColumnCount()){
+            while (i <= resultSetMD.getColumnCount()) {
                 if (resultSetMD.getColumnName(i) != "ID")
                     namesOfColumns.add(new Element(FirsUpperSymbol(resultSetMD.getColumnName(i).toLowerCase())));
                 i++;
@@ -47,15 +49,15 @@ public class InsertToDataBaseAction implements Action {
 
             String[] parameters = request.getParameterValues("ValuesForInsertToDB");
             for (String parameter : parameters) {
-                valuesString = valuesString + "'" + parameter + "'" +",";
+                valuesString = valuesString + "'" + parameter + "'" + ",";
             }
-            valuesString = valuesString.substring(0,valuesString.length()-1) + ")";
-            LOGGER.debug("String created for values of construction which insert data to database: {}",valuesString);
+            valuesString = valuesString.substring(0, valuesString.length() - 1) + ")";
+            LOGGER.debug("String created for values of construction which insert data to database: {}", valuesString);
 
             for (Element nameOfColumn : namesOfColumns) {
                 colsNamesString = colsNamesString + nameOfColumn.getElement() + ",";
             }
-            colsNamesString = colsNamesString.substring(0,colsNamesString.length()-1) + ")";
+            colsNamesString = colsNamesString.substring(0, colsNamesString.length() - 1) + ")";
             LOGGER.debug("String created for names of columns of table of construction which insert data to database: {}", namesOfColumns);
 
             statement.execute("insert into " + tableName + " " + colsNamesString + " values " + valuesString);
@@ -65,8 +67,8 @@ public class InsertToDataBaseAction implements Action {
         return null;
     }
 
-    private String FirsUpperSymbol(String s){
-        String result = s.substring(0,1).toUpperCase() + s.substring(1);
+    private String FirsUpperSymbol(String s) {
+        String result = s.substring(0, 1).toUpperCase() + s.substring(1);
         return result;
     }
 }

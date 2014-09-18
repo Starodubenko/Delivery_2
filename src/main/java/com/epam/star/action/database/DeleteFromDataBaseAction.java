@@ -1,5 +1,7 @@
-package com.epam.star.action;
+package com.epam.star.action.database;
 
+import com.epam.star.action.Action;
+import com.epam.star.action.ActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +13,7 @@ public class DeleteFromDataBaseAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDataFromDataBaseAction.class);
 
     @Override
-    public ActionResult execute(HttpServletRequest request) throws SQLException{
+    public ActionResult execute(HttpServletRequest request) throws SQLException {
 //        String tableName = request.getParameter("TableName");
 //        LOGGER.debug("Name of table which got in GetDataFromDBAction: {}", tableName);
 //
