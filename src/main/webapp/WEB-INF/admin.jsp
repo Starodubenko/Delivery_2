@@ -9,6 +9,7 @@
     <head>
         <title>Welcome</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
+        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/admin.css"/>'>
     </head>
     <body background="<c:url value="/style/img/background.jpg"/>" onload="">
@@ -53,12 +54,34 @@
 
             </div>
 
-            <button class="btn btn-default data-base-fungtions">Insert</button>
-            <button class="btn btn-default data-base-fungtions">Save</button>
-            <button class="btn btn-default data-base-fungtions">Delete</button>
+            <button class="btn btn-default buttons">Insert</button>
+            <button class="btn btn-default buttons">Save</button>
+            <button class="btn btn-default buttons">Delete</button>
         </div>
-        <div class="panel panel-default log"></div>
-        <div class="panel panel-default report"></div>
+        <div class="panel panel-default log">
+            <div class="center"><label>Log</label></div>
+            <div class="log-report-content panel panel-default">
+
+            </div>
+            <div class="buttons input-daterange input-group" id="datepickerLog">
+                <input type="text" class="input-sm form-control" name="start"/>
+                <span class="input-group-addon">to</span>
+                <input type="text" class="input-sm form-control" name="end"/>
+            </div>
+            <button class="btn btn-default buttons">Searche</button>
+        </div>
+        <div class="panel panel-default report">
+            <div class="center"><label>Report</label></div>
+            <div class="log-report-content panel panel-default">
+
+            </div>
+            <div class="buttons input-daterange input-group" id="datepickerReport">
+                <input type="text" class="input-sm form-control" name="start"/>
+                <span class="input-group-addon">to</span>
+                <input type="text" class="input-sm form-control" name="end"/>
+            </div>
+            <button class="btn btn-default buttons">Searche</button>
+        </div>
 
 
         <div class="clear"></div>
@@ -68,6 +91,7 @@
 
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
     <script src="<c:url value="/script/admin.js"/>"></script>
     </body>
     </html>

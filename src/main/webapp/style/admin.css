@@ -25,6 +25,12 @@
     height: 500px;
     float: left;
     margin: 10px;
+    border-color: #6FBBDB;
+}
+
+.log-report-content {
+    margin: 5px;
+    height: 420px;
 }
 
 .report {
@@ -32,6 +38,7 @@
     float: left;
     height: 500px;
     margin: 10px;
+    border-color: #6FBBDB;
 }
 
 .dataBase {
@@ -53,11 +60,18 @@
     width: 150px;
 }
 
-.data-base-fungtions {
+.buttons {
     margin: 5px;
-
+    float: left;
+    height: 30px;
 }
 
 .clear {
     clear: both;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
