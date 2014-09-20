@@ -41,7 +41,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public Position getElement(int ID) throws DaoException {
+    public Position findById(int ID) throws DaoException {
         String sql = "SELECT * FROM positions WHERE id = " + ID;
         Position position = null;
         PreparedStatement prstm = null;

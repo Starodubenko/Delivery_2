@@ -41,7 +41,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public Status getElement(int ID) throws DaoException {
+    public Status findById(int ID) throws DaoException {
         String sql = "SELECT * FROM status WHERE id = " + ID;
         Status status = null;
         PreparedStatement prstm = null;

@@ -234,7 +234,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public Client getElement(int ID) throws DaoException {
+    public Client findById(int ID) throws DaoException {
         String sql = "select * from users where id = " + ID;
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -354,7 +354,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             client.setAddress(resultSet.getString("address"));
             client.setTelephone(resultSet.getString("telephone"));
             client.setMobilephone(resultSet.getString("mobilephone"));
-            client.setRole(positionDao.getElement(resultSet.getInt("position_id")));
+            client.setRole(positionDao.findById(resultSet.getInt("position_id")));
             client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
             throw new DaoException(e);

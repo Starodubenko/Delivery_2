@@ -2,7 +2,6 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.PositionDao;
-import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public Employee getElement(int ID) throws DaoException {
+    public Employee findById(int ID) throws DaoException {
         return null;
     }
 
@@ -146,7 +145,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             employee.setWorkBook(resultSet.getString("workbook"));
             employee.setRNN(resultSet.getString("rnn"));
             employee.setSIK(resultSet.getString("sik"));
-            employee.setRole(positionDao.getElement(resultSet.getInt("position_id")));
+            employee.setRole(positionDao.findById(resultSet.getInt("position_id")));
             employee.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
         } catch (SQLException e) {
             throw new DaoException(e);

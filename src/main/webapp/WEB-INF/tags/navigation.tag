@@ -2,7 +2,7 @@
 
 <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
 
-<div>
+<div class="background-navigation">
     <nav class="center">
         <ul class="fancyNav">
             <li id="home"><a href="welcome" class="homeIcon">Home</a></li>

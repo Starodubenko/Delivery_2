@@ -65,8 +65,9 @@
 
         <div class="clear"></div>
 
-        <t:footer></t:footer>
     </div>
+
+    <t:footer></t:footer>
 
     <div class="modal fade" id="RegistrationForm" tabindex="-1" role="dialog" aria-labelledby="RegistrationFormLabel"
          aria-hidden="true">

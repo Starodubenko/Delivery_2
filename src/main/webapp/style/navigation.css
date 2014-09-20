@@ -121,3 +121,17 @@
     text-indent: -9999px;
     width: 45px;
 }
+
+.background-navigation {
+    background-color: #F1F1F1;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.fancyNav {
+    margin: 0px;
+}

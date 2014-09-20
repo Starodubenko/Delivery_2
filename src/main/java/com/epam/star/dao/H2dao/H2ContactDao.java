@@ -39,7 +39,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public Contact getElement(int ID) throws DaoException {
+    public Contact findById(int ID) throws DaoException {
         String sql = "select * from contacts where id = " + "'" + ID + "'";
         PreparedStatement prstm = null;
         ResultSet resultSet = null;

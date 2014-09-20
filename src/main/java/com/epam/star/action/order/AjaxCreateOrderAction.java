@@ -53,9 +53,9 @@ public class AjaxCreateOrderAction implements Action {
             ClientDao clientDao = daoManager.getClientDao();
             EmployeeDao employeeDao = daoManager.getEmployeeDao();
 
-            AbstractUser user = clientDao.getElement((Integer) request.getAttribute("idUser"));
+            AbstractUser user = clientDao.findById((Integer) request.getAttribute("idUser"));
             if (user == null)
-                user = employeeDao.getElement((Integer) request.getAttribute("idUser"));
+                user = employeeDao.findById((Integer) request.getAttribute("idUser"));
             if (user == null)
                 user = (AbstractUser) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();

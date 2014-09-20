@@ -61,7 +61,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public Goods getElement(int ID) throws DaoException {
+    public Goods findById(int ID) throws DaoException {
         String sql = "SELECT * FROM goods WHERE id = " + ID;
         Goods goods = null;
         PreparedStatement prstm = null;

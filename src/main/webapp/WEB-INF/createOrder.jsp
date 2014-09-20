@@ -32,15 +32,14 @@
 
         <c:if test="${not empty user}">
             <div class="panel panel-default create-order-panel">
-
                 <div class="center"><h1>Creation the order</h1></div>
-
                 <div>
-                    <div class="orderText form-group has-error has-feedback">
+                    <div class="orderText form-group">
                         <div class="center"><label for="Date">Delivery date</label></div>
-                        <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
+                        <input type="text" name="deliverydate" placeholder="Date" class="form-control datepicker"
+                               id="Date">
                     </div>
-                    <div class="orderText form-group has-success">
+                    <div class="orderText form-group">
                         <div class="center"><label for="PeriodTime">Delivery time</label></div>
                         <select class="form-control" name="deliverytime" value="Time" class="form-control"
                                 id="PeriodTime">
@@ -78,18 +77,17 @@
                         <label class="paymentTypeContent">Cache =></label><input type="radio" name="PaymentType"
                                                                                  value="cache">
                 </div>
-
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create order</button>
+                    <button type="button" class="btn btn-primary" id="create">Create order</button>
                 </div>
 
             </div>
         </c:if>
 
         <div class="clear"></div>
-
-        <t:footer></t:footer>
     </div>
+
+    <t:footer></t:footer>
 
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>

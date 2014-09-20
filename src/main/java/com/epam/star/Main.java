@@ -13,7 +13,7 @@ public class Main {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
-        System.out.println(daoManager.findDaoByName("clientdao"));
+        System.out.println(daoManager.getDao("clientdao"));
 
         Map<String, AbstractH2Dao> daoMap = daoManager.getDaoMap();
 

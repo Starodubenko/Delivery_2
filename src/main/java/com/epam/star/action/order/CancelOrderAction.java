@@ -24,21 +24,21 @@ public class CancelOrderAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-        String[] idChecedOrders = request.getParameterValues("IdOrder");
+        String[] idCheckedOrders = request.getParameterValues("IdOrder");
 
         DaoFactory daoFactory = DaoFactory.getInstance();
         DaoManager daoManager = daoFactory.getDaoManager();
 
         try {
-            if (idChecedOrders.length > 0) {
+            if (idCheckedOrders.length > 0) {
                 daoManager.beginTransaction();
 
                 StatusDao statusDao = daoManager.getStatusDao();
                 OrderDao orderDao = daoManager.getOrderDao();
 
-                for (String id : idChecedOrders) {
+                for (String id : idCheckedOrders) {
                     int index = Integer.parseInt(id);
-                    Order order = orderDao.getElement(index);
+                    Order order = orderDao.findById(index);
                     Status status = statusDao.findByStatusName("canceled");
                     order.setStatus(status);
 

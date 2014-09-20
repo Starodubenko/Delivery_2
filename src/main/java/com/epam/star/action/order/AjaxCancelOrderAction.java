@@ -24,10 +24,13 @@ public class AjaxCancelOrderAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
-        String[] idCheckedOrders = request.getParameterValues("IdOrder");
+        String stringCheckedOrders = request.getParameter("stringIdOrders");
+        String tes = request.getParameter("tes");
+//        tes = String.valueOf(request.getAttribute("tes"));
+//        StringChecedOrders = String.valueOf(request.getAttribute("StringIdOrders"));
+        String[] idCheckedOrders = stringCheckedOrders.split(",");
 
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
+        DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
         try {
             if (idCheckedOrders.length > 0) {
@@ -38,7 +41,7 @@ public class AjaxCancelOrderAction implements Action {
 
                 for (String id : idCheckedOrders) {
                     int index = Integer.parseInt(id);
-                    Order order = orderDao.getElement(index);
+                    Order order = orderDao.findById(index);
                     Status status = statusDao.findByStatusName("canceled");
                     order.setStatus(status);
 
@@ -64,7 +67,7 @@ public class AjaxCancelOrderAction implements Action {
         ClientDao clientDao = daoManager.getClientDao();
         Client client = (Client) order.getUser();
 
-        BigDecimal goodsCost = order.getOrderCost();
+        BigDecimal goodsCost = order.getPaid();
         BigDecimal clientVBalance = client.getVirtualBalance();
         BigDecimal summ = clientVBalance.add(goodsCost);
 

@@ -34,7 +34,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 " on orders.goods_id = goods.id" +
                 " inner join status" +
                 " on orders.status_id = status.id" +
-                " where user_id = 20 and order_date = CAST(GETDATE() AS DATE)";
+                " where user_id = " + id + " and order_date = CAST(GETDATE() AS DATE)";
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -66,7 +66,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 " on orders.goods_id = goods.id" +
                 " inner join status" +
                 " on orders.status_id = status.id" +
-                " where user_id = 20 and order_date != CAST(GETDATE() AS DATE)";
+                " where user_id = " + id + " and order_date != CAST(GETDATE() AS DATE)";
         List<Order> orders = new ArrayList<>();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
@@ -102,7 +102,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public Order getElement(int ID) throws DaoException {
+    public Order findById(int ID) throws DaoException {
         String sql = "SELECT * FROM Orders WHERE id = " + ID;
         Order order = null;
         PreparedStatement prstm = null;
@@ -193,15 +193,15 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         try {
             order.setId(resultSet.getInt("id"));
             order.setOrderDate(resultSet.getDate("order_date"));
-            order.setUser(clientDao.getElement(resultSet.getInt("user_id")));
-            order.setGoods(goodsDao.getElement(resultSet.getInt("goods_id")));
+            order.setUser(clientDao.findById(resultSet.getInt("user_id")));
+            order.setGoods(goodsDao.findById(resultSet.getInt("goods_id")));
             order.setOrderCost(resultSet.getBigDecimal("order_cost"));
             order.setPaid(resultSet.getBigDecimal("paid"));
             order.setCount(resultSet.getInt("count"));
             order.setDeliveryDate(resultSet.getDate("delivery_date"));
-            order.setPeriod(periodDao.getElement(resultSet.getInt("period_id")));
+            order.setPeriod(periodDao.findById(resultSet.getInt("period_id")));
             order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
-            order.setStatus(statusDao.getElement(resultSet.getInt("status_id")));
+            order.setStatus(statusDao.findById(resultSet.getInt("status_id")));
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -276,7 +276,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
         } catch (Exception e) {
             columnName = columnName.replace(" ", "");
-            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + "'" + desiredValue + "'" + " LIMIT ? OFFSET ?";
+            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + "'" + desiredValue + "'" + " and " + " LIMIT ? OFFSET ?";
         }
 
         List<Order> result = new ArrayList<>();

@@ -59,7 +59,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public Period getElement(int ID) throws DaoException {
+    public Period findById(int ID) throws DaoException {
         String sql = "SELECT * FROM period WHERE id = " + ID;
         Period period = null;
         PreparedStatement prstm = null;

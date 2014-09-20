@@ -110,7 +110,7 @@
                 </div>
             </div>
             <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal"
-                    data-target="#createOrder">
+                    data-target="#myModal">
                 Create an Order
             </button>
             <input type="submit" class="cancelOrderButton btn btn-primary" data-toggle="modal"
@@ -120,10 +120,11 @@
 
     <div class="clear"></div>
 
-    <t:footer></t:footer>
 </div>
 
-<div class="modal fade" id="createOrder" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
+<t:footer></t:footer>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -132,7 +133,7 @@
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="createOrderLabel">Create order</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/do/createOrder">
+            <form action="${pageContext.request.contextPath}/do/fastCreateOrder">
                 <div class="registration">
 
                     <div class="orderText form-group has-error has-feedback">
@@ -215,9 +216,10 @@
 
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
-<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>
 </fmt:bundle>
+

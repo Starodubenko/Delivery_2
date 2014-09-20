@@ -41,7 +41,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public StatusPayCard getElement(int ID) throws DaoException {
+    public StatusPayCard findById(int ID) throws DaoException {
         String sql = "SELECT * FROM status_card WHERE id = " + ID;
         StatusPayCard statusPayCard = null;
         PreparedStatement prstm = null;

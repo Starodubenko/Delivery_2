@@ -87,7 +87,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     }
 
     @Override
-    public PayCard getElement(int ID) throws DaoException {
+    public PayCard findById(int ID) throws DaoException {
         String sql = "SELECT * FROM pay_card WHERE Id = " + ID;
         PayCard payCard = null;
         PreparedStatement prstm = null;
@@ -163,7 +163,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
             payCard.setSerialNumber(resultSet.getString("serial_number"));
             payCard.setSecretNumber(resultSet.getString("secret_number"));
             payCard.setBalance(new BigDecimal(resultSet.getInt("balance")));
-            StatusPayCard statusPayCard = payCardStatusDao.getElement(resultSet.getInt("id_status_pay_card"));
+            StatusPayCard statusPayCard = payCardStatusDao.findById(resultSet.getInt("id_status_pay_card"));
             payCard.setStatusPayCard(statusPayCard);
         } catch (SQLException e) {
             throw new DaoException(e);

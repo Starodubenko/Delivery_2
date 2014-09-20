@@ -6,6 +6,7 @@
 
 .main {
     width: 1282px;
+    min-height: 800px;
     margin: 20px auto;
 }
 
@@ -136,4 +137,19 @@ text {
     width: 150px;
     margin-top: 10px;
     margin-left: 5px;
+}
+
+.createOrderPanel {
+    padding: 20px;
+    width: 250px;
+    background: #eeeeee;
+    border: #282828 2px solid;
+    font-family: Georgia;
+}
+
+.switcher {
+    margin-right: 10px;
+    float: right;
+    width: 150px;
+    height: 30px;
 }

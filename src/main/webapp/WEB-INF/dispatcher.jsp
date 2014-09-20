@@ -10,6 +10,7 @@
     <title>Welcome</title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
     <link rel='stylesheet' href='<c:url value="/style/dispatcher.css"/>'>
+    <link rel='stylesheet' href='<c:url value="/style/retractableWindow.css"/>'>
 </head>
 <body background="<c:url value="/style/img/background.jpg"/>" onload="">
 
@@ -32,9 +33,11 @@
                 <ul id="changee" class="pagination">
                     <li id="cBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach items="${clientsPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="cNumbered"><a
-                                href="#page${pl.intValue()}" class="page">${pl.intValue()}</a></li>
+                    <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                            class="cNumbered <c:if test="${status.first}">active</c:if>"><a href="#page${pl.intValue()}"
+                                                                                            class="page">${pl.intValue()}</a>
+                        </li>
                     </c:forEach>
 
                     <li id="cNext"><a href="#page">&raquo;</a></li>
@@ -54,16 +57,16 @@
                         </tr>
                         <c:forEach var="row" items="${clientsList}">
                             <tr>
-                                <td>${row.getId()}</td>
+                                <td class="id">${row.getId()}</td>
                                 <td>${row.getFirstName()}</td>
                                 <td>${row.getMiddleName()}</td>
                                 <td>${row.getLastName()}</td>
                                 <td>${row.getAddress()}</td>
                                 <td>${row.getTelephone()}</td>
                                 <td>${row.getMobilephone()}</td>
-                                <td>
+                                <td class=" createOrder">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#createOrder">Order
+                                            data-target="#myModel">Order
                                     </button>
                                 </td>
                             </tr>
@@ -71,17 +74,28 @@
                     </table>
                 </div>
             </div>
+
+            <select class="form-control switcher" id="switchStatusOrser">
+                <option>Waiting</option>
+                <option>Active</option>
+                <option>Canceled</option>
+                <option>Executed</option>
+            </select>
+
             <div class="orderListHeight tab-pane" id="Orders">
                 <ul id="change" class="pagination">
                     <li id="oBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach items="${ordersPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}" class="oNumbered"><a
-                                href="#page${pl.intValue()}" class="page">${pl.intValue()}</a></li>
+                    <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                            class="oNumbered <c:if test="${status.first}">active</c:if>"><a href="#page${pl.intValue()}"
+                                                                                            class="page">${pl.intValue()}</a>
+                        </li>
                     </c:forEach>
 
                     <li id="oNext"><a href="#page">&raquo;</a></li>
                 </ul>
+
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="ordersTable">
                         <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
@@ -91,7 +105,7 @@
 
                                 <div id="checkAll" class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                        <input type="checkbox" value="${row.getId()}">
                                     </label>
                                 </div>
                             </th>
@@ -127,12 +141,9 @@
                         </c:forEach>
                     </table>
                 </div>
-                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
-                       data-target="#cancelOrder" value="Cancel the Order">
-                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
-                       data-target="#cancelOrder" value="accept the order">
-                <input type="submit" class="ordersButtons cancelOrderButton btn btn-primary" data-toggle="modal"
-                       data-target="#cancelOrder" value="restore order">
+                <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
+                <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
+                <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
             </div>
         </div>
 
@@ -163,68 +174,66 @@
     </div>
 
     <div class="clear"></div>
-
-    <t:footer></t:footer>
 </div>
 
+<t:footer></t:footer>
 
-<div class="modal fade" id="createOrder" tabindex="-1" role="dialog" aria-labelledby="createOrderLabel"
+<div class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="createOrderLabel">Create order</h4>
+                <h4 class="modal-title" id="myModalLabel">Create order</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/do/createOrder">
-                <div class="registration">
+                <%--<form action="${pageContext.request.contextPath}/do/fastCreateOrder">--%>
+            <div>
+                <div class="orderText form-group has-error has-feedback">
+                    <div class="center"><label for="Date">Delivery date</label></div>
+                    <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
+                </div>
+                <div class="orderText form-group has-success">
+                    <div class="center"><label for="PeriodTime">Delivery time</label></div>
+                    <select class="form-control" name="deliverytime" value="Time" class="form-control"
+                            id="PeriodTime">
+                        <c:forEach var="period" items="${periods}">
+                            <option>${period.period}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="orderText form-group">
+                    <div class="center"><label for="GoodsName">Goods type</label></div>
+                    <select class="form-control" name="goodsname" value="Goods name" class="form-control"
+                            id="GoodsName">
+                        <c:forEach var="goodss" items="${goods}">
+                            <option>${goodss.getGoodsName()}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="orderText form-group">
+                    <div class="center"><label for="Count">Goods count</label></div>
+                    <input type="text" name="goodscount" value="Count" class="form-control" id="Count">
+                </div>
+                <div class="orderInfo form-group">
+                    <div class="center"><label for="AdditionalInformation">Additional Information</label></div>
+                    <textarea name="additionalinformation" value="Count" class="form-control"
+                              id="AdditionalInformation">
+                    </textarea>
+                </div>
+            </div>
 
-                    <div class="orderText form-group has-error has-feedback">
-                        <label for="Date">Delivery date</label>
-                        <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
-                    </div>
-                    <div class="orderText form-group has-success">
-                        <label for="PeriodTime">Delivery time</label>
-                        <select class="form-control" name="deliverytime" value="Time" class="form-control"
-                                id="PeriodTime">
-                            <c:forEach var="period" items="${periods}">
-                                <option>${period.period}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="orderText form-group">
-                        <label for="GoodsName">Goods type</label>
-                        <select class="form-control" name="goodsname" value="Goods name" class="form-control"
-                                id="GoodsName">
-                            <c:forEach var="goodss" items="${goods}">
-                                <option>${goodss.getGoodsName()}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="orderText form-group">
-                        <label for="Count">Goods count</label>
-                        <input type="text" name="goodscount" value="Count" class="form-control" id="Count">
-                    </div>
-                    <div class="form-group">
-                        <label for="Additional Information">Additional Information</label>
-                        <textarea name="additionalinformation" value="Count" class="form-control"
-                                  id="Additional Information">
-                        </textarea>
-                    </div>
-                </div>
-                <div class="paymentType form-group">
-                    <label class="paymentTypeContent">Online</label><input type="radio" name="PaymentType"
-                                                                           value="online">
-                    <label class="paymentTypeContent">Cache</label><input type="radio" name="PaymentType" value="cache">
-                </div>
+            <div class="center form-group">
+                <input type="hidden" name="PaymentType" value="cache" id="PaymentType">
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close order form
-                    </button>
-                    <button type="submit" class="btn btn-primary">Create order</button>
-                </div>
-            </form>
+            <p id="errorCreatingOrder"></p>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="check">Create order</button>
+            </div>
+
+                <%--</form>--%>
         </div>
     </div>
 </div>
@@ -232,9 +241,9 @@
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-    <%--<script src="<c:url value="/script/ajaxTest.js"/>"></script>--%>
 <script src="<c:url value="/script/dispatcher.js"/>"></script>
 </body>
 </html>
 </fmt:bundle>
+
 

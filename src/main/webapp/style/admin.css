@@ -6,7 +6,7 @@
 
 .main {
     width: 1282px;
-    /*height: 1000px;*/
+    min-height: 800px;
     margin: 20px auto;
 }
 
@@ -74,4 +74,8 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+.row_for_finding {
+    margin: 10px;
 }

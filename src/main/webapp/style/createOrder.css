@@ -10,7 +10,7 @@ label p {
 
 .main {
     width: 1282px;
-    /*height: 1000px;*/
+    min-height: 800px;
     margin: 20px auto;
 }
 

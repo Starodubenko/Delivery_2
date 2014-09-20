@@ -27,7 +27,7 @@ public class DaoManager {
             } catch (InstantiationException e) {
 //                throw new DaoException(e);
             } catch (IllegalAccessException e) {
-//                throw new DaoException(e); 
+//                throw new DaoException(e);
             }
             daoMap.put(daoClass.getSimpleName().toLowerCase(), dao);
         }
@@ -37,7 +37,7 @@ public class DaoManager {
         this.connection = connection;
     }
 
-    public AbstractH2Dao findDaoByName(String daoName) {
+    public AbstractH2Dao getDao(String daoName) {
         AbstractH2Dao dao = daoMap.get("h2" + daoName);
         dao.setConn(connection);
         dao.setDaoManager(this);
@@ -48,7 +48,7 @@ public class DaoManager {
         return daoMap;
     }
 
-    public void beginTransaction() throws DaoException{
+    public void beginTransaction() throws DaoException {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class DaoManager {
         }
     }
 
-    public void commit() throws DaoException{
+    public void commit() throws DaoException {
         try {
             connection.commit();
         } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class DaoManager {
         }
     }
 
-    public void rollback() throws DaoException{
+    public void rollback() throws DaoException {
         try {
             connection.rollback();
         } catch (SQLException e) {
@@ -72,7 +72,7 @@ public class DaoManager {
         }
     }
 
-    public void closeConnection() throws DaoException{
+    public void closeConnection() throws DaoException {
         try {
             connection.close();
         } catch (SQLException e) {
@@ -80,10 +80,10 @@ public class DaoManager {
         }
     }
 
-    public Object executeAndCloce(DaoCommand comand) throws DaoException{
-        try{
+    public Object executeAndCloce(DaoCommand comand) throws DaoException {
+        try {
             return comand.execute(this);
-        }finally {
+        } finally {
             try {
                 this.connection.close();
             } catch (SQLException e) {

@@ -10,6 +10,7 @@ import com.epam.star.entity.AbstractUser;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Employee;
 import com.epam.star.entity.Order;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +24,16 @@ import java.util.Date;
 public class CreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
     ActionResult client = new ActionResult("client", true);
+    ActionResult jsonn = new ActionResult("json");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
+        Order order = null;
         try {
             OrderDao orderDao = daoManager.getOrderDao();
-            Order order = createOrder(request, daoManager);
+            order = createOrder(request, daoManager);
             orderDao.insert(order);
 
             daoManager.commit();
@@ -40,18 +43,37 @@ public class CreateOrderAction implements Action {
             daoManager.closeConnection();
         }
 
+        JSONObject json = null;
+        if (order != null) {
+            json = new JSONObject();
+            json.put("errorMessage", "Order created successful !");
+        } else json.put("errorMessage", "During creating the order an error has occurred !");
+
+        request.setAttribute("json", json);
+
+        if (json.length() > 0) return jsonn;
+
         return client;
     }
 
     private Order createOrder(HttpServletRequest request, DaoManager daoManager) throws ActionException {
 
         Order order = null;
+        String idString = request.getParameter("id");
+        int index = -1;
+        if (idString != null)
+            index = Integer.parseInt(request.getParameter("id"));
+
+        AbstractUser user = daoManager.getClientDao().findById(index);
+        if (user == null) daoManager.getEmployeeDao().findById(index);
+        if (user == null) user = (AbstractUser) request.getSession().getAttribute("user");
+
         try {
             PeriodDao periodDao = daoManager.getPeriodDao();
             GoodsDao goodsDao = daoManager.getGoodsDao();
             StatusDao statusDao = daoManager.getStatusDao();
 
-            AbstractUser user = (AbstractUser) request.getSession().getAttribute("user");
+            if (user == null) user = (AbstractUser) request.getSession().getAttribute("user");
             BigDecimal clientBalance = user.getVirtualBalance();
             BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
             BigDecimal orderCost = goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount")));
@@ -87,9 +109,9 @@ public class CreateOrderAction implements Action {
     private boolean debitFunds(HttpServletRequest request, DaoManager daoManager, AbstractUser user) {
         boolean onlinePayment;
 
-        String paymentType = request.getParameter("PaymentType");
+        String paymentType = request.getParameter("paymenttype");
 
-        StatusDao statusDao = daoManager.getStatusDao();
+        PositionDao positionDao = daoManager.getPositionDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();
         ClientDao clientDao = daoManager.getClientDao();
         EmployeeDao employeeDao = daoManager.getEmployeeDao();
@@ -99,7 +121,7 @@ public class CreateOrderAction implements Action {
 
         BigDecimal clientBalance = user.getVirtualBalance();
         BigDecimal goodsPricee = goodsDao.findByGoodsName(request.getParameter("goodsname")).getPrice();
-        if (!user.getRole().equals(statusDao.findByStatusName("Client")))
+        if (!user.getRole().equals(positionDao.findByPositionName("Client")))
             goodsPricee = goodsPricee.divide(new BigDecimal(2));
         BigDecimal res = user.getVirtualBalance().subtract(goodsPricee.multiply(new BigDecimal(request.getParameter("goodscount"))));
 
@@ -109,7 +131,7 @@ public class CreateOrderAction implements Action {
 
         if (onlinePayment) {
             user.setVirtualBalance(res);
-            if (user.getRole().equals(statusDao.findByStatusName("Client")))
+            if (user.getRole().equals(positionDao.findByPositionName("Client")))
                 clientDao.updateElement((Client) user);
             else employeeDao.updateElement((Employee) user);
             return true;
