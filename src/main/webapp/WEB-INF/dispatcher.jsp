@@ -66,6 +66,7 @@
                                 <td>${row.getMobilephone()}</td>
                                 <td class=" createOrder">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            value="${row.getId()}"
                                             data-target="#myModel">Order
                                     </button>
                                 </td>
@@ -103,9 +104,9 @@
                             <th>
                                 <p> Check all</p>
 
-                                <div id="checkAll" class="checkbox">
+                                <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" value="${row.getId()}">
+                                        <input id="maincheck" type="checkbox" value="${row.getId()}">
                                     </label>
                                 </div>
                             </th>
@@ -114,8 +115,8 @@
                             <th>Goods name</th>
                             <th>Goods count</th>
                             <th>Order cost</th>
-                            <th>Delivry date</th>
-                            <th>Delivry time</th>
+                            <th>Delivery date</th>
+                            <th>Delivery time</th>
                             <th>Additional info</th>
                             <th>Status</th>
                         </tr>
@@ -124,7 +125,7 @@
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                            <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
                                         </label>
                                     </div>
                                 </td>

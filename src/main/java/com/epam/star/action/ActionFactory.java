@@ -48,6 +48,10 @@ public class ActionFactory {
 
         actions.put("GET/cancel", new AjaxCancelOrderAction());
 
+        actions.put("GET/accept", new AjaxAcceptOrderAction());
+
+        actions.put("GET/restore", new AjaxRestoreOrderAction());
+
         actions.put("POST/payment", new PaymentAction());
 
         actions.put("GET/client", new ShowClientPageAction());

@@ -85,23 +85,28 @@ $(document).ready(function () {
             })
     });
 
-    var OrderID = $('table#clientsTable').on('click', 'button', function () {
+    $("#maincheck").click(function () {
+        if ($('#maincheck').prop("checked")) {
+            $('.mc').attr('checked', true);
+        } else {
+            $('.mc').attr('checked', false);
+        }
+    });
+
+    var ID;
+    $('table#clientsTable').on('click', 'button', function () {
         var rowIndex = $(this).parents('tr').get(0).rowIndex;
-        var val = $("table:eq(0) tr:eq(" + rowIndex + ") td:eq(0)").html();
-        alert(val);
-        return val;
+        ID = $("table:eq(0) tr:eq(" + rowIndex + ") td:eq(0)").html();
     });
 
     $('#check').click(function () {
-
-        alert(OrderID);
 
         var deliverydate = $('#Date').val();
         var deliverytime = $('#PeriodTime').val();
         var goodsname = $('#GoodsName').val();
         var goodscount = $('#Count').val();
         var additionalinformation = $('#AdditionalInformation').val();
-        var paymenttype = $('PaymentType').val();
+        var paymenttype = $('#PaymentType').val();
 
         $.get("fastCreateOrder", {id: ID, deliverydate: deliverydate, deliverytime: deliverytime,
                 goodsname: goodsname, goodscount: goodscount, additionalinformation: additionalinformation, paymenttype: paymenttype},

@@ -20,14 +20,12 @@ import java.sql.SQLException;
 
 public class AjaxCancelOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxCancelOrderAction.class);
-    ActionResult client = new ActionResult("ajaxOrdersTable");
+    ActionResult ordersTable = new ActionResult("ajaxOrdersTable");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
         String stringCheckedOrders = request.getParameter("stringIdOrders");
-        String tes = request.getParameter("tes");
-//        tes = String.valueOf(request.getAttribute("tes"));
-//        StringChecedOrders = String.valueOf(request.getAttribute("StringIdOrders"));
+
         String[] idCheckedOrders = stringCheckedOrders.split(",");
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
@@ -59,7 +57,7 @@ public class AjaxCancelOrderAction implements Action {
         } finally {
             daoManager.closeConnection();
         }
-        return client;
+        return ordersTable;
     }
 
     private void returnFunds(Order order, DaoManager daoManager) {

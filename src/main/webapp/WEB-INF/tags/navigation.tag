@@ -12,5 +12,10 @@
             <li id="createOrder"><a href="createOrder">Create order</a></li>
             <li id="personalCabinet"><a href="personal-cabinet">Personal cabinet</a></li>
         </ul>
+
+        <select class="form-control language" id="switchLanguage">
+            <option>en</option>
+            <option>ru</option>
+        </select>
     </nav>
 </div>
