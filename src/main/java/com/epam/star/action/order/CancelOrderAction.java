@@ -20,7 +20,7 @@ import java.sql.SQLException;
 
 public class CancelOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CancelOrderAction.class);
-    ActionResult client = new ActionResult("ordersTable", true);
+    ActionResult client = new ActionResult("client", true);
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {

@@ -16,6 +16,15 @@
         <url-pattern>/do/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ErrorHandler</servlet-name>
+        <servlet-class>com.epam.star.servlet.ErrorHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorHandler</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Encoding</filter-name>
         <filter-class>com.epam.star.filter.Encoding</filter-class>

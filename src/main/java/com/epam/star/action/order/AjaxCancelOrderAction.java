@@ -30,22 +30,24 @@ public class AjaxCancelOrderAction implements Action {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
+        StatusDao statusDao = daoManager.getStatusDao();
+        OrderDao orderDao = daoManager.getOrderDao();
+
         try {
             if (idCheckedOrders.length > 0) {
                 daoManager.beginTransaction();
-
-                StatusDao statusDao = daoManager.getStatusDao();
-                OrderDao orderDao = daoManager.getOrderDao();
 
                 for (String id : idCheckedOrders) {
                     int index = Integer.parseInt(id);
                     Order order = orderDao.findById(index);
                     Status status = statusDao.findByStatusName("canceled");
-                    order.setStatus(status);
+                    if (!order.getStatus().equals(status)) {
+                        order.setStatus(status);
 
-                    orderDao.updateElement(order);
+                        orderDao.updateElement(order);
 
-                    returnFunds(order, daoManager);
+                        returnFunds(order, daoManager);
+                    }
                 }
             } else {
                 LOGGER.error("The order was not selected {}");

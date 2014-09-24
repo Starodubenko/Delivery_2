@@ -109,7 +109,7 @@ public class CreateOrderAction implements Action {
     private boolean debitFunds(HttpServletRequest request, DaoManager daoManager, AbstractUser user) {
         boolean onlinePayment;
 
-        String paymentType = request.getParameter("paymenttype");
+        String paymentType = request.getParameter("paymentType");
 
         PositionDao positionDao = daoManager.getPositionDao();
         GoodsDao goodsDao = daoManager.getGoodsDao();

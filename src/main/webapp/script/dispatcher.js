@@ -99,6 +99,7 @@ $(document).ready(function () {
         ID = $("table:eq(0) tr:eq(" + rowIndex + ") td:eq(0)").html();
     });
 
+
     $('#check').click(function () {
 
         var deliverydate = $('#Date').val();
@@ -161,6 +162,25 @@ $(document).ready(function () {
                 $('#Orders').html(data);
             });
     });
+
+    $('.panel-body').on('keypress', '.edit-field', function (e) {
+        if (e.which = 13) {
+
+        }
+    });
+
+    $('#ordersTable tr').click(function () {
+        $('tr').removeClass('info');
+        $(this).addClass('info');
+
+        ID = $(this).children().eq(1).text();
+        $.get("SetOrderToEditFields", {id: ID},
+            function (data) {
+                $('#collapseOne').html(data);
+            });
+//        $('#collapseOne').addClass('collapsing');
+//        $('#collapseOne').addClass('collapse in');
+    })
 
 });
 

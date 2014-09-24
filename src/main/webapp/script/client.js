@@ -1,6 +1,10 @@
-$('#Date').datepicker({
+$('.datepicker').datepicker({
     format: 'mm.dd.yyyy',
     startDate: '-3d'
+});
+
+$('#datetimepicker').datetimepicker({
+    pickDate: false
 });
 //change class the clicked row (active or warning)
 $(document).ready(function () {

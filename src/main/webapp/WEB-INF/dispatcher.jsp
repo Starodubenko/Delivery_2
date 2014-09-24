@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <fmt:bundle basename="i18n.messages">
 <html>
@@ -42,6 +42,26 @@
 
                     <li id="cNext"><a href="#page">&raquo;</a></li>
                 </ul>
+
+                <select class="form-control switcher floatRight" id="switchStatusOrser">
+                    <option>Waiting</option>
+                    <option>Active</option>
+                    <option>Canceled</option>
+                    <option>Executed</option>
+                </select>
+
+                <div class="form-group rows-count floatRight">
+                    <label class="labelCount" for="clientsrows">Rows count</label>
+
+                    <div class="input-group">
+                        <input type="text" name="clientsrows" id="clientsrows" value="10"
+                               class="form-control textCount">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default floatRight" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="clientsTable">
                         <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
@@ -76,13 +96,6 @@
                 </div>
             </div>
 
-            <select class="form-control switcher" id="switchStatusOrser">
-                <option>Waiting</option>
-                <option>Active</option>
-                <option>Canceled</option>
-                <option>Executed</option>
-            </select>
-
             <div class="orderListHeight tab-pane" id="Orders">
                 <ul id="change" class="pagination">
                     <li id="oBack"><a href="#page">&laquo;</a></li>
@@ -96,6 +109,11 @@
 
                     <li id="oNext"><a href="#page">&raquo;</a></li>
                 </ul>
+
+                <div class="form-group">
+                    <label for="ordersrows">Rows count</label>
+                    <input type="text" name="ordersrows" id="ordersrows" value="10" class="form-control rows-count">
+                </div>
 
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="ordersTable">
@@ -121,8 +139,8 @@
                             <th>Status</th>
                         </tr>
                         <c:forEach var="row" items="${ordersList}">
-                            <tr>
-                                <td>
+                            <tr data-toggle="collapse" data-parent="#accordion">
+                            <td>
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
@@ -145,13 +163,31 @@
                 <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
                 <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
                 <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
-            </div>
-        </div>
 
-        <div class="searchRow">
-            <div class="col-lg-6">
-                <form action="${pageContext.request.contextPath}/do/searching">
-                    <div class="input-group">
+                <div class="panel-group edit-panel" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading edit-panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    открыть
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="searchRow">
+                <div class="col-lg-6">
+                    <form action="${pageContext.request.contextPath}/do/searching">
+                        <div class="input-group">
                         <span class="searcheWidth input-group-btn">
                             <select class="form-control" name="columnName">
                                 <option>ID</option>
@@ -163,21 +199,40 @@
                                 <option>Mobile phone</option>
                             </select>
                         </span>
-                        <input type="text" class="form-control" name="desiredValue">
+                            <input type="text" class="form-control" name="desiredValue">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">Search</button>
                         </span>
-                    </div>
-                    <input type="hidden" name="daoName" value="clientDao">
-                </form>
+                        </div>
+                        <input type="hidden" name="daoName" value="clientDao">
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="clear"></div>
+        <div class="clear"></div>
+    </div>
 </div>
 
 <t:footer></t:footer>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="confirmModalLabel">Do you confirm to change the data</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-primary" form="changeForm">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -190,12 +245,12 @@
             </div>
                 <%--<form action="${pageContext.request.contextPath}/do/fastCreateOrder">--%>
             <div>
-                <div class="orderText form-group has-error has-feedback">
-                    <div class="center"><label for="Date">Delivery date</label></div>
+                <div class="orderText form-group">
+                <div class="center"><label for="Date">Delivery date</label></div>
                     <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
                 </div>
-                <div class="orderText form-group has-success">
-                    <div class="center"><label for="PeriodTime">Delivery time</label></div>
+                <div class="orderText form-group">
+                <div class="center"><label for="PeriodTime">Delivery time</label></div>
                     <select class="form-control" name="deliverytime" value="Time" class="form-control"
                             id="PeriodTime">
                         <c:forEach var="period" items="${periods}">
@@ -238,7 +293,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>

@@ -9,11 +9,13 @@
 <head>
     <title>Welcome</title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
+    <link rel='stylesheet'
+          href='<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.css"/>'>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
 
     <link rel='stylesheet' href='<c:url value="/style/client.css"/>'>
 </head>
-<body background="<c:url value="/style/img/background.jpg"/>" onload="">
+<body background="<c:url value="/style/img/background.jpg"/>">
 
 <t:navigation></t:navigation>
 
@@ -136,11 +138,12 @@
             <form action="${pageContext.request.contextPath}/do/fastCreateOrder">
                 <div class="registration">
 
-                    <div class="orderText form-group has-error has-feedback">
+                    <div class="orderText form-group">
                         <label for="Date">Delivery date</label>
-                        <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
+                        <input type="text" name="deliverydate" placeholder="Date" class="form-control datetimepicker"
+                               id="Date">
                     </div>
-                    <div class="orderText form-group has-success">
+                    <div class="orderText form-group">
                         <label for="PeriodTime">Delivery time</label>
                         <select class="form-control" name="deliverytime" value="Time" class="form-control"
                                 id="PeriodTime">
@@ -160,7 +163,7 @@
                     </div>
                     <div class="orderText form-group">
                         <label for="Count">Goods count</label>
-                        <input type="text" name="goodscount" value="Count" class="form-control" id="Count">
+                        <input type="text" name="goodscount" placeholder="Count" class="form-control" id="Count">
                     </div>
                     <div class="form-group">
                         <label for="Additional Information">Additional Information</label>
@@ -170,9 +173,9 @@
                     </div>
                 </div>
                 <div class="paymentType form-group">
-                    <label class="paymentTypeContent">Online</label><input type="radio" name="PaymentType"
+                    <label class="paymentTypeContent">Online</label><input type="radio" name="paymentType"
                                                                            value="online">
-                    <label class="paymentTypeContent">Cache</label><input type="radio" name="PaymentType" value="cache">
+                    <label class="paymentTypeContent">Cache</label><input type="radio" name="paymentType" value="cache">
                 </div>
 
                 <div class="modal-footer">
@@ -218,6 +221,7 @@
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.js"/>"></script>
 <script src="<c:url value="/script/client.js"/>"></script>
 </body>
 </html>

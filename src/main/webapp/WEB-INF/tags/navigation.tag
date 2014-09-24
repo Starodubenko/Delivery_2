@@ -7,7 +7,7 @@
         <ul class="fancyNav">
             <li id="home"><a href="welcome" class="homeIcon">Home</a></li>
             <li id="news"><a href="#news">News</a></li>
-            <li id="about"><a href="#about">About us</a></li>
+            <li id="about"><a href="qwe.html">About us</a></li>
             <li id="services"><a href="#services">Services</a></li>
             <li id="createOrder"><a href="createOrder">Create order</a></li>
             <li id="personalCabinet"><a href="personal-cabinet">Personal cabinet</a></li>

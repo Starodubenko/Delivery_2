@@ -156,3 +156,11 @@ text {
     width: 200px;
 }
 
+.datepicker {
+    z-index: 1151 !important;
+}
+
+.datetimepicker {
+    z-index: 1151 !important;
+}
+

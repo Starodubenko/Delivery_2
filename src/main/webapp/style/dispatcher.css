@@ -6,7 +6,7 @@
 
 .main {
     width: 1282px;
-    min-height: 800px;
+    /*min-height: 800px;*/
     margin: 20px auto;
 }
 
@@ -107,14 +107,14 @@ text {
 }
 
 .orderListHeight {
-    height: 85%;
+    /*height: 85%;*/
     margin-left: 10px;
     margin-right: 10px;
 }
 
 .orderList {
     border-color: #6FBBDB;
-    height: 600px;
+    /*height: 600px;*/
     margin: 160px 10px 10px 10px;
 }
 
@@ -147,9 +147,55 @@ text {
     font-family: Georgia;
 }
 
-.switcher {
-    margin-right: 10px;
+.edit {
+    float: left;
+    width: 100px;
+    margin: 10px;
+}
+
+.edit-panel {
+    margin-top: 10px;
+}
+
+.edit-panel-heading {
+    background-color: #428BCA;
+    text-decoration-color: #428BCA;
+    color: #428BCA;
+    outline-color: #428BCA;
+    text-emphasis-color: #428BCA;
+}
+
+.panel-body-input {
+
+}
+
+.datepicker {
+    z-index: 1151 !important;
+}
+
+.rows-count {
+    width: 190px;
+}
+
+.floatRight {
     float: right;
-    width: 150px;
+    margin-right: 10px;
     height: 30px;
 }
+
+.switcher {
+    width: 150px;
+}
+
+.labelCount {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.textCount {
+    float: left;
+    height: 30px;
+    width: 50px;
+}
+
