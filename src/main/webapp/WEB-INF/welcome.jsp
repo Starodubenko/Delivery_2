@@ -7,14 +7,16 @@
     <html>
 
     <head>
-        <title>Welcome</title>
+        <title><fmt:message key="farm.name"/></title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/welcome.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/navigation.css"/>'>
     </head>
     <body background="<c:url value="/style/img/background.jpg"/>">
 
-    <t:navigation></t:navigation>
+    <t:navigation>
+
+    </t:navigation>
 
     <div class="main panel panel-default">
         <t:authentication></t:authentication>

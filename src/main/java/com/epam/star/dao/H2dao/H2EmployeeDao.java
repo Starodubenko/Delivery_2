@@ -6,6 +6,7 @@ import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -199,7 +200,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, String columnName, String desiredValue) {
+    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
         List<Employee> result = new ArrayList<>();
 
         PreparedStatement prstm = null;
@@ -210,23 +211,23 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm.setInt(2, firstPosition);
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
-                Employee employee = getEmployeeFromResultSet(resultSet);
-                if (
-                        String.valueOf(employee.getId()).contains(desiredValue) |
-                                employee.getLogin().contains(desiredValue) |
-                                employee.getPassword().contains(desiredValue) |
-                                employee.getLastName().contains(desiredValue) |
-                                employee.getMiddleName().contains(desiredValue) |
-                                employee.getAddress().contains(desiredValue) |
-                                employee.getTelephone().contains(desiredValue) |
-                                employee.getMobilephone().contains(desiredValue) |
-                                employee.getIdentityCard().contains(desiredValue) |
-                                employee.getWorkBook().contains(desiredValue) |
-                                employee.getRNN().contains(desiredValue) |
-                                employee.getSIK().contains(desiredValue)
-
-                        )
-                    result.add(getEmployeeFromResultSet(resultSet));
+//                Employee employee = getEmployeeFromResultSet(resultSet);
+////                if (
+////                        String.valueOf(employee.getId()).contains(desiredValue) |
+////                                employee.getLogin().contains(desiredValue) |
+////                                employee.getPassword().contains(desiredValue) |
+////                                employee.getLastName().contains(desiredValue) |
+////                                employee.getMiddleName().contains(desiredValue) |
+////                                employee.getAddress().contains(desiredValue) |
+////                                employee.getTelephone().contains(desiredValue) |
+////                                employee.getMobilephone().contains(desiredValue) |
+////                                employee.getIdentityCard().contains(desiredValue) |
+////                                employee.getWorkBook().contains(desiredValue) |
+////                                employee.getRNN().contains(desiredValue) |
+////                                employee.getSIK().contains(desiredValue)
+////
+////                        )
+                result.add(getEmployeeFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoException(e);

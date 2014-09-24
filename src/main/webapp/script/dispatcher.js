@@ -2,12 +2,14 @@ $(document).ready(function () {
 
     $('#cBack').click(function () {
         var page = $('#clientsPageNumber').val() - 1;
+        var rows = $('#clientsrows').val();
 
         $('.cNumbered').removeClass("active");
         $("li.cNumbered[value=" + page + "]").addClass("active");
         $.get("ajaxChangeClientsPage",
             {
-                clientspage: page
+                clientspage: page,
+                clientsrows: rows
             },
             function (data) {
                 $('#clientsTable').html(data);
@@ -19,9 +21,12 @@ $(document).ready(function () {
         $(this).addClass("active");
 
         var page = $(this).attr('value');
+        var rows = $('#clientsrows').val();
+
         $.get("ajaxChangeClientsPage",
             {
-                clientspage: page
+                clientspage: page,
+                clientsrows: rows
             },
             function (data) {
                 $('#clientsTable').html(data);
@@ -31,12 +36,14 @@ $(document).ready(function () {
 
     $('#cNext').click(function () {
         var page = $('#clientsPageNumber').val() - 1 + 2;
+        var rows = $('#clientsrows').val();
 
         $('.cNumbered').removeClass("active");
         $("li.cNumbered[value=" + page + "]").addClass("active");
         $.get("ajaxChangeClientsPage",
             {
-                clientspage: page
+                clientspage: page,
+                clientsrows: rows
             },
             function (data) {
                 $('#clientsTable').html(data);
@@ -45,12 +52,14 @@ $(document).ready(function () {
 
     $('#oBack').click(function () {
         var page = $('#ordersPageNumber').val() - 1;
+        var rows = $('#ordersrows').val();
 
         $('.oNumbered').removeClass("active");
         $("li.oNumbered[value=" + page + "]").addClass("active");
         $.get("ajaxChangeOrdersPage",
             {
-                orderspage: page
+                orderspage: page,
+                ordersrows: rows
             },
             function (data) {
                 $('#ordersTable').html(data);
@@ -62,9 +71,12 @@ $(document).ready(function () {
         $(this).addClass("active");
 
         var page = $(this).attr('value');
+        var rows = $('#ordersrows').val();
+
         $.get("ajaxChangeOrdersPage",
             {
-                orderspage: page
+                orderspage: page,
+                ordersrows: rows
             },
             function (data) {
                 $('#ordersTable').html(data);
@@ -73,12 +85,14 @@ $(document).ready(function () {
 
     $('#oNext').click(function () {
         var page = $('#ordersPageNumber').val() - 1 + 2;
+        var rows = $('#ordersrows').val();
 
         $('.oNumbered').removeClass("active");
         $("li.oNumbered[value=" + page + "]").addClass("active");
         $.get("ajaxChangeOrdersPage",
             {
-                orderspage: page
+                orderspage: page,
+                ordersrows: rows
             },
             function (data) {
                 $('#ordersTable').html(data);
@@ -169,7 +183,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#ordersTable tr').click(function () {
+    $('#ordersTable').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -180,7 +194,20 @@ $(document).ready(function () {
             });
 //        $('#collapseOne').addClass('collapsing');
 //        $('#collapseOne').addClass('collapse in');
-    })
+    });
+
+    function call() {
+        var form = $('#findForm').serialize();
+
+        alert(form);
+        $.get("findOrder",
+            {
+                form: form
+            },
+            function (data) {
+                $('#ordersTable').html(data);
+            })
+    }
 
 });
 

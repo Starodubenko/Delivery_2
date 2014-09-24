@@ -6,6 +6,7 @@ import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,16 +46,16 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, String columnName, String desiredValue) {
+    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
 
         String RANGE_CLIENT = null;
-        try {
-            Integer.parseInt(desiredValue);
-            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
-        } catch (Exception e) {
-            columnName = columnName.replace(" ", "");
-            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + "'" + desiredValue + "'" + " LIMIT ? OFFSET ?";
-        }
+//        try {
+//            Integer.parseInt(desiredValue);
+//            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
+//        } catch (Exception e) {
+//            columnName = columnName.replace(" ", "");
+//            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + "'" + desiredValue + "'" + " LIMIT ? OFFSET ?";
+//        }
 
         List<Client> result = new ArrayList<>();
 

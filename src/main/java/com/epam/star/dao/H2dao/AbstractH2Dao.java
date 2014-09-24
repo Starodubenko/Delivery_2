@@ -2,6 +2,7 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.entity.AbstractEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.util.List;
 
@@ -37,5 +38,5 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract int getRecordsCount();
 
-    public abstract List<T> findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue);
+    public abstract List<T> findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request);
 }

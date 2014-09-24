@@ -26,10 +26,10 @@ public class Controller extends HttpServlet {
 
         Action action = ActionFactory.getAction(actionName);
 
-        if (action == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "url not found");
-            return;
-        }
+//        if (action == null) {
+//            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "url not found");
+//            return;
+//        }
 
         ActionResult result = null;
         try {

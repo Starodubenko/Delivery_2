@@ -78,6 +78,8 @@ public class ActionFactory {
 
         actions.put("GET/saveOrderData", new AjaxSaveOrderData());
 
+        actions.put("GET/findOrder", new AjaxFindOrderAction());
+
 
 //        for (Class<? extends Action> actionClass : actions) {
 ////            Annotation[] annotations = actionClass.getAnnotations();

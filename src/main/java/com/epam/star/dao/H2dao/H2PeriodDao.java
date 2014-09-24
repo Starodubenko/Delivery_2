@@ -5,6 +5,7 @@ import com.epam.star.entity.Period;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,7 +148,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+    public List findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request) {
         return null;
     }
 }

@@ -28,14 +28,14 @@
             </div>
             <div class="form-group  edit">
                 <div class="center"><label for="additional-info" class="edit-field">Additional info</label></div>
-                <textarea name="additionalinformation" class="form-control" name="additional-info" id="additional-info">
+                <textarea class="form-control" name="additional-info" id="additional-info">
                     ${order.getAdditionalInfo()}
                 </textarea>
             </div>
         </div>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close order form</button>
-        <button type="button" class="createOrderButton btn btn-primary" data-toggle="modal" data-target="#confirmModal">
-            Create an Order
+        <br><br><br><br><br>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">
+            Save
         </button>
     </form>
 </div>

@@ -27,13 +27,9 @@ public class SearchePagination<T, E extends AbstractH2Dao> {
 
         List<T> tableList = null;
         int tableLenght;
-        if (desiredValue != null & desiredValue != "" & columnName != null) {
-            tableList = genericDao.findRangeWithValue(firstRow, rowsCount, columnName, desiredValue);
-            tableLenght = tableList.size();
-        } else {
-            tableList = genericDao.findRange(firstRow, rowsCount);
-            tableLenght = genericDao.getRecordsCount();
-        }
+        tableList = genericDao.findRangeWithValue(firstRow, rowsCount, request);
+        tableLenght = tableList.size();
+
 
         List<Integer> paginationList = new ArrayList<>();
         for (int i = 0; i < tableLenght / rowsCount + 1; i++) {

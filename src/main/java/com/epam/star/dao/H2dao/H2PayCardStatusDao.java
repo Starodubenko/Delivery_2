@@ -5,6 +5,7 @@ import com.epam.star.entity.StatusPayCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -129,7 +130,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, String columnName, String desiredValue) {
+    public List findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request) {
         return null;
     }
 }

@@ -2,9 +2,11 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
 import com.epam.star.entity.*;
+import com.sun.deploy.net.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -268,16 +270,29 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, String columnName, String desiredValue) {
+    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
 
-        String RANGE_CLIENT = null;
-        try {
-            Integer.parseInt(desiredValue); // if it's number
-            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
-        } catch (Exception e) {
-            columnName = columnName.replace(" ", "");
-            RANGE_CLIENT = "SELECT * FROM Orders WHERE " + columnName + " = " + "'" + desiredValue + "'" + " and " + " LIMIT ? OFFSET ?";
-        }
+        String RANGE_CLIENT = "SELECT *" +
+                " FROM orders" +
+                " inner join users" +
+                " on orders.user_id = users.id" +
+                " inner join period" +
+                " on orders.period_id = period.id" +
+                " inner join goods" +
+                " on orders.goods_id = goods.id" +
+                " inner join status" +
+                " on orders.status_id = status.id" +
+                "  where " +
+                "    orders.id = ? and" +
+                "    orders.order_date = ? and" +
+                "    orders.goods_id = ? and" +
+                "    orders.count = ? and" +
+                "    orders.ORDER_COST = ? and" +
+                "    orders.delivery_date = ? and" +
+                "    orders.period_id = ? and" +
+                "    orders.additional_info = ? and" +
+                "    orders.status_id = ?" +
+                " LIMIT ? OFFSET ?";
 
         List<Order> result = new ArrayList<>();
 
@@ -285,8 +300,17 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         ResultSet resultSet = null;
         try {
             prstm = conn.prepareStatement(RANGE_CLIENT);
-            prstm.setInt(1, count);
-            prstm.setInt(2, firstPosition);
+//            prstm.setInt(1, count);
+//            prstm.setString(2, firstPosition);
+//            prstm.setString(3, firstPosition);
+//            prstm.setString(4, firstPosition);
+//            prstm.setString(5, firstPosition);
+//            prstm.setString(6, firstPosition);
+//            prstm.setString(7, firstPosition);
+//            prstm.setString(8, firstPosition);
+//            prstm.setString(9, firstPosition);
+//            prstm.setInt(10, count);
+//            prstm.setInt(11, firstPosition);
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getOrderFromResultSet(resultSet));

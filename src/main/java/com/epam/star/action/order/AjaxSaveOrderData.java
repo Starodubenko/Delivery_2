@@ -70,7 +70,8 @@ public class AjaxSaveOrderData implements Action {
         order.setCount(count);
         order.setDeliveryDate(Date.valueOf(request.getParameter("delivery-date")));
         order.setPeriod(periodDao.findByPeriod(Time.valueOf(request.getParameter("delivery-time"))));
-        order.setAdditionalInfo(request.getParameter("additional-info"));
+        String addInfo = request.getParameter("additional-info");
+        order.setAdditionalInfo(addInfo);
 
         return order;
     }

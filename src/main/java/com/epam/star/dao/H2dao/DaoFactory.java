@@ -1,16 +1,25 @@
 package com.epam.star.dao.H2dao;
 
+import com.epam.star.util.PropertiesManager;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DaoFactory {
 
     private final BoneCP connectionPool;
+    private static PropertiesManager jdbcProperties;
 
     private DaoFactory() throws DaoException {
+
+        try {
+            jdbcProperties = new PropertiesManager("connection.properties");
+        } catch (IOException e) {
+            throw new DaoException(e);
+        }
 
         try {
             Class.forName("org.h2.Driver");
@@ -20,9 +29,9 @@ public class DaoFactory {
 
         BoneCPConfig config = new BoneCPConfig();
 
-        config.setJdbcUrl("jdbc:h2:tcp://localhost/FPDB");
-        config.setUsername("Rody");
-        config.setPassword("1");
+        config.setJdbcUrl(jdbcProperties.getProperty("jdbc.url"));
+        config.setUsername(jdbcProperties.getProperty("user.name"));
+        config.setPassword(jdbcProperties.getProperty("password"));
 
         try {
             connectionPool = new BoneCP(config);
