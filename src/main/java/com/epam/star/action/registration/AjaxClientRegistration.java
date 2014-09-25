@@ -21,6 +21,7 @@ import java.util.List;
 public class AjaxClientRegistration implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxClientRegistration.class);
     private ActionResult result = new ActionResult("json");
+    private ActionResult success = new ActionResult("footerSuccessfulClientReg");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -46,10 +47,11 @@ public class AjaxClientRegistration implements Action {
             } catch (Exception e) {
                 daoManager.rollback();
                 jsonObject.put("registrationSuccessful", "Login is already occupied");
-
             } finally {
                 daoManager.closeConnection();
             }
+            request.setAttribute("registrationSuccessful", "Registration was successful");
+            return success;
         } else LOGGER.info("Creation of a client failed, {}", client);
         return result;
     }

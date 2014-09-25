@@ -81,61 +81,67 @@
                     <h4 class="modal-title" id="RegistrationFormLabel">Registration form</h4>
                 </div>
                 <div class="registration">
-                    <div class="form-group" id="loginDiv">
-                        <label for="Login" class="name_surname">Login</label>
-                        <input type="text" name="login" value="Ivanov99" class="form-control" id="Login">
+                    <form id="regForm">
+                        <div class="form-group" id="loginDiv">
+                            <label for="Login" class="name_surname">Login</label>
+                            <input type="text" name="login" value="Ivanov99" class="form-control" id="Login">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="loginInput"></p>
-                    </div>
-                    <div class="form-group" id="passwordDiv">
-                        <label for="Password" class="name_surname">Password</label>
-                        <input type="text" name="password" value="Ivanov9" class="form-control" id="Password">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="loginInput"></p>
+                        </div>
+                        <div class="form-group" id="passwordDiv">
+                            <label for="Password" class="name_surname">Password</label>
+                            <input type="text" name="password" value="Ivanov9" class="form-control" id="Password">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="passwordInput"></p>
-                    </div>
-                    <div class="form-group" id="firstnameDiv">
-                        <label for="Firstname" class="name_surname">Firsname</label>
-                        <input type="text" name="firstname" value="Ivan" class="form-control" id="Firstname">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="passwordInput"></p>
+                        </div>
+                        <div class="form-group" id="firstnameDiv">
+                            <label for="Firstname" class="name_surname">Firsname</label>
+                            <input type="text" name="firstname" value="Ivan" class="form-control" id="Firstname">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="firstnameInput"></p>
-                    </div>
-                    <div class="form-group" id="lastnameDiv">
-                        <label for="Lastname" class="name_surname">Lastname</label>
-                        <input type="text" name="lastname" value="Ivanov" class="form-control" id="Lastname">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="firstnameInput"></p>
+                        </div>
+                        <div class="form-group" id="lastnameDiv">
+                            <label for="Lastname" class="name_surname">Lastname</label>
+                            <input type="text" name="lastname" value="Ivanov" class="form-control" id="Lastname">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="lastnameInput"></p>
-                    </div>
-                    <div class="form-group" id="middlenameDiv">
-                        <label for="Middlename" class="name_surname">Middlename</label>
-                        <input type="text" name="middlename" value="Ivanovich" class="form-control" id="Middlename">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="lastnameInput"></p>
+                        </div>
+                        <div class="form-group" id="middlenameDiv">
+                            <label for="Middlename" class="name_surname">Middlename</label>
+                            <input type="text" name="middlename" value="Ivanovich" class="form-control" id="Middlename">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="middlenameInput"></p>
-                    </div>
-                    <div class="form-group" id="addressDiv">
-                        <label for="Address" class="name_surname">Address</label>
-                        <input type="text" name="address" value="Ivanova-32" class="form-control" id="Address">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="middlenameInput"></p>
+                        </div>
+                        <div class="form-group" id="addressDiv">
+                            <label for="Address" class="name_surname">Address</label>
+                            <input type="text" name="address" value="Ivanova-32" class="form-control" id="Address">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="addressInput"></p>
-                    </div>
-                    <div class="form-group" id="telephoneDiv">
-                        <label for="Telephone" class="name_surname">Telephone</label>
-                        <input type="text" name="telephone" value="87212965896" class="form-control" id="Telephone">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="addressInput"></p>
+                        </div>
+                        <div class="form-group" id="telephoneDiv">
+                            <label for="Telephone" class="name_surname">Telephone</label>
+                            <input type="text" name="telephone" value="87212965896" class="form-control" id="Telephone">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="telephoneInput"></p>
-                    </div>
-                    <div class="form-group" id="mobilephoneDiv">
-                        <label for="Mobilephone" class="name_surname">Mobilephone</label>
-                        <input type="text" name="mobilephone" value="87007778958" class="form-control" id="Mobilephone">
+                            <p for="Login" class="name_surname errorRegistationLabel" id="telephoneInput"></p>
+                        </div>
+                        <div class="form-group" id="mobilephoneDiv">
+                            <label for="Mobilephone" class="name_surname">Mobilephone</label>
+                            <input type="text" name="mobilephone" value="87007778958" class="form-control"
+                                   id="Mobilephone">
 
-                        <p for="Login" class="name_surname errorRegistationLabel" id="mobilephoneInput"></p>
-                    </div>
+                            <p for="Login" class="name_surname errorRegistationLabel" id="mobilephoneInput"></p>
+                        </div>
 
+                            <%--<p class="name_surname errorRegistationLabel" id="registrationSuccessful"></p>--%>
+                    </form>
+                </div>
+                <div class="modal-footer reg">
                     <p class="name_surname errorRegistationLabel" id="registrationSuccessful"></p>
-                </div>
-                <div class="modal-footer">
                     <button class="btn btn-default" data-dismiss="modal">Close registration form</button>
-                    <button class="btn btn-primary" id="goRegistration">Registration</button>
+                    <button type="submit" form="regForm" class="btn btn-primary" id="goRegistration">Registration
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>

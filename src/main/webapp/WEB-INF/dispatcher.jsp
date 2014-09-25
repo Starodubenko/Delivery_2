@@ -268,7 +268,7 @@
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
                                         <br><br><br><br>
-                                        <input type="submit" class="btn btn-primary" value="Searche" onclick="call()">
+                                        <input type="button" class="btn btn-primary" id="save-data" value="Search">
                                     </div>
                                 </form>
                             </div>

@@ -4,11 +4,12 @@
 
 <link rel='stylesheet' href='<c:url value="/style/authentication.css"/>'>
 
-<div class="authentication">
+<fmt:bundle basename="i18n.messages">
+    <div class="authentication">
     <c:if test="${not empty user}">
         <div id="autorized">
             <form action="<c:url value="/do/logout"/>">
-                <p align="center">Welcome</p>
+                <p align="center"><fmt:message key="autentication.welcome"/></p>
 
                 <p align="center" class="name_surname">${user.getFirstName()}</p>
 
@@ -20,20 +21,23 @@
     </c:if>
     <c:if test="${empty user}">
         <div id="unAutorized">
-            <div class="center"><label for="inputLogin">Login</label></div>
-            <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
+            <form id="loginform">
+                <div class="center"><label for="inputLogin"><fmt:message key="autentication.login"/></label></div>
+                <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
 
-            <div class="center"><label for="inputPassword">Password</label></div>
-            <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="EleEle">
+                <div class="center"><label for="inputPassword">Password</label></div>
+                <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="EleEle">
 
-            <input type="button" class="loginbtn btn btn-primary" value="Login" id="goLogin">
-            <button class="registrationbtn btn btn-primary" data-toggle="modal" data-target="#RegistrationForm">
-                Registration
-            </button>
+                <input type="submit" class="loginbtn btn btn-primary" value="Login" id="goLogin">
+                <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
+                        data-target="#RegistrationForm">
+                    Registration
+                </button>
+            </form>
             <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
         </div>
     </c:if>
 </div>
-
+</fmt:bundle>
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/script/authentication.js"/>"></script>

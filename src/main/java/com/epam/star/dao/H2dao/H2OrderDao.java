@@ -1,16 +1,14 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
-import com.epam.star.entity.*;
-import com.sun.deploy.net.HttpRequest;
+import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -282,17 +280,17 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 " on orders.goods_id = goods.id" +
                 " inner join status" +
                 " on orders.status_id = status.id" +
-                "  where " +
-                "    orders.id = ? and" +
-                "    orders.order_date = ? and" +
-                "    orders.goods_id = ? and" +
-                "    orders.count = ? and" +
-                "    orders.ORDER_COST = ? and" +
-                "    orders.delivery_date = ? and" +
-                "    orders.period_id = ? and" +
-                "    orders.additional_info = ? and" +
-                "    orders.status_id = ?" +
-                " LIMIT ? OFFSET ?";
+                " where " +
+                " orders.id =" + "'%" + "?" + "'" + "and" +
+                " orders.order_date =" + "'%" + "?" + "'" + "and" +
+                " goods.goods_name =" + "'%" + "?" + "'" + "and";
+//                " orders.count = ? and" +
+//                " orders.ORDER_COST = ? and" +
+//                " orders.delivery_date = ? and" +
+//                " orders.period_id = ? and" +
+//                " orders.additional_info = ? and" +
+//                " orders.status_id = ?" +
+//                " LIMIT ? OFFSET ?";
 
         List<Order> result = new ArrayList<>();
 
@@ -300,8 +298,16 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         ResultSet resultSet = null;
         try {
             prstm = conn.prepareStatement(RANGE_CLIENT);
-//            prstm.setInt(1, count);
-//            prstm.setString(2, firstPosition);
+
+            String s = request.getParameter("order-id");
+            prstm.setString(1, s);
+            Date date = null;
+            try {
+                date = (Date) new SimpleDateFormat("MMMM d, yyyy").parse(request.getParameter("order-date"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+//            prstm.setDate(2, date);
 //            prstm.setString(3, firstPosition);
 //            prstm.setString(4, firstPosition);
 //            prstm.setString(5, firstPosition);
@@ -309,8 +315,8 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
 //            prstm.setString(7, firstPosition);
 //            prstm.setString(8, firstPosition);
 //            prstm.setString(9, firstPosition);
-//            prstm.setInt(10, count);
-//            prstm.setInt(11, firstPosition);
+            prstm.setInt(10, count);
+            prstm.setInt(11, firstPosition);
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getOrderFromResultSet(resultSet));

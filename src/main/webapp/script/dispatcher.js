@@ -196,18 +196,12 @@ $(document).ready(function () {
 //        $('#collapseOne').addClass('collapse in');
     });
 
-    function call() {
-        var form = $('#findForm').serialize();
-
-        alert(form);
-        $.get("findOrder",
-            {
-                form: form
-            },
+    $('#save-data').click(function () {
+        $.get('findOrder' + '?' + $('#findForm').serialize(),
             function (data) {
                 $('#ordersTable').html(data);
             })
-    }
+    })
 
 });
 
