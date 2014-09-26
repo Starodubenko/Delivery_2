@@ -9,6 +9,7 @@
 <head>
     <title>Welcome</title>
     <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
+    <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
     <link rel='stylesheet' href='<c:url value="/style/dispatcher.css"/>'>
     <link rel='stylesheet' href='<c:url value="/style/retractableWindow.css"/>'>
 </head>
@@ -92,85 +93,87 @@
             </div>
 
             <div class="orderListHeight tab-pane" id="Orders">
-                <ul id="change" class="pagination">
-                    <li id="oBack"><a href="#page">&laquo;</a></li>
+                <div id="orders-block">
+                    <ul id="change" class="pagination">
+                        <li id="oBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                            class="oNumbered <c:if test="${status.first}">active</c:if>"><a href="#page${pl.intValue()}"
-                                                                                            class="page">${pl.intValue()}</a>
-                        </li>
-                    </c:forEach>
+                        <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
+                            <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                                class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
+                            </li>
+                        </c:forEach>
 
-                    <li id="oNext"><a href="#page">&raquo;</a></li>
-                </ul>
+                        <li id="oNext"><a href="#page">&raquo;</a></li>
+                    </ul>
 
-                <select class="form-control switcher floatRight" id="switchStatusOrser">
-                    <option>Waiting</option>
-                    <option>Active</option>
-                    <option>Canceled</option>
-                    <option>Executed</option>
-                </select>
+                        <%--<select class="form-control switcher floatRight" id="switchStatusOrser">--%>
+                        <%--<option>Waiting</option>--%>
+                        <%--<option>Active</option>--%>
+                        <%--<option>Canceled</option>--%>
+                        <%--<option>Executed</option>--%>
+                        <%--</select>--%>
 
-                <div class="form-group rows-count floatRight">
-                    <label class="labelCount" for="clientsrows">Rows count</label>
+                        <%--<div class="form-group rows-count floatRight">--%>
+                        <%--<label class="labelCount" for="clientsrows">Rows count</label>--%>
 
-                    <form action="${pageContext.request.contextPath}/do/dispatcher">
-                        <div class="input-group">
-                            <input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"
-                                   class="form-control textCount">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default floatRight" type="submit">aply</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
+                        <%--<form action="${pageContext.request.contextPath}/do/dispatcher">--%>
+                        <%--<div class="input-group">--%>
+                        <%--<input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"--%>
+                        <%--class="form-control textCount">--%>
+                        <%--<span class="input-group-btn">--%>
+                        <%--<button class="btn btn-default floatRight" type="submit">aply</button>--%>
+                        <%--</span>--%>
+                        <%--</div>--%>
+                        <%--</form>--%>
+                        <%--</div>--%>
 
-                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
-                    <table class="table table-hover" ID="ordersTable">
-                        <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
-                        <tr>
-                            <th>
-                                <p> Check all</p>
+                    <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                        <table class="table table-hover" ID="ordersTable">
+                            <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+                            <tr>
+                                <th>
+                                    <p> Check all</p>
 
-                                <div class="checkbox">
-                                    <label>
-                                        <input id="maincheck" type="checkbox" value="${row.getId()}">
-                                    </label>
-                                </div>
-                            </th>
-                            <th>ID</th>
-                            <th>Order date</th>
-                            <th>Goods name</th>
-                            <th>Goods count</th>
-                            <th>Order cost</th>
-                            <th>Delivery date</th>
-                            <th>Delivery time</th>
-                            <th>Additional info</th>
-                            <th>Status</th>
-                        </tr>
-                        <c:forEach var="row" items="${ordersList}">
-                            <tr data-toggle="collapse" data-parent="#accordion">
-                            <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
+                                            <input id="maincheck" type="checkbox" value="${row.getId()}">
                                         </label>
                                     </div>
-                                </td>
-                                <td>${row.getId()}</td>
-                                <td>${row.getOrderDate()}</td>
-                                <td>${row.getGoods().getGoodsName()}</td>
-                                <td>${row.getCount()}</td>
-                                <td>${row.getOrderCost()}</td>
-                                <td>${row.getDeliveryDate()}</td>
-                                <td>${row.getPeriod().getPeriod()}</td>
-                                <td>${row.getAdditionalInfo()}</td>
-                                <td>${row.getStatus().getStatusName()}</td>
+                                </th>
+                                <th>ID</th>
+                                <th>Order date</th>
+                                <th>Goods name</th>
+                                <th>Goods count</th>
+                                <th>Order cost</th>
+                                <th>Delivery date</th>
+                                <th>Delivery time</th>
+                                <th>Additional info</th>
+                                <th>Status</th>
                             </tr>
-                        </c:forEach>
-                    </table>
+                            <c:forEach var="row" items="${ordersList}">
+                                <tr data-toggle="collapse" data-parent="#accordion">
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>${row.getId()}</td>
+                                    <td>${row.getOrderDate()}</td>
+                                    <td>${row.getGoods().getGoodsName()}</td>
+                                    <td>${row.getCount()}</td>
+                                    <td>${row.getOrderCost()}</td>
+                                    <td>${row.getDeliveryDate()}</td>
+                                    <td>${row.getPeriod().getPeriod()}</td>
+                                    <td>${row.getAdditionalInfo()}</td>
+                                    <td>${row.getStatus().getStatusName()}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
+
                 <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
                 <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
                 <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
@@ -208,41 +211,42 @@
                                 <form id="findForm">
                                     <div id="searcheFields">
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="order-id" class="edit-field">ID</label>
+                                            </div>
                                             <input type="text" class="form-control" name="order-id" id="order-id"
-                                                   value="${order.getPeriod().getPeriod()}">
+                                                   value="39">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
-                                            <input type="text" class="form-control" name="order-date" id="order-date"
-                                                   value="${order.getPeriod().getPeriod()}">
+                                            <div class="center"><label for="order-date" class="edit-field">Date</label>
+                                            </div>
+                                            <input type="text" class="form-control searchDate" name="order-date"
+                                                   id="order-date"
+                                                   value="2014-09-14">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="order-goods-name"
+                                                                       class="edit-field">Goods</label></div>
                                             <input type="text" class="form-control" name="order-goods-name"
                                                    id="order-goods-name"
-                                                   value="${order.getPeriod().getPeriod()}">
+                                                   value="Water 20L">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="delivery-time" class="edit-field">Goods
+                                                count</label></div>
                                             <input type="text" class="form-control" name="order-goods-count"
                                                    id="order-goods-count"
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="delivery-time" class="edit-field">Order
+                                                cost</label></div>
                                             <input type="text" class="form-control" name="order-cost" id="order-cost"
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
                                         <div class="form-group edit">
                                             <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
-                                            <input type="text" class="form-control" name="delivery-date"
+                                                date</label></div>
+                                            <input type="text" class="form-control searchDate" name="delivery-date"
                                                    id="delivery-date"
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
@@ -254,21 +258,21 @@
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="delivery-time" class="edit-field">Additional
+                                                info</label></div>
                                             <input type="text" class="form-control" name="order-addInfo"
                                                    id="order-addInfo"
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
                                         <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
+                                            <div class="center"><label for="delivery-time"
+                                                                       class="edit-field">status</label></div>
                                             <input type="text" class="form-control" name="order-status"
                                                    id="order-status"
                                                    value="${order.getPeriod().getPeriod()}">
                                         </div>
-                                        <br><br><br><br>
-                                        <input type="button" class="btn btn-primary" id="save-data" value="Search">
+                                        <br>
+                                        <input type="button" class="btn btn-primary" id="search" value="Search">
                                     </div>
                                 </form>
                             </div>
@@ -389,6 +393,7 @@
 
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
 <script src="<c:url value="/script/dispatcher.js"/>"></script>
 </body>
 </html>

@@ -196,11 +196,17 @@ $(document).ready(function () {
 //        $('#collapseOne').addClass('collapse in');
     });
 
-    $('#save-data').click(function () {
+    $('#search').click(function () {
         $.get('findOrder' + '?' + $('#findForm').serialize(),
             function (data) {
-                $('#ordersTable').html(data);
+                console.log(data);
+                alert(data);
+                $('#orders-block').html(data);
             })
+    });
+
+    $('.searchDate').datepicker({
+        format: 'yyyy-mm-dd'
     })
 
 });

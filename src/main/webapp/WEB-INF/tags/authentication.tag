@@ -6,38 +6,41 @@
 
 <fmt:bundle basename="i18n.messages">
     <div class="authentication">
-    <c:if test="${not empty user}">
-        <div id="autorized">
-            <form action="<c:url value="/do/logout"/>">
-                <p align="center"><fmt:message key="autentication.welcome"/></p>
+        <c:if test="${not empty user}">
+            <div id="autorized">
+                <form action="<c:url value="/do/logout"/>">
+                    <p align="center"><fmt:message key="authentication.welcome"/></p>
 
-                <p align="center" class="name_surname">${user.getFirstName()}</p>
+                    <p align="center" class="name_surname">${user.getFirstName()}</p>
 
-                <p align="center" class="name_surname">${user.getLastName()}</p>
-                <br>
-                <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
-            </form>
-        </div>
-    </c:if>
-    <c:if test="${empty user}">
-        <div id="unAutorized">
-            <form id="loginform">
-                <div class="center"><label for="inputLogin"><fmt:message key="autentication.login"/></label></div>
-                <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
+                    <p align="center" class="name_surname">${user.getLastName()}</p>
+                    <br>
+                    <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
+                </form>
+            </div>
+        </c:if>
+        <c:if test="${empty user}">
+            <div id="unAutorized">
+                <form id="loginform" method="post">
+                    <div class="center"><label for="inputLogin"><fmt:message key="authentication.login"/></label></div>
+                    <input type="text" name="authenticationLogin" class="form-control" id="inputLogin" value="Elena">
 
-                <div class="center"><label for="inputPassword">Password</label></div>
-                <input type="text" name="authenticationPassword" class="form-control" id="inputPassword" value="EleEle">
+                    <div class="center"><label for="inputPassword"><fmt:message key="authentication.password"/></label>
+                    </div>
+                    <input type="text" name="authenticationPassword" class="form-control" id="inputPassword"
+                           value="EleEle">
 
-                <input type="submit" class="loginbtn btn btn-primary" value="Login" id="goLogin">
+                    <input type="submit" class="loginbtn btn btn-primary"
+                           value="<fmt:message key="authentication.button.login"/>" id="goLogin">
+                </form>
                 <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
                         data-target="#RegistrationForm">
-                    Registration
+                    <fmt:message key="authentication.button.registration"/>
                 </button>
-            </form>
-            <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
-        </div>
-    </c:if>
-</div>
+                <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
+            </div>
+        </c:if>
+    </div>
 </fmt:bundle>
 <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
 <script src="<c:url value="/script/authentication.js"/>"></script>

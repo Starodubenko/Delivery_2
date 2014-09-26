@@ -30,7 +30,6 @@ public class SearchePagination<T, E extends AbstractH2Dao> {
         tableList = genericDao.findRangeWithValue(firstRow, rowsCount, request);
         tableLenght = tableList.size();
 
-
         List<Integer> paginationList = new ArrayList<>();
         for (int i = 0; i < tableLenght / rowsCount + 1; i++) {
             paginationList.add(i + 1);

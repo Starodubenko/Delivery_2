@@ -270,7 +270,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     @Override
     public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
 
-        String RANGE_CLIENT = "SELECT *" +
+        String RANGE_ORDERSs = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -280,43 +280,128 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 " on orders.goods_id = goods.id" +
                 " inner join status" +
                 " on orders.status_id = status.id" +
-                " where " +
-                " orders.id =" + "'%" + "?" + "'" + "and" +
-                " orders.order_date =" + "'%" + "?" + "'" + "and" +
-                " goods.goods_name =" + "'%" + "?" + "'" + "and";
-//                " orders.count = ? and" +
-//                " orders.ORDER_COST = ? and" +
-//                " orders.delivery_date = ? and" +
-//                " orders.period_id = ? and" +
-//                " orders.additional_info = ? and" +
-//                " orders.status_id = ?" +
-//                " LIMIT ? OFFSET ?";
+                " where ";
+
+        int selectedFieldsCount = 0;
+        if (request.getParameter("order-id") != null & request.getParameter("order-id") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.id = ?";
+        }
+        if (request.getParameter("order-date") != null & request.getParameter("order-date") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.order_date = ?";
+        }
+        if (request.getParameter("order-goods-name") != null & request.getParameter("order-goods-name") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " goods.goods_name = ?";
+        }
+        if (request.getParameter("order-goods-count") != null & request.getParameter("order-goods-count") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.count = ?";
+        }
+        if (request.getParameter("order-cost") != null & request.getParameter("order-cost") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.order_cost = ?";
+        }
+        if (request.getParameter("delivery-date") != null & request.getParameter("delivery-date") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.delivery_date = ?";
+        }
+        if (request.getParameter("delivery-time") != null & request.getParameter("delivery-time") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " period.period = ?";
+        }
+        if (request.getParameter("order-addInfo") != null & request.getParameter("order-addInfo") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " orders.additional_info = ?";
+        }
+        if (request.getParameter("order-status") != null & request.getParameter("order-status") != "") {
+            selectedFieldsCount++;
+            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
+            RANGE_ORDERSs += " status.status_name = ?";
+        }
+
+        RANGE_ORDERSs += " LIMIT ? OFFSET ?";
 
         List<Order> result = new ArrayList<>();
 
+        H2GoodsDao goodsDao = daoManager.getGoodsDao();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement(RANGE_CLIENT);
+            prstm = conn.prepareStatement(RANGE_ORDERSs);
 
-            String s = request.getParameter("order-id");
-            prstm.setString(1, s);
+            int prstmIndex = 0;
+            String dynamicalString = request.getParameter("order-id");
+            if (dynamicalString != null & dynamicalString != "") {
+                dynamicalString = request.getParameter("order-id");
+                prstmIndex++;
+                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
+            }
             Date date = null;
             try {
-                date = (Date) new SimpleDateFormat("MMMM d, yyyy").parse(request.getParameter("order-date"));
+                dynamicalString = request.getParameter("order-date");
+                if (dynamicalString != null & dynamicalString != "") {
+                    date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+                    prstmIndex++;
+                    prstm.setDate(prstmIndex, date);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-//            prstm.setDate(2, date);
-//            prstm.setString(3, firstPosition);
-//            prstm.setString(4, firstPosition);
-//            prstm.setString(5, firstPosition);
-//            prstm.setString(6, firstPosition);
-//            prstm.setString(7, firstPosition);
-//            prstm.setString(8, firstPosition);
-//            prstm.setString(9, firstPosition);
-            prstm.setInt(10, count);
-            prstm.setInt(11, firstPosition);
+            dynamicalString = request.getParameter("order-goods-name");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setString(prstmIndex, dynamicalString);
+            }
+            dynamicalString = request.getParameter("order-goods-count");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
+            }
+            dynamicalString = request.getParameter("order-cost");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
+            }
+            try {
+                dynamicalString = request.getParameter("delivery-date");
+                if (dynamicalString != null & dynamicalString != "") {
+                    date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+                    prstmIndex++;
+                    prstm.setDate(prstmIndex, date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            dynamicalString = request.getParameter("delivery-time");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setString(prstmIndex, dynamicalString);
+            }
+            dynamicalString = request.getParameter("order-addInfo");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setString(prstmIndex, dynamicalString);
+            }
+            dynamicalString = request.getParameter("order-status");
+            if (dynamicalString != null & dynamicalString != "") {
+                prstmIndex++;
+                prstm.setString(prstmIndex, dynamicalString);
+            }
+
+            prstmIndex++;
+            prstm.setInt(prstmIndex, count);
+            prstmIndex++;
+            prstm.setInt(prstmIndex, firstPosition);
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getOrderFromResultSet(resultSet));
