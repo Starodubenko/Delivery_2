@@ -270,7 +270,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     @Override
     public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
 
-        String RANGE_ORDERSs = "SELECT *" +
+        String findOrders = "SELECT *" +
                 " FROM orders" +
                 " inner join users" +
                 " on orders.user_id = users.id" +
@@ -279,57 +279,60 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
                 " inner join goods" +
                 " on orders.goods_id = goods.id" +
                 " inner join status" +
-                " on orders.status_id = status.id" +
-                " where ";
+                " on orders.status_id = status.id";
+
+        String conditions = "";
 
         int selectedFieldsCount = 0;
         if (request.getParameter("order-id") != null & request.getParameter("order-id") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.id = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.id = ?";
         }
         if (request.getParameter("order-date") != null & request.getParameter("order-date") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.order_date = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.order_date = ?";
         }
         if (request.getParameter("order-goods-name") != null & request.getParameter("order-goods-name") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " goods.goods_name = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " goods.goods_name = ?";
         }
         if (request.getParameter("order-goods-count") != null & request.getParameter("order-goods-count") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.count = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.count = ?";
         }
         if (request.getParameter("order-cost") != null & request.getParameter("order-cost") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.order_cost = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.order_cost = ?";
         }
         if (request.getParameter("delivery-date") != null & request.getParameter("delivery-date") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.delivery_date = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.delivery_date = ?";
         }
         if (request.getParameter("delivery-time") != null & request.getParameter("delivery-time") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " period.period = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " period.period = ?";
         }
         if (request.getParameter("order-addInfo") != null & request.getParameter("order-addInfo") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " orders.additional_info = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " orders.additional_info = ?";
         }
         if (request.getParameter("order-status") != null & request.getParameter("order-status") != "") {
             selectedFieldsCount++;
-            if (selectedFieldsCount > 1) RANGE_ORDERSs += " and ";
-            RANGE_ORDERSs += " status.status_name = ?";
+            if (selectedFieldsCount > 1) conditions += " and ";
+            conditions += " status.status_name = ?";
         }
 
-        RANGE_ORDERSs += " LIMIT ? OFFSET ?";
+        if (selectedFieldsCount > 0) findOrders += " where " + conditions;
+
+        findOrders += " LIMIT ? OFFSET ?";
 
         List<Order> result = new ArrayList<>();
 
@@ -337,7 +340,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement(RANGE_ORDERSs);
+            prstm = conn.prepareStatement(findOrders);
 
             int prstmIndex = 0;
             String dynamicalString = request.getParameter("order-id");

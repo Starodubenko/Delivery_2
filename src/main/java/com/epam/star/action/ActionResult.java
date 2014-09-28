@@ -1,21 +1,9 @@
 package com.epam.star.action;
 
-import org.json.JSONObject;
-
 public class ActionResult {
     private String view;
     private boolean redirection;
-
-    public JSONObject getJson() {
-        return json;
-    }
-
-    public ActionResult(JSONObject json) {
-
-        this.json = json;
-    }
-
-    private JSONObject json;
+    private int error = 0;
 
     public ActionResult() {
 
@@ -30,6 +18,14 @@ public class ActionResult {
         this.redirection = redirection;
     }
 
+    public int getError() {
+        return error;
+    }
+
+    public void setError(int error) {
+        this.error = error;
+    }
+
     public String getView() {
         return view;
     }
@@ -42,17 +38,8 @@ public class ActionResult {
         return redirection;
     }
 
-    public void setJson(JSONObject json) {
-        this.json = json;
-    }
-
-    public boolean isJson() {
-        if(json == null) return false;
-        else return true;
-
-    }
-
     public void setRedirect(boolean redirection) {
         this.redirection = redirection;
     }
+
 }

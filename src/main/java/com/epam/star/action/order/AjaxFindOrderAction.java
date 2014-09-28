@@ -4,6 +4,7 @@ import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.action.SearchePagination;
+import com.epam.star.dao.Dao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2OrderDao;
@@ -15,8 +16,11 @@ import java.sql.SQLException;
 
 public class AjaxFindOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindOrderAction.class);
-    ActionResult orderr = new ActionResult("ordersBlock");
-    ActionResult jsonn = new ActionResult("json");
+    private ActionResult orderr = new ActionResult("ordersBlock");
+    private ActionResult jsonn = new ActionResult("json");
+
+    private Dao dao;
+
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -30,5 +34,9 @@ public class AjaxFindOrderAction implements Action {
         daoManager.closeConnection();
 
         return orderr;
+    }
+
+    public void determineEntity() {
+        dao = DaoFactory.getInstance().getDaoManager().getClientDao();
     }
 }

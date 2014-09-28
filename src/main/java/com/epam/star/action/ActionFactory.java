@@ -1,13 +1,15 @@
 package com.epam.star.action;
 
+import com.epam.star.action.Client.AjaxChangeClientsPageAction;
+import com.epam.star.action.Client.AjaxClientEditFields;
 import com.epam.star.action.login.AjaxLoginAction;
 import com.epam.star.action.login.GoToPersonalCabinet;
-import com.epam.star.action.order.*;
-import com.epam.star.action.registration.AjaxClientRegistration;
-import com.epam.star.action.registration.ClientRergistrationAction;
 import com.epam.star.action.login.LoginAction;
 import com.epam.star.action.login.LogoutAction;
+import com.epam.star.action.order.*;
 import com.epam.star.action.paycard.PaymentAction;
+import com.epam.star.action.registration.AjaxClientRegistration;
+import com.epam.star.action.registration.ClientRergistrationAction;
 import com.epam.star.action.show.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +68,7 @@ public class ActionFactory {
 
         actions.put("POST/ajaxClientRegistration", new AjaxClientRegistration());
 
-        actions.put("GET/ajaxChangeClientsPage", new AjaxChangeClientsPage());
+        actions.put("GET/ajaxChangeClientsPage", new AjaxChangeClientsPageAction());
 
         actions.put("GET/ajaxChangeOrdersPage", new AjaxChangeOrdersPage());
 
@@ -74,7 +76,8 @@ public class ActionFactory {
 
         actions.put("GET/createOrder", new ShowCreateOrderPageAction());
 
-        actions.put("GET/SetOrderToEditFields", new AjaxSetOrderToEditFields());
+        actions.put("GET/SetOrderToEditFields", new AjaxOrderEditFields());
+        actions.put("GET/SetClientToEditFields", new AjaxClientEditFields());
 
         actions.put("GET/saveOrderData", new AjaxSaveOrderData());
 

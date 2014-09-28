@@ -1,11 +1,21 @@
 $('#goLogin').click(function () {
 
-    $.post("ajaxLogin" + '?' + $('#loginform').serialize(),
+    $.post("ajaxLogin", $('#loginform').serialize(),
         function (data) {
-            location.href = data.roleView;
-        }).fail(function (data) {
-            $('#errorLogin').html(data.errorMessage);
+            if (data.errorMessage == null) location.href = data.roleView;
+            else $('#errorLogin').html(data.errorMessage);
         })
+});
+
+$('#loginform').keydown(function () {
+
+    if (event.keyCode == 13) {
+        $.post("ajaxLogin", $('#loginform').serialize(),
+            function (data) {
+                if (data.errorMessage == null) location.href = data.roleView;
+                else $('#errorLogin').html(data.errorMessage);
+            })
+    }
 });
 
 $('#goRegistration').click(function () {
@@ -13,7 +23,7 @@ $('#goRegistration').click(function () {
     $('div[class="registration"]').children('div').removeClass("has-error");
     $('div[class="registration"]').children('div').children('p').html("");
 
-    $.post("ajaxClientRegistration" + '?' + $('#regForm').serialize(),
+    $.post("ajaxClientRegistration", $('#regForm').serialize(),
         function (data) {
             $('.modal-footer.reg').html(data);
         }).fail(function () {

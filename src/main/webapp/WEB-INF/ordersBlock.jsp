@@ -1,21 +1,40 @@
-<%@ tag description="authentication template" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel='stylesheet' href='<c:url value="/style/authentication.css"/>'>
-
-<div class="orderListHeight tab-pane" id="Orders">
+<div id="orders-block">
     <ul id="change" class="pagination">
         <li id="oBack"><a href="#page">&laquo;</a></li>
 
         <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
             <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                class="oNumbered <c:if test="${status.first}">active</c:if>"><a href="#page${pl.intValue()}"
-                                                                                class="page">${pl.intValue()}</a></li>
+                class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
+            </li>
         </c:forEach>
 
         <li id="oNext"><a href="#page">&raquo;</a></li>
     </ul>
+
+    <select class="form-control switcher floatRight" id="switchStatusOrser">
+        <option>Waiting</option>
+        <option>Active</option>
+        <option>Canceled</option>
+        <option>Executed</option>
+    </select>
+
+    <div class="form-group rows-count floatRight">
+        <label class="labelCount" for="ordersrows">Rows count</label>
+
+        <form action="${pageContext.request.contextPath}/do/dispatcher">
+            <div class="input-group">
+                <input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"
+                       class="form-control textCount">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default floatRight" type="submit">aply</button>
+                        </span>
+            </div>
+        </form>
+    </div>
 
     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
         <table class="table table-hover" ID="ordersTable">
@@ -24,9 +43,9 @@
                 <th>
                     <p> Check all</p>
 
-                    <div id="checkAll" class="checkbox">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="${row.getId()}">
+                            <input id="maincheck" type="checkbox" value="${row.getId()}">
                         </label>
                     </div>
                 </th>
@@ -35,17 +54,17 @@
                 <th>Goods name</th>
                 <th>Goods count</th>
                 <th>Order cost</th>
-                <th>Delivry date</th>
-                <th>Delivry time</th>
+                <th>Delivery date</th>
+                <th>Delivery time</th>
                 <th>Additional info</th>
                 <th>Status</th>
             </tr>
             <c:forEach var="row" items="${ordersList}">
-                <tr>
+                <tr data-toggle="collapse" data-parent="#accordion">
                     <td>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                                <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
                             </label>
                         </div>
                     </td>
@@ -62,10 +81,4 @@
             </c:forEach>
         </table>
     </div>
-    <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
-    <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
-    <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
 </div>
-
-<script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
-<script src="<c:url value="/script/authentication.js"/>"></script>

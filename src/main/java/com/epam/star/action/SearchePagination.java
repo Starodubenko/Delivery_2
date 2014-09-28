@@ -27,6 +27,7 @@ public class SearchePagination<T, E extends AbstractH2Dao> {
 
         List<T> tableList = null;
         int tableLenght;
+        boolean isFind = false;
         tableList = genericDao.findRangeWithValue(firstRow, rowsCount, request);
         tableLenght = tableList.size();
 

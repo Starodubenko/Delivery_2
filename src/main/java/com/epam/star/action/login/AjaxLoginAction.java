@@ -45,7 +45,9 @@ public class AjaxLoginAction implements Action {
             if (user.getRole().equals(positionDao.findByPositionName("Client"))) json.put("roleView", "client");
             if (user.getRole().equals(positionDao.findByPositionName("Dispatcher"))) json.put("roleView", "dispatcher");
             if (user.getRole().equals(positionDao.findByPositionName("Admin"))) json.put("roleView", "admin");
-        } else json.put("errorMessage", "Login or password was introduced with error");
+        } else {
+            json.put("errorMessage", "Login or password was introduced with error");
+        }
 
         request.setAttribute("json", json);
 

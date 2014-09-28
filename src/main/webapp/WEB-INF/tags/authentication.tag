@@ -30,13 +30,13 @@
                     <input type="text" name="authenticationPassword" class="form-control" id="inputPassword"
                            value="EleEle">
 
-                    <input type="submit" class="loginbtn btn btn-primary"
+                    <input type="button" class="loginbtn btn btn-primary"
                            value="<fmt:message key="authentication.button.login"/>" id="goLogin">
+                    <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
+                            data-target="#RegistrationForm">
+                        <fmt:message key="authentication.button.registration"/>
+                    </button>
                 </form>
-                <button type="button" class="registrationbtn btn btn-primary" data-toggle="modal"
-                        data-target="#RegistrationForm">
-                    <fmt:message key="authentication.button.registration"/>
-                </button>
                 <p class="name_surname errorRegistationLabel" id="errorLogin"></p>
             </div>
         </c:if>

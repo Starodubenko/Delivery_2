@@ -31,64 +31,66 @@
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
-                <ul id="changee" class="pagination">
-                    <li id="cBack"><a href="#page">&laquo;</a></li>
+                <div id="clients-block">
+                    <ul id="changee" class="pagination">
+                        <li id="cBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                            class="cNumbered <c:if test="${status.first}">active</c:if>"><a href="#page${pl.intValue()}"
-                                                                                            class="page">${pl.intValue()}</a>
-                        </li>
-                    </c:forEach>
+                        <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
+                            <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                                class="cNumbered "><a href="#page${pl.intValue()}"
+                                                      class="page">${pl.intValue()}</a>
+                            </li>
+                        </c:forEach>
 
-                    <li id="cNext"><a href="#page">&raquo;</a></li>
-                </ul>
+                        <li id="cNext"><a href="#page">&raquo;</a></li>
+                    </ul>
 
-                <div class="form-group rows-count floatRight">
-                    <label class="labelCount" for="clientsrows">Rows count</label>
+                    <div class="form-group rows-count floatRight">
+                        <label class="labelCount" for="clientsrows">Rows count</label>
 
-                    <form action="${pageContext.request.contextPath}/do/dispatcher">
-                        <div class="input-group">
-                            <input type="text" name="clientsrows" id="clientsrows" value="${clientsRowsCount}"
-                                   class="form-control textCount">
+                        <form action="${pageContext.request.contextPath}/do/dispatcher">
+                            <div class="input-group">
+                                <input type="text" name="clientsrows" id="clientsrows" value="${clientsRowsCount}"
+                                       class="form-control textCount">
                         <span class="input-group-btn">
                             <button class="btn btn-default floatRight" type="submit">aply</button>
                         </span>
-                        </div>
-                    </form>
-                </div>
+                            </div>
+                        </form>
+                    </div>
 
-                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
-                    <table class="table table-hover" ID="clientsTable">
-                        <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
-                        <tr>
-                            <th>ID</th>
-                            <th>Firs name</th>
-                            <th>Middle name</th>
-                            <th>Last name</th>
-                            <th>Address</th>
-                            <th>Telephone</th>
-                            <th>Mobilephone</th>
-                            <th>Create order</th>
-                        </tr>
-                        <c:forEach var="row" items="${clientsList}">
+                    <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                        <table class="table table-hover" ID="clientsTable">
+                            <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
                             <tr>
-                                <td class="id">${row.getId()}</td>
-                                <td>${row.getFirstName()}</td>
-                                <td>${row.getMiddleName()}</td>
-                                <td>${row.getLastName()}</td>
-                                <td>${row.getAddress()}</td>
-                                <td>${row.getTelephone()}</td>
-                                <td>${row.getMobilephone()}</td>
-                                <td class=" createOrder">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            value="${row.getId()}"
-                                            data-target="#myModel">Order
-                                    </button>
-                                </td>
+                                <th>ID</th>
+                                <th>Firs name</th>
+                                <th>Middle name</th>
+                                <th>Last name</th>
+                                <th>Address</th>
+                                <th>Telephone</th>
+                                <th>Mobilephone</th>
+                                <th>Create order</th>
                             </tr>
-                        </c:forEach>
-                    </table>
+                            <c:forEach var="row" items="${clientsList}">
+                                <tr>
+                                    <td class="id">${row.getId()}</td>
+                                    <td>${row.getFirstName()}</td>
+                                    <td>${row.getMiddleName()}</td>
+                                    <td>${row.getLastName()}</td>
+                                    <td>${row.getAddress()}</td>
+                                    <td>${row.getTelephone()}</td>
+                                    <td>${row.getMobilephone()}</td>
+                                    <td class=" createOrder">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                value="${row.getId()}"
+                                                data-target="#myModel">Order
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -106,26 +108,26 @@
                         <li id="oNext"><a href="#page">&raquo;</a></li>
                     </ul>
 
-                        <%--<select class="form-control switcher floatRight" id="switchStatusOrser">--%>
-                        <%--<option>Waiting</option>--%>
-                        <%--<option>Active</option>--%>
-                        <%--<option>Canceled</option>--%>
-                        <%--<option>Executed</option>--%>
-                        <%--</select>--%>
+                    <select class="form-control switcher floatRight" id="switchStatusOrser">
+                        <option>Waiting</option>
+                        <option>Active</option>
+                        <option>Canceled</option>
+                        <option>Executed</option>
+                    </select>
 
-                        <%--<div class="form-group rows-count floatRight">--%>
-                        <%--<label class="labelCount" for="clientsrows">Rows count</label>--%>
+                    <div class="form-group rows-count floatRight">
+                        <label class="labelCount" for="ordersrows">Rows count</label>
 
-                        <%--<form action="${pageContext.request.contextPath}/do/dispatcher">--%>
-                        <%--<div class="input-group">--%>
-                        <%--<input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"--%>
-                        <%--class="form-control textCount">--%>
-                        <%--<span class="input-group-btn">--%>
-                        <%--<button class="btn btn-default floatRight" type="submit">aply</button>--%>
-                        <%--</span>--%>
-                        <%--</div>--%>
-                        <%--</form>--%>
-                        <%--</div>--%>
+                        <form action="${pageContext.request.contextPath}/do/dispatcher">
+                            <div class="input-group">
+                                <input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"
+                                       class="form-control textCount">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default floatRight" type="submit">aply</button>
+                        </span>
+                            </div>
+                        </form>
+                    </div>
 
                     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                         <table class="table table-hover" ID="ordersTable">
@@ -178,134 +180,109 @@
                 <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
                 <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
 
-                <div class="panel-group edit-panel" id="accordion">
-                    <div class="panel panel-default">
-                        <div class="panel-heading edit-panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                    Edit
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+            </div>
 
-                                </form>
-                            </div>
+            <div class="panel-group edit-panel" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading edit-panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                Edit
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="panel-group edit-panel">
-                    <div class="panel panel-default">
-                        <div class="panel-heading edit-panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
-                                    Searching
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseSearche" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <form id="findForm">
-                                    <div id="searcheFields">
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="order-id" class="edit-field">ID</label>
-                                            </div>
-                                            <input type="text" class="form-control" name="order-id" id="order-id"
-                                                   value="39">
+            <div class="panel-group edit-panel">
+                <div class="panel panel-default">
+                    <div class="panel-heading edit-panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
+                                Searching
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSearche" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form id="findForm">
+                                <div id="searcheFields">
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="order-id" class="edit-field">ID</label>
                                         </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="order-date" class="edit-field">Date</label>
-                                            </div>
-                                            <input type="text" class="form-control searchDate" name="order-date"
-                                                   id="order-date"
-                                                   value="2014-09-14">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="order-goods-name"
-                                                                       class="edit-field">Goods</label></div>
-                                            <input type="text" class="form-control" name="order-goods-name"
-                                                   id="order-goods-name"
-                                                   value="Water 20L">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Goods
-                                                count</label></div>
-                                            <input type="text" class="form-control" name="order-goods-count"
-                                                   id="order-goods-count"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Order
-                                                cost</label></div>
-                                            <input type="text" class="form-control" name="order-cost" id="order-cost"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                date</label></div>
-                                            <input type="text" class="form-control searchDate" name="delivery-date"
-                                                   id="delivery-date"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                                time</label></div>
-                                            <input type="text" class="form-control" name="delivery-time"
-                                                   id="delivery-time"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time" class="edit-field">Additional
-                                                info</label></div>
-                                            <input type="text" class="form-control" name="order-addInfo"
-                                                   id="order-addInfo"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <div class="form-group edit">
-                                            <div class="center"><label for="delivery-time"
-                                                                       class="edit-field">status</label></div>
-                                            <input type="text" class="form-control" name="order-status"
-                                                   id="order-status"
-                                                   value="${order.getPeriod().getPeriod()}">
-                                        </div>
-                                        <br>
-                                        <input type="button" class="btn btn-primary" id="search" value="Search">
+                                        <input type="text" class="form-control" name="order-id" id="order-id"
+                                               value="39">
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="order-date" class="edit-field">Date</label>
+                                        </div>
+                                        <input type="text" class="form-control searchDate" name="order-date"
+                                               id="order-date"
+                                               value="2014-09-14">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="order-goods-name"
+                                                                   class="edit-field">Goods</label></div>
+                                        <input type="text" class="form-control" name="order-goods-name"
+                                               id="order-goods-name"
+                                               value="Water 20L">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time" class="edit-field">Goods
+                                            count</label></div>
+                                        <input type="text" class="form-control" name="order-goods-count"
+                                               id="order-goods-count"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time" class="edit-field">Order
+                                            cost</label></div>
+                                        <input type="text" class="form-control" name="order-cost" id="order-cost"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                            date</label></div>
+                                        <input type="text" class="form-control searchDate" name="delivery-date"
+                                               id="delivery-date"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                            time</label></div>
+                                        <input type="text" class="form-control" name="delivery-time"
+                                               id="delivery-time"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time" class="edit-field">Additional
+                                            info</label></div>
+                                        <input type="text" class="form-control" name="order-addInfo"
+                                               id="order-addInfo"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <div class="form-group edit">
+                                        <div class="center"><label for="delivery-time"
+                                                                   class="edit-field">status</label></div>
+                                        <input type="text" class="form-control" name="order-status"
+                                               id="order-status"
+                                               value="${order.getPeriod().getPeriod()}">
+                                    </div>
+                                    <br>
+                                    <input type="button" class="btn btn-primary" id="search" value="Search">
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="searchRow">
-                <div class="col-lg-6">
-                    <form action="${pageContext.request.contextPath}/do/searching">
-                        <div class="input-group">
-                        <span class="searcheWidth input-group-btn">
-                            <select class="form-control" name="columnName">
-                                <option>ID</option>
-                                <option>First name</option>
-                                <option>Middle name</option>
-                                <option>Last name</option>
-                                <option>Address</option>
-                                <option>Telephone</option>
-                                <option>Mobile phone</option>
-                            </select>
-                        </span>
-                            <input type="text" class="form-control" name="desiredValue">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">Search</button>
-                        </span>
-                        </div>
-                        <input type="hidden" name="daoName" value="clientDao">
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <div class="clear"></div>
     </div>

@@ -1,17 +1,17 @@
-package com.epam.star.action.order;
+package com.epam.star.action.Client;
 
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.dao.H2dao.H2OrderDao;
-import com.epam.star.entity.Order;
+import com.epam.star.dao.H2dao.H2ClientDao;
+import com.epam.star.entity.Client;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-public class AjaxSetOrderToEditFields implements Action {
+public class AjaxClientEditFields implements Action {
     private ActionResult editOrdersBlock = new ActionResult("ajaxOrderTableRow");
 
     @Override
@@ -21,11 +21,11 @@ public class AjaxSetOrderToEditFields implements Action {
 
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
-        H2OrderDao orderDao = daoManager.getOrderDao();
+        H2ClientDao clientDao = daoManager.getClientDao();
 
-        Order order = orderDao.findById(id);
+        Client client = clientDao.findById(id);
 
-        request.setAttribute("order", order);
+        request.setAttribute("client", client);
 
         daoManager.closeConnection();
 

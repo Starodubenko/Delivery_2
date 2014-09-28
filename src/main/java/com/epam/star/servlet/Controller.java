@@ -44,6 +44,7 @@ public class Controller extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/do/" + result.getView());
             return;
         }
+
         req.getRequestDispatcher("/WEB-INF/" + result.getView() + ".jsp").forward(req, resp);
     }
 }

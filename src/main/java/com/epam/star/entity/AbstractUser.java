@@ -11,15 +11,6 @@ public abstract class AbstractUser extends AbstractEntity {
     private String address;
     private String telephone;
     private String mobilephone;
-
-    public String getMobilephone() {
-        return mobilephone;
-    }
-
-    public void setMobilephone(String mobilephone) {
-        this.mobilephone = mobilephone;
-    }
-
     private Position role;
     private BigDecimal VirtualBalance;
 
@@ -39,6 +30,14 @@ public abstract class AbstractUser extends AbstractEntity {
         this.mobilephone = mobilephone;
         this.role = role;
         VirtualBalance = virtualBalance;
+    }
+
+    public String getMobilephone() {
+        return mobilephone;
+    }
+
+    public void setMobilephone(String mobilephone) {
+        this.mobilephone = mobilephone;
     }
 
     public Position getRole() {

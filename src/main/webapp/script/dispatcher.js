@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#cBack').click(function () {
+    $('#Clients').on('click', '#cBack', function () {
         var page = $('#clientsPageNumber').val() - 1;
         var rows = $('#clientsrows').val();
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
             })
     });
 
-    $('li[class="cNumbered " ]').click(function () {
+    $('#Clients').on('click', '.cNumbered', function () {
         $('.cNumbered').removeClass("active");
         $(this).addClass("active");
 
@@ -34,7 +34,7 @@ $(document).ready(function () {
     });
 
 
-    $('#cNext').click(function () {
+    $('#Clients').on('click', '#cNext', function () {
         var page = $('#clientsPageNumber').val() - 1 + 2;
         var rows = $('#clientsrows').val();
 
@@ -50,7 +50,7 @@ $(document).ready(function () {
             })
     });
 
-    $('#oBack').click(function () {
+    $('#Orders').on('click', '#oBack', function () {
         var page = $('#ordersPageNumber').val() - 1;
         var rows = $('#ordersrows').val();
 
@@ -66,7 +66,7 @@ $(document).ready(function () {
             })
     });
 
-    $('li[class="oNumbered "]').click(function () {
+    $('#Orders').on('click', '.oNumbered', function () {
         $('.oNumbered').removeClass("active");
         $(this).addClass("active");
 
@@ -83,7 +83,7 @@ $(document).ready(function () {
             })
     });
 
-    $('#oNext').click(function () {
+    $('#Orders').on('click', '#oNext', function () {
         var page = $('#ordersPageNumber').val() - 1 + 2;
         var rows = $('#ordersrows').val();
 
@@ -166,24 +166,18 @@ $(document).ready(function () {
             });
     });
 
-    $('#switchStatusOrser').change(function () {
-        var e = document.getElementById("switchStatusOrser");
-        var status = e.options[e.selectedIndex].value;
-        console.log(status);
+//    $('#switchStatusOrser').change(function () {
+//        var e = document.getElementById("switchStatusOrser");
+//        var status = e.options[e.selectedIndex].value;
+//        console.log(status);
+//
+//        $.get("selectStatus", {status: status},
+//            function (data) {
+//                $('#Orders').html(data);
+//            });
+//    });
 
-        $.get("selectStatus", {status: status},
-            function (data) {
-                $('#Orders').html(data);
-            });
-    });
-
-    $('.panel-body').on('keypress', '.edit-field', function (e) {
-        if (e.which = 13) {
-
-        }
-    });
-
-    $('#ordersTable').on('click', 'tr', function () {
+    $('#orders-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -199,8 +193,6 @@ $(document).ready(function () {
     $('#search').click(function () {
         $.get('findOrder' + '?' + $('#findForm').serialize(),
             function (data) {
-                console.log(data);
-                alert(data);
                 $('#orders-block').html(data);
             })
     });
