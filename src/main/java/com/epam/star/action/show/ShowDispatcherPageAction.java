@@ -1,9 +1,6 @@
 package com.epam.star.action.show;
 
-import com.epam.star.action.Action;
-import com.epam.star.action.ActionException;
-import com.epam.star.action.ActionResult;
-import com.epam.star.action.Pagination;
+import com.epam.star.action.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
@@ -16,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
+@MappedAction("GET/dispatcher")
 public class ShowDispatcherPageAction implements Action {
     private ActionResult dispatcher = new ActionResult("dispatcher");
 

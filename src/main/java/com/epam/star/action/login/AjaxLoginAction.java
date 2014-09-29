@@ -3,6 +3,7 @@ package com.epam.star.action.login;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.H2dao.DaoFactory;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
+@MappedAction("POST/ajaxLogin")
 public class AjaxLoginAction implements Action {
     private ActionResult result = new ActionResult("json");
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxLoginAction.class);

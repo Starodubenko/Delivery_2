@@ -1,9 +1,6 @@
 package com.epam.star.action.order;
 
-import com.epam.star.action.Action;
-import com.epam.star.action.ActionException;
-import com.epam.star.action.ActionResult;
-import com.epam.star.action.SearchePagination;
+import com.epam.star.action.*;
 import com.epam.star.dao.Dao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -14,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
+@MappedAction("GET/findOrder")
 public class AjaxFindOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindOrderAction.class);
     private ActionResult orderr = new ActionResult("ordersBlock");

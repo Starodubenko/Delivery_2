@@ -3,6 +3,7 @@ package com.epam.star.action.registration;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+@MappedAction("POST/ClientRegistration")
 public class ClientRergistrationAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRergistrationAction.class);
     private ActionResult login = new ActionResult("welcome", true);
@@ -39,9 +41,9 @@ public class ClientRergistrationAction implements Action {
                 client.setVirtualBalance(new BigDecimal(0));
                 clientDao.insert(client);
                 daoManager.commit();
-            } catch (Exception e){
+            } catch (Exception e) {
                 daoManager.rollback();
-            }finally {
+            } finally {
                 daoManager.closeConnection();
             }
         }

@@ -3,6 +3,7 @@ package com.epam.star.action.order;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+@MappedAction("GET/cancelOrder")
 public class CancelOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CancelOrderAction.class);
     ActionResult client = new ActionResult("client", true);

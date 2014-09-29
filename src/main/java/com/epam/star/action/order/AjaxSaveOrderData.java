@@ -3,6 +3,7 @@ package com.epam.star.action.order;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.GoodsDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.Time;
 
+@MappedAction("GET/saveOrderData")
 public class AjaxSaveOrderData implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveOrderData.class);
     ActionResult jsonn = new ActionResult("json");

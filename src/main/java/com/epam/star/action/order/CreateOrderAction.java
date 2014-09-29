@@ -3,6 +3,7 @@ package com.epam.star.action.order;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@MappedAction("GET/fastCreateOrder")
 public class CreateOrderAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderAction.class);
     ActionResult client = new ActionResult("ordersTable", true);

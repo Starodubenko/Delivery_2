@@ -3,6 +3,7 @@ package com.epam.star.action.login;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.PositionDao;
@@ -11,6 +12,7 @@ import com.epam.star.entity.AbstractUser;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
+@MappedAction("GET/personal-cabinet")
 public class GoToPersonalCabinet implements Action {
     ActionResult client = new ActionResult("client", true);
     ActionResult dispatcher = new ActionResult("dispatcher", true);

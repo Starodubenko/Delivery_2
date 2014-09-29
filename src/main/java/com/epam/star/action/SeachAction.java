@@ -7,6 +7,7 @@ import com.epam.star.dao.H2dao.H2ClientDao;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
+@MappedAction("GET/searching")
 public class SeachAction implements Action {
 
     private ActionResult dispatcher = new ActionResult("dispatcher");

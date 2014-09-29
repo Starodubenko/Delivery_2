@@ -3,6 +3,7 @@ package com.epam.star.action.registration;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+@MappedAction("POST/ajaxClientRegistration")
 public class AjaxClientRegistration implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxClientRegistration.class);
     private ActionResult result = new ActionResult("json");

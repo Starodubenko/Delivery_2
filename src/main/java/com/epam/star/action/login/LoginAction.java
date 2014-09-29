@@ -2,7 +2,7 @@ package com.epam.star.action.login;
 
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionResult;
-import com.epam.star.action.Post;
+import com.epam.star.action.MappedAction;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.H2dao.DaoFactory;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
-@Post
+@MappedAction("POST/login")
 public class LoginAction implements Action {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginAction.class);
@@ -29,32 +29,32 @@ public class LoginAction implements Action {
     public ActionResult execute(HttpServletRequest request) throws SQLException {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
 
-            EmployeeDao employeeDao = daoManager.getEmployeeDao();
-            ClientDao clientDao = daoManager.getClientDao();
+        EmployeeDao employeeDao = daoManager.getEmployeeDao();
+        ClientDao clientDao = daoManager.getClientDao();
 
-            String login = request.getParameter("authenticationLogin");
-            String password = request.getParameter("authenticationPassword");
-            AbstractUser user = clientDao.findByCredentials(login, password);
-            if (user == null)
-                user = employeeDao.findByCredentials(login, password);
+        String login = request.getParameter("authenticationLogin");
+        String password = request.getParameter("authenticationPassword");
+        AbstractUser user = clientDao.findByCredentials(login, password);
+        if (user == null)
+            user = employeeDao.findByCredentials(login, password);
 
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
 
-            LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
+        LOGGER.debug("Name and Surname obtained in the case, if authentication is successful : {}", user);
 
-            if (user == null) {
-                request.setAttribute("loginError", "login.incorrect.login.or.password");
-                return loginn;
-            }
+        if (user == null) {
+            request.setAttribute("loginError", "login.incorrect.login.or.password");
+            return loginn;
+        }
 
-            if (user.getRole().getPositionName().equalsIgnoreCase("admin")) return admin;
+        if (user.getRole().getPositionName().equalsIgnoreCase("admin")) return admin;
 
-            if (user.getRole().getPositionName().equalsIgnoreCase("director")) return director;
+        if (user.getRole().getPositionName().equalsIgnoreCase("director")) return director;
 
-            if (user.getRole().getPositionName().equalsIgnoreCase("dispatcher")) return dispatcher;
+        if (user.getRole().getPositionName().equalsIgnoreCase("dispatcher")) return dispatcher;
 
-            daoManager.closeConnection();
+        daoManager.closeConnection();
 
         return client;
     }
