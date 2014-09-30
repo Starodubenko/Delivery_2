@@ -201,5 +201,14 @@ $(document).ready(function () {
         format: 'yyyy-mm-dd'
     })
 
+    $('li.table').click(function () {
+        var tab = $(this).text();
+        $.get('checkTable' + '?' + "entityName=" + tab,
+            function (data) {
+                $('#findForm').html(data);
+            })
+
+    })
+
 });
 

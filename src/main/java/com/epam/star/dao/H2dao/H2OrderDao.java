@@ -5,18 +5,44 @@ import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2OrderDao.class);
     private static final String INSERT_ORDER = "INSERT INTO  orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, paid = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
+
+    private String findOrders = "SELECT *" +
+            " FROM orders" +
+            " inner join users" +
+            " on orders.user_id = users.id" +
+            " inner join period" +
+            " on orders.period_id = period.id" +
+            " inner join goods" +
+            " on orders.goods_id = goods.id" +
+            " inner join status" +
+            " on orders.status_id = status.id";
+
+    private String conditionsForFindOrders = "";
+
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    static {
+        fieldsQueryMap.put("order-id", " orders.id = ?");
+        fieldsQueryMap.put("order-date", " orders.order_date = ?");
+        fieldsQueryMap.put("order-goods-name", " goods.goods_name = ?");
+        fieldsQueryMap.put("order-cost", " orders.order_cost = ?");
+        fieldsQueryMap.put("delivery-date", " orders.delivery_date = ?");
+        fieldsQueryMap.put("delivery-time", " period.period = ?");
+        fieldsQueryMap.put("order-addInfo", " orders.additional_info = ?");
+        fieldsQueryMap.put("order-status", " status.status_name = ?");
+    }
 
     protected H2OrderDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -268,73 +294,16 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
-
-        String findOrders = "SELECT *" +
-                " FROM orders" +
-                " inner join users" +
-                " on orders.user_id = users.id" +
-                " inner join period" +
-                " on orders.period_id = period.id" +
-                " inner join goods" +
-                " on orders.goods_id = goods.id" +
-                " inner join status" +
-                " on orders.status_id = status.id";
-
-        String conditions = "";
-
-        int selectedFieldsCount = 0;
-        if (request.getParameter("order-id") != null & request.getParameter("order-id") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.id = ?";
-        }
-        if (request.getParameter("order-date") != null & request.getParameter("order-date") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.order_date = ?";
-        }
-        if (request.getParameter("order-goods-name") != null & request.getParameter("order-goods-name") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " goods.goods_name = ?";
-        }
-        if (request.getParameter("order-goods-count") != null & request.getParameter("order-goods-count") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.count = ?";
-        }
-        if (request.getParameter("order-cost") != null & request.getParameter("order-cost") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.order_cost = ?";
-        }
-        if (request.getParameter("delivery-date") != null & request.getParameter("delivery-date") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.delivery_date = ?";
-        }
-        if (request.getParameter("delivery-time") != null & request.getParameter("delivery-time") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " period.period = ?";
-        }
-        if (request.getParameter("order-addInfo") != null & request.getParameter("order-addInfo") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " orders.additional_info = ?";
-        }
-        if (request.getParameter("order-status") != null & request.getParameter("order-status") != "") {
-            selectedFieldsCount++;
-            if (selectedFieldsCount > 1) conditions += " and ";
-            conditions += " status.status_name = ?";
-        }
-
-        if (selectedFieldsCount > 0) findOrders += " where " + conditions;
-
-        findOrders += " LIMIT ? OFFSET ?";
+    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
 
         List<Order> result = new ArrayList<>();
+
+        fieldsMap = correctFields(fieldsMap);
+
+        conditionsForFindOrders += createQuerryString(fieldsMap);
+        findOrders += conditionsForFindOrders;
+
+        findOrders += " LIMIT ? OFFSET ?";
 
         H2GoodsDao goodsDao = daoManager.getGoodsDao();
         PreparedStatement prstm = null;
@@ -343,68 +312,34 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm = conn.prepareStatement(findOrders);
 
             int prstmIndex = 0;
-            String dynamicalString = request.getParameter("order-id");
-            if (dynamicalString != null & dynamicalString != "") {
-                dynamicalString = request.getParameter("order-id");
-                prstmIndex++;
-                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
-            }
-            Date date = null;
-            try {
-                dynamicalString = request.getParameter("order-date");
-                if (dynamicalString != null & dynamicalString != "") {
-                    date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
-                    prstmIndex++;
-                    prstm.setDate(prstmIndex, date);
+            Map<String, String> fieldss = fieldsMap;// cast Object to <String, String>
+
+//            Identification an obtained data, for setting it to PreparedStatement
+            for (Map.Entry<String, String> entry : fieldss.entrySet()) {
+                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
+                try {
+                    if (dynamicalString != null & dynamicalString != "") {
+                        int num = Integer.parseInt(dynamicalString);
+                        prstmIndex++;
+                        prstm.setInt(prstmIndex, num);
+                    }
+                } catch (Exception e) {
+                    try {
+                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+                        prstmIndex++;
+                        prstm.setDate(prstmIndex, date);
+                    } catch (Exception e1) {
+                        prstmIndex++;
+                        prstm.setString(prstmIndex, dynamicalString);
+                    }
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            dynamicalString = request.getParameter("order-goods-name");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setString(prstmIndex, dynamicalString);
-            }
-            dynamicalString = request.getParameter("order-goods-count");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
-            }
-            dynamicalString = request.getParameter("order-cost");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setInt(prstmIndex, Integer.parseInt(dynamicalString));
-            }
-            try {
-                dynamicalString = request.getParameter("delivery-date");
-                if (dynamicalString != null & dynamicalString != "") {
-                    date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
-                    prstmIndex++;
-                    prstm.setDate(prstmIndex, date);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            dynamicalString = request.getParameter("delivery-time");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setString(prstmIndex, dynamicalString);
-            }
-            dynamicalString = request.getParameter("order-addInfo");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setString(prstmIndex, dynamicalString);
-            }
-            dynamicalString = request.getParameter("order-status");
-            if (dynamicalString != null & dynamicalString != "") {
-                prstmIndex++;
-                prstm.setString(prstmIndex, dynamicalString);
             }
 
             prstmIndex++;
             prstm.setInt(prstmIndex, count);
             prstmIndex++;
             prstm.setInt(prstmIndex, firstPosition);
+
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getOrderFromResultSet(resultSet));
@@ -414,6 +349,35 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         } finally {
             closeStatement(prstm, resultSet);
         }
+        return result;
+    }
+
+    private Map<String, String> correctFields(Map<String, String> fields) {
+
+        Map<String, String> newFields = new HashMap<>();
+
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            if (entry.getValue() != null && entry.getValue() != "") newFields.put(entry.getKey(), entry.getValue());
+        }
+        return newFields;
+    }
+
+    private String createQuerryString(Map<String, String> fields) {
+
+        String result = "";
+        String conditions = "";
+
+        int selectedFieldsCount = 0;
+
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            if (field.getValue() != null & field.getValue() != "") {
+                selectedFieldsCount++;
+                if (selectedFieldsCount > 1) conditions += " and ";
+                conditions += fieldsQueryMap.get(field.getKey());
+            }
+        }
+
+        if (selectedFieldsCount > 0) result += " where " + conditions;
         return result;
     }
 }

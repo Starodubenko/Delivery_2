@@ -24,10 +24,96 @@
         <c:redirect url="/do/welcome"/>
     </c:if>
 
+    <div class="panel-group edit-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading edit-panel-heading">
+                <h4 class="panel-title">
+                    <div class="center">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
+                            Searching
+                        </a>
+                    </div>
+                </h4>
+            </div>
+            <div id="collapseSearche" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form id="findForm">
+                        <div id="searcheFields">
+                            <div class="form-group edit">
+                                <div class="center"><label for="order-id" class="edit-field">ID</label>
+                                </div>
+                                <input type="text" class="form-control" name="order-id" id="order-id"
+                                       value="39">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="order-date" class="edit-field">Date</label>
+                                </div>
+                                <input type="text" class="form-control searchDate" name="order-date"
+                                       id="order-date"
+                                       value="2014-09-14">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="order-goods-name"
+                                                           class="edit-field">Goods</label></div>
+                                <input type="text" class="form-control" name="order-goods-name"
+                                       id="order-goods-name"
+                                       value="Water 20L">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time" class="edit-field">Goods
+                                    count</label></div>
+                                <input type="text" class="form-control" name="order-goods-count"
+                                       id="order-goods-count"
+                                       value="">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time" class="edit-field">Order
+                                    cost</label></div>
+                                <input type="text" class="form-control" name="order-cost" id="order-cost"
+                                       value="">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                    date</label></div>
+                                <input type="text" class="form-control searchDate" name="delivery-date"
+                                       id="delivery-date"
+                                       value="">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                    time</label></div>
+                                <input type="text" class="form-control" name="delivery-time"
+                                       id="delivery-time"
+                                       value="">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time" class="edit-field">Additional
+                                    info</label></div>
+                                <input type="text" class="form-control" name="order-addInfo"
+                                       id="order-addInfo"
+                                       value="">
+                            </div>
+                            <div class="form-group edit">
+                                <div class="center"><label for="delivery-time"
+                                                           class="edit-field">status</label></div>
+                                <input type="text" class="form-control" name="order-status"
+                                       id="order-status"
+                                       value="">
+                            </div>
+                            <br>
+                            <input type="button" class="btn btn-primary" id="search" value="Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="orderList panel panel-default">
         <ul class="nav nav-tabs  nav-justified" role="tablist">
-            <li id="t1" class="active"><a href="#Clients" role="tab" data-toggle="tab">Clients</a></li>
-            <li id="t2"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
+            <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab">Clients</a>
+            </li>
+            <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
@@ -200,90 +286,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="panel-group edit-panel">
-                <div class="panel panel-default">
-                    <div class="panel-heading edit-panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
-                                Searching
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseSearche" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form id="findForm">
-                                <div id="searcheFields">
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="order-id" class="edit-field">ID</label>
-                                        </div>
-                                        <input type="text" class="form-control" name="order-id" id="order-id"
-                                               value="39">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="order-date" class="edit-field">Date</label>
-                                        </div>
-                                        <input type="text" class="form-control searchDate" name="order-date"
-                                               id="order-date"
-                                               value="2014-09-14">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="order-goods-name"
-                                                                   class="edit-field">Goods</label></div>
-                                        <input type="text" class="form-control" name="order-goods-name"
-                                               id="order-goods-name"
-                                               value="Water 20L">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time" class="edit-field">Goods
-                                            count</label></div>
-                                        <input type="text" class="form-control" name="order-goods-count"
-                                               id="order-goods-count"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time" class="edit-field">Order
-                                            cost</label></div>
-                                        <input type="text" class="form-control" name="order-cost" id="order-cost"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                            date</label></div>
-                                        <input type="text" class="form-control searchDate" name="delivery-date"
-                                               id="delivery-date"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                            time</label></div>
-                                        <input type="text" class="form-control" name="delivery-time"
-                                               id="delivery-time"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time" class="edit-field">Additional
-                                            info</label></div>
-                                        <input type="text" class="form-control" name="order-addInfo"
-                                               id="order-addInfo"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <div class="form-group edit">
-                                        <div class="center"><label for="delivery-time"
-                                                                   class="edit-field">status</label></div>
-                                        <input type="text" class="form-control" name="order-status"
-                                               id="order-status"
-                                               value="${order.getPeriod().getPeriod()}">
-                                    </div>
-                                    <br>
-                                    <input type="button" class="btn btn-primary" id="search" value="Search">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         <div class="clear"></div>
     </div>
 </div>

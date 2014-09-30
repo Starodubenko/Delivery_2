@@ -115,7 +115,7 @@ text {
 .orderList {
     border-color: #6FBBDB;
     /*height: 600px;*/
-    margin: 160px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
 }
 
 .pagination {
@@ -154,7 +154,9 @@ text {
 }
 
 .edit-panel {
-    margin-top: 10px;
+    margin-top: 160px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .edit-panel-heading {

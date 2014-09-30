@@ -7,13 +7,13 @@ import com.epam.star.entity.StatusPayCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -201,7 +201,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request) {
+    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
         return null;
     }
 }

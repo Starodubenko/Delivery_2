@@ -5,12 +5,12 @@ import com.epam.star.entity.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2PositionDao.class);
@@ -116,7 +116,7 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request) {
+    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
         return null;
     }
 }

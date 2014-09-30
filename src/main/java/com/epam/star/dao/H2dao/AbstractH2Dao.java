@@ -2,9 +2,9 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.entity.AbstractEntity;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractH2Dao<T extends AbstractEntity> {
     protected Connection conn;
@@ -38,5 +38,5 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract int getRecordsCount();
 
-    public abstract List<T> findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request);
+    public abstract List<T> findRangeWithValue(int firstRow, int rowsCount, Map<String, String> fieldsMap);
 }

@@ -6,14 +6,15 @@ import com.epam.star.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -21,6 +22,32 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
+
+    private String findOrders = "SELECT *" +
+            " FROM orders" +
+            " inner join users" +
+            " on orders.user_id = users.id" +
+            " inner join period" +
+            " on orders.period_id = period.id" +
+            " inner join goods" +
+            " on orders.goods_id = goods.id" +
+            " inner join status" +
+            " on orders.status_id = status.id";
+
+    private String conditionsForFindOrders = "";
+
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    static {
+        fieldsQueryMap.put("order-id", " orders.id = ?");
+        fieldsQueryMap.put("order-date", " orders.order_date = ?");
+        fieldsQueryMap.put("order-goods-name", " goods.goods_name = ?");
+        fieldsQueryMap.put("order-cost", " orders.order_cost = ?");
+        fieldsQueryMap.put("delivery-date", " orders.delivery_date = ?");
+        fieldsQueryMap.put("delivery-time", " period.period = ?");
+        fieldsQueryMap.put("order-addInfo", " orders.additional_info = ?");
+        fieldsQueryMap.put("order-status", " status.status_name = ?");
+    }
 
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -46,7 +73,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
+    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
 
         String RANGE_CLIENT = null;
 //        try {

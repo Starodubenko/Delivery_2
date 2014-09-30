@@ -6,7 +6,9 @@ import com.epam.star.dao.H2dao.DaoException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Pagination<T, E extends AbstractH2Dao> {
     public static final int DEFAULT_PAGE_NUMBER = 1;
@@ -29,7 +31,8 @@ public class Pagination<T, E extends AbstractH2Dao> {
         List<T> tableList = null;
         int tableLenght;
         if (desiredValue != null & desiredValue != "" & columnName != null) {
-            tableList = genericDao.findRangeWithValue(firstRow, rowsCount, request);
+            Map map = new HashMap<>();
+            tableList = genericDao.findRangeWithValue(firstRow, rowsCount, map);
             tableLenght = tableList.size();
         } else {
             tableList = genericDao.findRange(firstRow, rowsCount);

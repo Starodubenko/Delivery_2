@@ -6,7 +6,6 @@ import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -200,7 +200,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, HttpServletRequest request) {
+    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
         List<Employee> result = new ArrayList<>();
 
         PreparedStatement prstm = null;

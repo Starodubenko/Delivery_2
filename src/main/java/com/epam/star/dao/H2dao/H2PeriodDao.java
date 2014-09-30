@@ -5,10 +5,10 @@ import com.epam.star.entity.Period;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
@@ -148,7 +148,7 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, HttpServletRequest request) {
+    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
         return null;
     }
 }
