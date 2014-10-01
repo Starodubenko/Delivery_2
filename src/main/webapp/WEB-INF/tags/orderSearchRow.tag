@@ -4,21 +4,21 @@
             <div class="center"><label for="order-id" class="edit-field">ID</label>
             </div>
             <input type="text" class="form-control" name="order-id" id="order-id"
-                   value="">
+                   value="39">
         </div>
         <div class="form-group edit">
             <div class="center"><label for="order-date" class="edit-field">Date</label>
             </div>
             <input type="text" class="form-control searchDate" name="order-date"
                    id="order-date"
-                   value="">
+                   value="2014-09-14">
         </div>
         <div class="form-group edit">
             <div class="center"><label for="order-goods-name"
                                        class="edit-field">Goods</label></div>
             <input type="text" class="form-control" name="order-goods-name"
                    id="order-goods-name"
-                   value="">
+                   value="Water 20L">
         </div>
         <div class="form-group edit">
             <div class="center"><label for="delivery-time" class="edit-field">Goods
@@ -62,6 +62,7 @@
                    value="">
         </div>
         <br>
+        <input type="hidden" id="entityName" value="Order">
         <input type="button" class="btn btn-primary" id="search" value="Search">
     </div>
 </form>

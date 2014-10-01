@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @MappedAction("GET/SetOrderToEditFields")
-public class AjaxOrderEditFields implements Action {
-    private ActionResult editOrdersBlock = new ActionResult("ajaxOrderTableRow");
+public class AjaxSetOrderToEditFields implements Action {
+    private ActionResult editOrdersRow = new ActionResult("ajaxOrderTableRow");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -31,6 +31,6 @@ public class AjaxOrderEditFields implements Action {
 
         daoManager.closeConnection();
 
-        return editOrdersBlock;
+        return editOrdersRow;
     }
 }

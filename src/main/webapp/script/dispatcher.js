@@ -177,7 +177,7 @@ $(document).ready(function () {
 //            });
 //    });
 
-    $('#orders-block').on('click', 'tr', function () {
+    $('#Orders-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -190,10 +190,25 @@ $(document).ready(function () {
 //        $('#collapseOne').addClass('collapse in');
     });
 
-    $('#search').click(function () {
-        $.get('findOrder' + '?' + $('#findForm').serialize(),
+    $('#Clients-block').on('click', 'tr', function () {
+        $('tr').removeClass('info');
+        $(this).addClass('info');
+
+        ID = $(this).children().eq(0).text();
+        $.get("SetClientToEditFields", {id: ID},
             function (data) {
-                $('#orders-block').html(data);
+                $('#collapseOne').html(data);
+            });
+//        $('#collapseOne').addClass('collapsing');
+//        $('#collapseOne').addClass('collapse in');
+    });
+
+    $('.find').on('click', '#search', function () {
+        var entityName = $('#entityName').val();
+
+        $.get("find" + entityName + "?" + $('#findForm').serialize(),
+            function (data) {
+                $("#" + entityName + "s-block").html(data);
             })
     });
 

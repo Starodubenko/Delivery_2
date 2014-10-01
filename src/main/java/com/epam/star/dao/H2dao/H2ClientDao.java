@@ -3,14 +3,13 @@ package com.epam.star.dao.H2dao;
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.PositionDao;
 import com.epam.star.entity.Client;
+import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,29 +23,21 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
 
     private String findOrders = "SELECT *" +
-            " FROM orders" +
-            " inner join users" +
-            " on orders.user_id = users.id" +
-            " inner join period" +
-            " on orders.period_id = period.id" +
-            " inner join goods" +
-            " on orders.goods_id = goods.id" +
-            " inner join status" +
-            " on orders.status_id = status.id";
+            " FROM users" +
+            " inner join positions" +
+            " on users.position_id = positions.id";
 
     private String conditionsForFindOrders = "";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     static {
-        fieldsQueryMap.put("order-id", " orders.id = ?");
-        fieldsQueryMap.put("order-date", " orders.order_date = ?");
-        fieldsQueryMap.put("order-goods-name", " goods.goods_name = ?");
-        fieldsQueryMap.put("order-cost", " orders.order_cost = ?");
-        fieldsQueryMap.put("delivery-date", " orders.delivery_date = ?");
-        fieldsQueryMap.put("delivery-time", " period.period = ?");
-        fieldsQueryMap.put("order-addInfo", " orders.additional_info = ?");
-        fieldsQueryMap.put("order-status", " status.status_name = ?");
+        fieldsQueryMap.put("first-name", " users.id = ?");
+        fieldsQueryMap.put("middle-name", " users.middlename = ?");
+        fieldsQueryMap.put("last-name", " users.lastname = ?");
+        fieldsQueryMap.put("address", " users.address = ?");
+        fieldsQueryMap.put("telephone", " users.telephone = ?");
+        fieldsQueryMap.put("mobilephone", " users.mobilephone = ?");
     }
 
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
@@ -75,23 +66,50 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     @Override
     public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
 
-        String RANGE_CLIENT = null;
-//        try {
-//            Integer.parseInt(desiredValue);
-//            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + desiredValue + " LIMIT ? OFFSET ?";
-//        } catch (Exception e) {
-//            columnName = columnName.replace(" ", "");
-//            RANGE_CLIENT = "SELECT * FROM users WHERE " + columnName + " = " + "'" + desiredValue + "'" + " LIMIT ? OFFSET ?";
-//        }
-
         List<Client> result = new ArrayList<>();
 
+        fieldsMap = correctFields(fieldsMap);
+
+        conditionsForFindOrders += createQuerryString(fieldsMap);
+        findOrders += conditionsForFindOrders;
+
+        findOrders += " LIMIT ? OFFSET ?";
+
+        H2GoodsDao goodsDao = daoManager.getGoodsDao();
         PreparedStatement prstm = null;
         ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement(RANGE_CLIENT);
-            prstm.setInt(1, count);
-            prstm.setInt(2, firstPosition);
+            prstm = conn.prepareStatement(findOrders);
+
+            int prstmIndex = 0;
+            Map<String, String> fieldss = fieldsMap;// cast Object to <String, String>
+
+//            Identification an obtained data, for setting it to PreparedStatement
+            for (Map.Entry<String, String> entry : fieldss.entrySet()) {
+                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
+                try {
+                    if (dynamicalString != null & dynamicalString != "") {
+                        int num = Integer.parseInt(dynamicalString);
+                        prstmIndex++;
+                        prstm.setInt(prstmIndex, num);
+                    }
+                } catch (Exception e) {
+                    try {
+                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+                        prstmIndex++;
+                        prstm.setDate(prstmIndex, date);
+                    } catch (Exception e1) {
+                        prstmIndex++;
+                        prstm.setString(prstmIndex, dynamicalString);
+                    }
+                }
+            }
+
+            prstmIndex++;
+            prstm.setInt(prstmIndex, count);
+            prstmIndex++;
+            prstm.setInt(prstmIndex, firstPosition);
+
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getClientFromResultSet(resultSet));
@@ -101,6 +119,35 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         } finally {
             closeStatement(prstm, resultSet);
         }
+        return result;
+    }
+
+    private Map<String, String> correctFields(Map<String, String> fields) {
+
+        Map<String, String> newFields = new HashMap<>();
+
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            if (entry.getValue() != null && entry.getValue() != "") newFields.put(entry.getKey(), entry.getValue());
+        }
+        return newFields;
+    }
+
+    private String createQuerryString(Map<String, String> fields) {
+
+        String result = "";
+        String conditions = "";
+
+        int selectedFieldsCount = 0;
+
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            if (field.getValue() != null & field.getValue() != "") {
+                selectedFieldsCount++;
+                if (selectedFieldsCount > 1) conditions += " and ";
+                conditions += fieldsQueryMap.get(field.getKey());
+            }
+        }
+
+        if (selectedFieldsCount > 0) result += " where " + conditions;
         return result;
     }
 

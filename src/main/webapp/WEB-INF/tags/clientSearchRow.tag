@@ -36,6 +36,7 @@
                    id="mobilephone" value="">
         </div>
         <br>
+        <input type="hidden" id="entityName" value="Client">
         <input type="button" class="btn btn-primary" id="search" value="Search">
     </div>
 </form>

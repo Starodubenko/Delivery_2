@@ -36,7 +36,7 @@
                 </h4>
             </div>
             <div id="collapseSearche" class="panel-collapse collapse">
-                <div class="panel-body">
+                <div class="panel-body find">
                     <form id="findForm">
                         <div id="searcheFields">
                             <div class="form-group edit">
@@ -101,6 +101,7 @@
                                        value="">
                             </div>
                             <br>
+                            <input type="hidden" id="entityName" value="Order">
                             <input type="button" class="btn btn-primary" id="search" value="Search">
                         </div>
                     </form>
@@ -117,8 +118,8 @@
         </ul>
         <div class="tab-content">
             <div class="orderListHeight tab-pane active" id="Clients">
-                <div id="clients-block">
-                    <ul id="changee" class="pagination">
+                <div id="Clients-block">
+                <ul id="changee" class="pagination">
                         <li id="cBack"><a href="#page">&laquo;</a></li>
 
                         <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
@@ -181,8 +182,8 @@
             </div>
 
             <div class="orderListHeight tab-pane" id="Orders">
-                <div id="orders-block">
-                    <ul id="change" class="pagination">
+                <div id="Orders-block">
+                <ul id="change" class="pagination">
                         <li id="oBack"><a href="#page">&laquo;</a></li>
 
                         <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
