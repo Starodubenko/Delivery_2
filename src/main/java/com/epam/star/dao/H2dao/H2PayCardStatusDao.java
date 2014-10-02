@@ -1,6 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.PayCardStatusDao;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.StatusPayCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,11 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
+    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        return null;
+    }
+
+    @Override
     public List findRange(int startRow, int rowsCount) {
         return null;
     }
@@ -130,7 +136,12 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
+    protected Map<String, String> getParametersMap() {
+        return null;
+    }
+
+    @Override
+    protected String getFindByParameters() {
         return null;
     }
 }

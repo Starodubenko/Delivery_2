@@ -1,6 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.PeriodDao;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Period;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,6 +139,11 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
+    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        return null;
+    }
+
+    @Override
     public List findRange(int startRow, int rowsCount) {
         return null;
     }
@@ -148,7 +154,12 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
+    protected Map<String, String> getParametersMap() {
+        return null;
+    }
+
+    @Override
+    protected String getFindByParameters() {
         return null;
     }
 }

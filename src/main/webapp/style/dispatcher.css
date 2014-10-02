@@ -153,8 +153,14 @@ text {
     margin: 10px;
 }
 
-.edit-panel {
+.save-panel {
     margin-top: 160px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.edit-panel {
+    margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -179,14 +185,19 @@ text {
     width: 190px;
 }
 
+.rows-count-height {
+    height: 30px;
+}
+
 .floatRight {
     float: right;
     margin-right: 10px;
-    height: 30px;
+    height: 18px;
 }
 
 .switcher {
     width: 150px;
+    height: 30px;
 }
 
 .labelCount {

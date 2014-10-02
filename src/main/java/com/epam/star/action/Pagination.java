@@ -32,7 +32,7 @@ public class Pagination<T, E extends AbstractH2Dao> {
         int tableLenght;
         if (desiredValue != null & desiredValue != "" & columnName != null) {
             Map map = new HashMap<>();
-            tableList = genericDao.findRangeWithValue(firstRow, rowsCount, map);
+            tableList = genericDao.findRangeTest(firstRow, rowsCount, map);
             tableLenght = tableList.size();
         } else {
             tableList = genericDao.findRange(firstRow, rowsCount);

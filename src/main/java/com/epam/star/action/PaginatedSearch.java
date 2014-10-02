@@ -6,7 +6,7 @@ import com.epam.star.dao.H2dao.DaoException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-public class SearchePagination<T, E extends AbstractH2Dao> {
+public class PaginatedSearch<T, E extends AbstractH2Dao> {
     public static final int DEFAULT_PAGE_NUMBER = 1;
     public static final int DEFAULT_ROWS_COUNT = 10;
 
@@ -34,13 +34,10 @@ public class SearchePagination<T, E extends AbstractH2Dao> {
         if (pageString != null) pageNumber = Integer.valueOf(pageString);
         int firstRow = pageNumber * rowsCount - DEFAULT_ROWS_COUNT;
 
-        String desiredValue = request.getParameter("desiredValue");
-        String columnName = request.getParameter("columnName");
-
         List<T> tableList = null;
         int tableLenght;
-        Map<String, String> parametersMap = createQuerryString(request);
-        tableList = genericDao.findRangeWithValue(firstRow, rowsCount, parametersMap);
+        Map<String, String> queryMap = getQueryMap(request);
+        tableList = genericDao.findRangeTest(firstRow, rowsCount, queryMap);
         tableLenght = tableList.size();
 
         List<Integer> paginationList = new ArrayList<>();
@@ -52,18 +49,17 @@ public class SearchePagination<T, E extends AbstractH2Dao> {
         request.setAttribute(targetName + "List", tableList);
         request.setAttribute(targetName + "PageNumber", pageNumber);
         request.setAttribute(targetName + "RowsCount", rowsCount);
-        request.setAttribute(targetName + "Pagename", pagename);
 
     }
 
-    private Map<String, String> createQuerryString(HttpServletRequest request) {
+    private Map<String, String> getQueryMap(HttpServletRequest request) {
 
         Map<String, String> result = new HashMap<>();
 
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            result.put(entry.getKey(), entry.getValue()[0]);
+            if (entry.getValue() != null && entry.getValue()[0] != "") result.put(entry.getKey(), entry.getValue()[0]);
         }
 
         return result;

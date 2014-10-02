@@ -1,6 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.GoodsDao;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Goods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,6 +124,11 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
         return goods;
     }
 
+    @Override
+    protected Map<String, String> getParametersMap() {
+        return null;
+    }
+
     private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
@@ -142,6 +148,11 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
+    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        return null;
+    }
+
+    @Override
     public List findRange(int startRow, int rowsCount) {
         return null;
     }
@@ -152,7 +163,7 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstRow, int rowsCount, Map fieldsMap) {
+    protected String getFindByParameters() {
         return null;
     }
 }

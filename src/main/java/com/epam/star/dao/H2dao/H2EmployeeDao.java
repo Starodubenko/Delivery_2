@@ -2,6 +2,7 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.PositionDao;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,6 +174,11 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
+    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        return null;
+    }
+
+    @Override
     public List findRange(int startRow, int rowsCount) {
         List<Employee> result = new ArrayList<>();
 
@@ -195,45 +201,17 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
+    protected Map<String, String> getParametersMap() {
+        return null;
+    }
+
+    @Override
     public int getRecordsCount() {
         return 0;
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
-        List<Employee> result = new ArrayList<>();
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement(RANGE_EMPLOYEE);
-            prstm.setInt(1, count);
-            prstm.setInt(2, firstPosition);
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-//                Employee employee = getEmployeeFromResultSet(resultSet);
-////                if (
-////                        String.valueOf(employee.getId()).contains(desiredValue) |
-////                                employee.getLogin().contains(desiredValue) |
-////                                employee.getPassword().contains(desiredValue) |
-////                                employee.getLastName().contains(desiredValue) |
-////                                employee.getMiddleName().contains(desiredValue) |
-////                                employee.getAddress().contains(desiredValue) |
-////                                employee.getTelephone().contains(desiredValue) |
-////                                employee.getMobilephone().contains(desiredValue) |
-////                                employee.getIdentityCard().contains(desiredValue) |
-////                                employee.getWorkBook().contains(desiredValue) |
-////                                employee.getRNN().contains(desiredValue) |
-////                                employee.getSIK().contains(desiredValue)
-////
-////                        )
-                result.add(getEmployeeFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
+    protected String getFindByParameters() {
+        return null;
     }
 }

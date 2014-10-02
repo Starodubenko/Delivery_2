@@ -18,277 +18,254 @@
 <t:navigation></t:navigation>
 
 <div class="main panel panel-default">
-    <t:authentication></t:authentication>
+<t:authentication></t:authentication>
 
-    <c:if test="${empty user}">
-        <c:redirect url="/do/welcome"/>
-    </c:if>
+<c:if test="${empty user}">
+    <c:redirect url="/do/welcome"/>
+</c:if>
 
-    <div class="panel-group edit-panel">
-        <div class="panel panel-default">
-            <div class="panel-heading edit-panel-heading">
-                <h4 class="panel-title">
-                    <div class="center">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
-                            Searching
-                        </a>
-                    </div>
-                </h4>
-            </div>
-            <div id="collapseSearche" class="panel-collapse collapse">
-                <div class="panel-body find">
-                    <form id="findForm">
-                        <div id="searcheFields">
-                            <div class="form-group edit">
-                                <div class="center"><label for="order-id" class="edit-field">ID</label>
-                                </div>
-                                <input type="text" class="form-control" name="order-id" id="order-id"
-                                       value="39">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="order-date" class="edit-field">Date</label>
-                                </div>
-                                <input type="text" class="form-control searchDate" name="order-date"
-                                       id="order-date"
-                                       value="2014-09-14">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="order-goods-name"
-                                                           class="edit-field">Goods</label></div>
-                                <input type="text" class="form-control" name="order-goods-name"
-                                       id="order-goods-name"
-                                       value="Water 20L">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time" class="edit-field">Goods
-                                    count</label></div>
-                                <input type="text" class="form-control" name="order-goods-count"
-                                       id="order-goods-count"
-                                       value="">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time" class="edit-field">Order
-                                    cost</label></div>
-                                <input type="text" class="form-control" name="order-cost" id="order-cost"
-                                       value="">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                    date</label></div>
-                                <input type="text" class="form-control searchDate" name="delivery-date"
-                                       id="delivery-date"
-                                       value="">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time" class="edit-field">Delivery
-                                    time</label></div>
-                                <input type="text" class="form-control" name="delivery-time"
-                                       id="delivery-time"
-                                       value="">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time" class="edit-field">Additional
-                                    info</label></div>
-                                <input type="text" class="form-control" name="order-addInfo"
-                                       id="order-addInfo"
-                                       value="">
-                            </div>
-                            <div class="form-group edit">
-                                <div class="center"><label for="delivery-time"
-                                                           class="edit-field">status</label></div>
-                                <input type="text" class="form-control" name="order-status"
-                                       id="order-status"
-                                       value="">
-                            </div>
-                            <br>
-                            <input type="hidden" id="entityName" value="Order">
-                            <input type="button" class="btn btn-primary" id="search" value="Search">
-                        </div>
-                    </form>
+<div class="panel-group save-panel">
+    <div class="panel panel-default">
+        <div class="panel-heading edit-panel-heading">
+            <h4 class="panel-title">
+                <div class="center">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
+                        Searching
+                    </a>
                 </div>
+            </h4>
+        </div>
+        <div id="collapseSearche" class="panel-collapse collapse">
+            <div class="panel-body find">
+                <form id="findForm">
+                    <div id="searcheFields">
+                        <div class="form-group edit">
+                            <div class="center"><label for="order-id" class="edit-field">ID</label>
+                            </div>
+                            <input type="text" class="form-control" name="order-id" id="order-id"
+                                   value="39">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="order-date" class="edit-field">Date</label>
+                            </div>
+                            <input type="text" class="form-control searchDate" name="order-date"
+                                   id="order-date"
+                                   value="2014-09-14">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="order-goods-name"
+                                                       class="edit-field">Goods</label></div>
+                            <input type="text" class="form-control" name="order-goods-name"
+                                   id="order-goods-name"
+                                   value="Water 20L">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time" class="edit-field">Goods
+                                count</label></div>
+                            <input type="text" class="form-control" name="order-goods-count"
+                                   id="order-goods-count"
+                                   value="">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time" class="edit-field">Order
+                                cost</label></div>
+                            <input type="text" class="form-control" name="order-cost" id="order-cost"
+                                   value="">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                date</label></div>
+                            <input type="text" class="form-control searchDate" name="delivery-date"
+                                   id="delivery-date"
+                                   value="">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time" class="edit-field">Delivery
+                                time</label></div>
+                            <input type="text" class="form-control" name="delivery-time"
+                                   id="delivery-time"
+                                   value="">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time" class="edit-field">Additional
+                                info</label></div>
+                            <input type="text" class="form-control" name="order-addInfo"
+                                   id="order-addInfo"
+                                   value="">
+                        </div>
+                        <div class="form-group edit">
+                            <div class="center"><label for="delivery-time"
+                                                       class="edit-field">status</label></div>
+                            <input type="text" class="form-control" name="order-status"
+                                   id="order-status"
+                                   value="">
+                        </div>
+                        <br>
+                        <input type="hidden" id="entityName" value="Order">
+                        <input type="button" class="btn btn-primary" id="search" value="Search">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="orderList panel panel-default">
-        <ul class="nav nav-tabs  nav-justified" role="tablist">
-            <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab">Clients</a>
-            </li>
-            <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="orderListHeight tab-pane active" id="Clients">
-                <div id="Clients-block">
+<div class="orderList panel panel-default">
+    <ul class="nav nav-tabs  nav-justified" role="tablist">
+        <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab">Clients</a>
+        </li>
+        <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="orderListHeight tab-pane active" id="Clients">
+            <div id="Clients-block">
                 <ul id="changee" class="pagination">
-                        <li id="cBack"><a href="#page">&laquo;</a></li>
+                    <li id="cBack"><a href="#page">&laquo;</a></li>
 
-                        <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
-                            <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                                class="cNumbered "><a href="#page${pl.intValue()}"
-                                                      class="page">${pl.intValue()}</a>
-                            </li>
-                        </c:forEach>
+                    <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                            class="cNumbered "><a href="#page${pl.intValue()}"
+                                                  class="page">${pl.intValue()}</a>
+                        </li>
+                    </c:forEach>
 
-                        <li id="cNext"><a href="#page">&raquo;</a></li>
-                    </ul>
+                    <li id="cNext"><a href="#page">&raquo;</a></li>
+                </ul>
 
-                    <div class="form-group rows-count floatRight">
-                        <label class="labelCount" for="clientsrows">Rows count</label>
+                <t:rowsCount></t:rowsCount>
 
-                        <form action="${pageContext.request.contextPath}/do/dispatcher">
-                            <div class="input-group">
-                                <input type="text" name="clientsrows" id="clientsrows" value="${clientsRowsCount}"
-                                       class="form-control textCount">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default floatRight" type="submit">aply</button>
-                        </span>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="orderListHeight tab-pane" style="overflow-y: scroll">
-                        <table class="table table-hover" ID="clientsTable">
-                            <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
+                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                    <table class="table table-hover" ID="clientsTable">
+                        <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
+                        <tr>
+                            <th>ID</th>
+                            <th>Firs name</th>
+                            <th>Middle name</th>
+                            <th>Last name</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Mobilephone</th>
+                            <th>Create order</th>
+                        </tr>
+                        <c:forEach var="row" items="${clientsList}">
                             <tr>
-                                <th>ID</th>
-                                <th>Firs name</th>
-                                <th>Middle name</th>
-                                <th>Last name</th>
-                                <th>Address</th>
-                                <th>Telephone</th>
-                                <th>Mobilephone</th>
-                                <th>Create order</th>
+                                <td class="id">${row.getId()}</td>
+                                <td>${row.getFirstName()}</td>
+                                <td>${row.getMiddleName()}</td>
+                                <td>${row.getLastName()}</td>
+                                <td>${row.getAddress()}</td>
+                                <td>${row.getTelephone()}</td>
+                                <td>${row.getMobilephone()}</td>
+                                <td class=" createOrder">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            value="${row.getId()}"
+                                            data-target="#myModel">Order
+                                    </button>
+                                </td>
                             </tr>
-                            <c:forEach var="row" items="${clientsList}">
-                                <tr>
-                                    <td class="id">${row.getId()}</td>
-                                    <td>${row.getFirstName()}</td>
-                                    <td>${row.getMiddleName()}</td>
-                                    <td>${row.getLastName()}</td>
-                                    <td>${row.getAddress()}</td>
-                                    <td>${row.getTelephone()}</td>
-                                    <td>${row.getMobilephone()}</td>
-                                    <td class=" createOrder">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                value="${row.getId()}"
-                                                data-target="#myModel">Order
-                                        </button>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </div>
+                        </c:forEach>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            <div class="orderListHeight tab-pane" id="Orders">
-                <div id="Orders-block">
+        <div class="orderListHeight tab-pane" id="Orders">
+            <div id="Orders-block">
                 <ul id="change" class="pagination">
-                        <li id="oBack"><a href="#page">&laquo;</a></li>
+                    <li id="oBack"><a href="#page">&laquo;</a></li>
 
-                        <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
-                            <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                                class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
-                            </li>
-                        </c:forEach>
+                    <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
+                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
+                            class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
+                        </li>
+                    </c:forEach>
 
-                        <li id="oNext"><a href="#page">&raquo;</a></li>
-                    </ul>
+                    <li id="oNext"><a href="#page">&raquo;</a></li>
+                </ul>
 
-                    <select class="form-control switcher floatRight" id="switchStatusOrser">
-                        <option>Waiting</option>
-                        <option>Active</option>
-                        <option>Canceled</option>
-                        <option>Executed</option>
-                    </select>
+                <select class="form-control switcher floatRight" id="switchStatusOrser">
+                    <option>Waiting</option>
+                    <option>Active</option>
+                    <option>Canceled</option>
+                    <option>Executed</option>
+                </select>
 
-                    <div class="form-group rows-count floatRight">
-                        <label class="labelCount" for="ordersrows">Rows count</label>
+                <t:rowsCount></t:rowsCount>
 
-                        <form action="${pageContext.request.contextPath}/do/dispatcher">
-                            <div class="input-group">
-                                <input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"
-                                       class="form-control textCount">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default floatRight" type="submit">aply</button>
-                        </span>
-                            </div>
-                        </form>
-                    </div>
+                <div class="orderListHeight tab-pane" style="overflow-y: scroll">
+                    <table class="table table-hover" ID="ordersTable">
+                        <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+                        <tr>
+                            <th>
+                                <p> Check all</p>
 
-                    <div class="orderListHeight tab-pane" style="overflow-y: scroll">
-                        <table class="table table-hover" ID="ordersTable">
-                            <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
-                            <tr>
-                                <th>
-                                    <p> Check all</p>
-
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="maincheck" type="checkbox" value="${row.getId()}">
+                                    </label>
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>Order date</th>
+                            <th>Goods name</th>
+                            <th>Goods count</th>
+                            <th>Order cost</th>
+                            <th>Delivery date</th>
+                            <th>Delivery time</th>
+                            <th>Additional info</th>
+                            <th>Status</th>
+                        </tr>
+                        <c:forEach var="row" items="${ordersList}">
+                            <tr data-toggle="collapse" data-parent="#accordion">
+                                <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="maincheck" type="checkbox" value="${row.getId()}">
+                                            <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
                                         </label>
                                     </div>
-                                </th>
-                                <th>ID</th>
-                                <th>Order date</th>
-                                <th>Goods name</th>
-                                <th>Goods count</th>
-                                <th>Order cost</th>
-                                <th>Delivery date</th>
-                                <th>Delivery time</th>
-                                <th>Additional info</th>
-                                <th>Status</th>
+                                </td>
+                                <td>${row.getId()}</td>
+                                <td>${row.getOrderDate()}</td>
+                                <td>${row.getGoods().getGoodsName()}</td>
+                                <td>${row.getCount()}</td>
+                                <td>${row.getOrderCost()}</td>
+                                <td>${row.getDeliveryDate()}</td>
+                                <td>${row.getPeriod().getPeriod()}</td>
+                                <td>${row.getAdditionalInfo()}</td>
+                                <td>${row.getStatus().getStatusName()}</td>
                             </tr>
-                            <c:forEach var="row" items="${ordersList}">
-                                <tr data-toggle="collapse" data-parent="#accordion">
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>${row.getId()}</td>
-                                    <td>${row.getOrderDate()}</td>
-                                    <td>${row.getGoods().getGoodsName()}</td>
-                                    <td>${row.getCount()}</td>
-                                    <td>${row.getOrderCost()}</td>
-                                    <td>${row.getDeliveryDate()}</td>
-                                    <td>${row.getPeriod().getPeriod()}</td>
-                                    <td>${row.getAdditionalInfo()}</td>
-                                    <td>${row.getStatus().getStatusName()}</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </div>
+                        </c:forEach>
+                    </table>
                 </div>
-
-                <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
-                <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
-                <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
-
             </div>
 
-            <div class="panel-group edit-panel" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading edit-panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                Edit
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+            <input type="button" class="ordersButtons btn btn-primary" value="Cancel the Order" id="cancel">
+            <input type="button" class="ordersButtons btn btn-primary" value="accept the order" id="accept">
+            <input type="button" class="ordersButtons btn btn-primary" value="restore order" id="restore">
 
-                            </form>
-                        </div>
+        </div>
+
+        <div class="panel-group edit-panel" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading edit-panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            Edit
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form id="changeForm" action="${pageContext.request.contextPath}/do/saveOrderData">
+
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
         <div class="clear"></div>
     </div>
+</div>
 </div>
 
 <t:footer></t:footer>
@@ -323,11 +300,11 @@
                 <%--<form action="${pageContext.request.contextPath}/do/fastCreateOrder">--%>
             <div>
                 <div class="orderText form-group">
-                <div class="center"><label for="Date">Delivery date</label></div>
+                    <div class="center"><label for="Date">Delivery date</label></div>
                     <input type="text" name="deliverydate" value="Date" class="form-control datepicker" id="Date">
                 </div>
                 <div class="orderText form-group">
-                <div class="center"><label for="PeriodTime">Delivery time</label></div>
+                    <div class="center"><label for="PeriodTime">Delivery time</label></div>
                     <select class="form-control" name="deliverytime" value="Time" class="form-control"
                             id="PeriodTime">
                         <c:forEach var="period" items="${periods}">

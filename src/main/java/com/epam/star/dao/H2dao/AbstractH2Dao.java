@@ -2,16 +2,15 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.entity.AbstractEntity;
 
-import java.sql.Connection;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractH2Dao<T extends AbstractEntity> {
     protected Connection conn;
     protected DaoManager daoManager;
-
-    protected AbstractH2Dao() {
-    }
 
     protected AbstractH2Dao(Connection conn, DaoManager daoManager) {
         this.conn = conn;
@@ -38,5 +37,96 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract int getRecordsCount();
 
-    public abstract List<T> findRangeWithValue(int firstRow, int rowsCount, Map<String, String> fieldsMap);
+    public List<T> findRangeTest(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
+        List<T> result;
+
+        String findByParameters = getFindByParameters();
+
+        String conditionsForFindEntity = createQueryString(fieldsMap);
+
+        String query = String.format(findByParameters, conditionsForFindEntity);
+
+        PreparedStatement prstm = null;//todo try-with-resources
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement(query);
+
+            int prstmIndex = 0;
+
+//            Identification obtained data, for setting it to PreparedStatement
+            for (Map.Entry<String, String> entry : fieldsMap.entrySet()) {//todo create separate method
+                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
+                try {
+                    if (dynamicalString != null & dynamicalString != "") {
+                        int num = Integer.parseInt(dynamicalString);
+                        prstmIndex++;
+                        prstm.setInt(prstmIndex, num);
+                    }
+                } catch (Exception e) {
+                    try {
+                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+                        prstmIndex++;
+                        prstm.setDate(prstmIndex, date);
+                    } catch (Exception e1) {
+                        prstmIndex++;
+                        prstm.setString(prstmIndex, dynamicalString);
+                    }
+                }
+            }
+
+            prstmIndex++;
+            prstm.setInt(prstmIndex, rowsCount);
+            prstmIndex++;
+            prstm.setInt(prstmIndex, firstRow);
+
+            result = new ArrayList<>();
+
+            resultSet = prstm.executeQuery();
+            while (resultSet.next()) {
+                result.add(getEntityFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
+    }
+
+    protected abstract String getFindByParameters();
+
+    protected abstract Map<String, String> getParametersMap();
+
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+    }
+
+    public abstract T getEntityFromResultSet(ResultSet resultSet) throws DaoException;
+
+    public String createQueryString(Map<String, String> fields) {
+
+        if (fields.size() <= 0) return "";
+        StringBuilder query = new StringBuilder(" where 1=1");
+//todo check map parameters count
+        Map<String, String> fieldsMap = getParametersMap();
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            query.append(" and ");
+            query.append(fieldsMap.get(field.getKey()));
+        }
+        return query.toString();
+    }
 }

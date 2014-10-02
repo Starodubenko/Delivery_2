@@ -28,7 +28,7 @@ public class ShowDispatcherPageAction implements Action {
         List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
         List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
 
-        Pagination pagination = new Pagination();
+        PaginatedSearch pagination = new PaginatedSearch();
         pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
         pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
 

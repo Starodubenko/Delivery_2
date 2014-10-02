@@ -1,6 +1,7 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     private static final String RANGE_ORDERS = "SELECT * FROM orders LIMIT ? OFFSET ?";
     private static final String CANCEL_ORDER = "UPDATE orders SET id = ?, user_id = ?, count = ?, period_id = ?, goods_id = ?, order_cost = ?, paid = ?, delivery_date = ?, additional_info = ?, status_id = ?, order_date = ? where id = ?";
 
-    private String findOrders = "SELECT *" +
+    private static final String FIND_BY_PARAMETERS = "SELECT *" +
             " FROM orders" +
             " inner join users" +
             " on orders.user_id = users.id" +
@@ -27,11 +28,19 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             " inner join goods" +
             " on orders.goods_id = goods.id" +
             " inner join status" +
-            " on orders.status_id = status.id";
-
-    private String conditionsForFindOrders = "";
+            " on orders.status_id = status.id" +
+            "%s LIMIT ? OFFSET ?";
 
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    protected H2OrderDao(Connection conn, DaoManager daoManager) {
+        super(conn, daoManager);
+    }
+
+    @Override
+    protected Map<String, String> getParametersMap() {
+        return fieldsQueryMap;
+    }
 
     static {
         fieldsQueryMap.put("order-id", " orders.id = ?");
@@ -44,11 +53,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         fieldsQueryMap.put("order-status", " status.status_name = ?");
     }
 
-    protected H2OrderDao(Connection conn, DaoManager daoManager) {
-        super(conn, daoManager);
-    }
-
-    @Override
     public List<Order> findAllByClientIdToday(int id) throws DaoException {
         String sql = "SELECT *" +
                 " FROM orders" +
@@ -70,7 +74,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                orders.add(getOrderFromResultSet(resultSet));
+                orders.add(getEntityFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -101,7 +105,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
 
             while (resultSet.next()) {
-                Order order = getOrderFromResultSet(resultSet);
+                Order order = getEntityFromResultSet(resultSet);
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -138,7 +142,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             resultSet = prstm.executeQuery();
 
             if (resultSet.next())
-                order = getOrderFromResultSet(resultSet);
+                order = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -209,32 +213,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
         return null;
     }
 
-    private Order getOrderFromResultSet(ResultSet resultSet) throws DaoException {
-        Order order = new Order();
-        PeriodDao periodDao = daoManager.getPeriodDao();
-        GoodsDao goodsDao = daoManager.getGoodsDao();
-        StatusDao statusDao = daoManager.getStatusDao();
-        ClientDao clientDao = daoManager.getClientDao();
-
-        try {
-            order.setId(resultSet.getInt("id"));
-            order.setOrderDate(resultSet.getDate("order_date"));
-            order.setUser(clientDao.findById(resultSet.getInt("user_id")));
-            order.setGoods(goodsDao.findById(resultSet.getInt("goods_id")));
-            order.setOrderCost(resultSet.getBigDecimal("order_cost"));
-            order.setPaid(resultSet.getBigDecimal("paid"));
-            order.setCount(resultSet.getInt("count"));
-            order.setDeliveryDate(resultSet.getDate("delivery_date"));
-            order.setPeriod(periodDao.findById(resultSet.getInt("period_id")));
-            order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
-            order.setStatus(statusDao.findById(resultSet.getInt("status_id")));
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-
-        return order;
-    }
-
     private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
@@ -265,7 +243,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
             prstm.setInt(2, startRow);
             resultSet = prstm.executeQuery();
             while (resultSet.next())
-                result.add(getOrderFromResultSet(resultSet));
+                result.add(getEntityFromResultSet(resultSet));
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -294,90 +272,34 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
+    protected String getFindByParameters() {
+        return FIND_BY_PARAMETERS;
+    }
 
-        List<Order> result = new ArrayList<>();
 
-        fieldsMap = correctFields(fieldsMap);
+    public Order getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        Order order = new Order();
+        PeriodDao periodDao = daoManager.getPeriodDao();
+        GoodsDao goodsDao = daoManager.getGoodsDao();
+        StatusDao statusDao = daoManager.getStatusDao();
+        ClientDao clientDao = daoManager.getClientDao();
 
-        conditionsForFindOrders += createQuerryString(fieldsMap);
-        findOrders += conditionsForFindOrders;
-
-        findOrders += " LIMIT ? OFFSET ?";
-
-        H2GoodsDao goodsDao = daoManager.getGoodsDao();
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
         try {
-            prstm = conn.prepareStatement(findOrders);
-
-            int prstmIndex = 0;
-            Map<String, String> fieldss = fieldsMap;// cast Object to <String, String>
-
-//            Identification an obtained data, for setting it to PreparedStatement
-            for (Map.Entry<String, String> entry : fieldss.entrySet()) {
-                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
-                try {
-                    if (dynamicalString != null & dynamicalString != "") {
-                        int num = Integer.parseInt(dynamicalString);
-                        prstmIndex++;
-                        prstm.setInt(prstmIndex, num);
-                    }
-                } catch (Exception e) {
-                    try {
-                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
-                        prstmIndex++;
-                        prstm.setDate(prstmIndex, date);
-                    } catch (Exception e1) {
-                        prstmIndex++;
-                        prstm.setString(prstmIndex, dynamicalString);
-                    }
-                }
-            }
-
-            prstmIndex++;
-            prstm.setInt(prstmIndex, count);
-            prstmIndex++;
-            prstm.setInt(prstmIndex, firstPosition);
-
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                result.add(getOrderFromResultSet(resultSet));
-            }
+            order.setId(resultSet.getInt("id"));
+            order.setOrderDate(resultSet.getDate("order_date"));
+            order.setUser(clientDao.findById(resultSet.getInt("user_id")));
+            order.setGoods(goodsDao.findById(resultSet.getInt("goods_id")));
+            order.setOrderCost(resultSet.getBigDecimal("order_cost"));
+            order.setPaid(resultSet.getBigDecimal("paid"));
+            order.setCount(resultSet.getInt("count"));
+            order.setDeliveryDate(resultSet.getDate("delivery_date"));
+            order.setPeriod(periodDao.findById(resultSet.getInt("period_id")));
+            order.setAdditionalInfo(resultSet.getString("ADDITIONAL_INFO"));
+            order.setStatus(statusDao.findById(resultSet.getInt("status_id")));
         } catch (SQLException e) {
             throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
-
-    private Map<String, String> correctFields(Map<String, String> fields) {
-
-        Map<String, String> newFields = new HashMap<>();
-
-        for (Map.Entry<String, String> entry : fields.entrySet()) {
-            if (entry.getValue() != null && entry.getValue() != "") newFields.put(entry.getKey(), entry.getValue());
-        }
-        return newFields;
-    }
-
-    private String createQuerryString(Map<String, String> fields) {
-
-        String result = "";
-        String conditions = "";
-
-        int selectedFieldsCount = 0;
-
-        for (Map.Entry<String, String> field : fields.entrySet()) {
-            if (field.getValue() != null & field.getValue() != "") {
-                selectedFieldsCount++;
-                if (selectedFieldsCount > 1) conditions += " and ";
-                conditions += fieldsQueryMap.get(field.getKey());
-            }
         }
 
-        if (selectedFieldsCount > 0) result += " where " + conditions;
-        return result;
+        return order;
     }
 }

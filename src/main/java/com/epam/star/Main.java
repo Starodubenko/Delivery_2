@@ -1,7 +1,8 @@
 package com.epam.star;
 
-import com.epam.star.action.Action;
-import com.epam.star.action.MappedAction;
+import com.epam.star.dao.Dao;
+import com.epam.star.dao.H2dao.DaoFactory;
+import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -17,33 +18,33 @@ public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
 
-    static Map<String, Action> actionMap = new HashMap<>();
+    private static final Map<String, Dao> daoMap = new HashMap<>();
 
     static {
         Reflections reflections = new Reflections(Main.class.getPackage().getName());
-        Set<Class<?>> actions = reflections.getTypesAnnotatedWith(MappedAction.class);
+        Set<Class<? extends Dao>> daos = reflections.getSubTypesOf(Dao.class);
 
-
-        for (Class<?> actionClass : actions) {
-            MappedAction mappedAction = actionClass.getAnnotation(MappedAction.class);
-
-            Action action = null;
+        for (Class<?> dao : daos) {
+            Dao daoo = null;
             try {
-                action = (Action) actionClass.newInstance();
+                daoo = (Dao) dao.newInstance();
             } catch (InstantiationException e) {
                 LOGGER.error(e.toString());
             } catch (IllegalAccessException e) {
                 LOGGER.error(e.toString());
             }
-            actionMap.put(mappedAction.value(), action);
+            daoMap.put(dao.getSimpleName(), daoo);
         }
     }
 
     public static void main(String[] args) throws SQLException, ParseException {
 
-        for (Map.Entry<String, Action> record : actionMap.entrySet()) {
-            System.out.println(record.getKey() + " = " + record.getValue() + "\n\r");
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        DaoManager daoManager = daoFactory.getDaoManager();
+        H2ClientDao clientDao = daoManager.getClientDao();
 
-        }
+        System.out.println(clientDao.getClass().getName());
+        System.out.println(clientDao.getClass().getSimpleName());
+        System.out.println(daoMap);
     }
 }

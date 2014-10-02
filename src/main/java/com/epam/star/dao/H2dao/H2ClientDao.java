@@ -2,8 +2,8 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.ClientDao;
 import com.epam.star.dao.PositionDao;
+import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Client;
-import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +22,11 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
             "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
 
-    private String findOrders = "SELECT *" +
+    private static final String FIND_BY_PARAMETERS = "SELECT *" +
             " FROM users" +
             " inner join positions" +
-            " on users.position_id = positions.id";
-
-    private String conditionsForFindOrders = "";
-
+            " on users.position_id = positions.id" +
+            "%s LIMIT ? OFFSET ?";
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     static {
@@ -39,6 +37,9 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         fieldsQueryMap.put("telephone", " users.telephone = ?");
         fieldsQueryMap.put("mobilephone", " users.mobilephone = ?");
     }
+
+    private String conditionsForFindOrders = "";
+
 
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -55,65 +56,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             resultSet = prstm.executeQuery();
             while (resultSet.next())
                 result = resultSet.getInt("count(*)");
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
-
-    @Override
-    public List findRangeWithValue(int firstPosition, int count, Map fieldsMap) {
-
-        List<Client> result = new ArrayList<>();
-
-        fieldsMap = correctFields(fieldsMap);
-
-        conditionsForFindOrders += createQuerryString(fieldsMap);
-        findOrders += conditionsForFindOrders;
-
-        findOrders += " LIMIT ? OFFSET ?";
-
-        H2GoodsDao goodsDao = daoManager.getGoodsDao();
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement(findOrders);
-
-            int prstmIndex = 0;
-            Map<String, String> fieldss = fieldsMap;// cast Object to <String, String>
-
-//            Identification an obtained data, for setting it to PreparedStatement
-            for (Map.Entry<String, String> entry : fieldss.entrySet()) {
-                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
-                try {
-                    if (dynamicalString != null & dynamicalString != "") {
-                        int num = Integer.parseInt(dynamicalString);
-                        prstmIndex++;
-                        prstm.setInt(prstmIndex, num);
-                    }
-                } catch (Exception e) {
-                    try {
-                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
-                        prstmIndex++;
-                        prstm.setDate(prstmIndex, date);
-                    } catch (Exception e1) {
-                        prstmIndex++;
-                        prstm.setString(prstmIndex, dynamicalString);
-                    }
-                }
-            }
-
-            prstmIndex++;
-            prstm.setInt(prstmIndex, count);
-            prstmIndex++;
-            prstm.setInt(prstmIndex, firstPosition);
-
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                result.add(getClientFromResultSet(resultSet));
-            }
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -437,6 +379,11 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         return client;
     }
 
+    @Override
+    protected Map<String, String> getParametersMap() {
+        return fieldsQueryMap;
+    }
+
     private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
             try {
@@ -453,5 +400,33 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
                 throw new DaoException(e);
             }
         }
+    }
+
+    @Override
+    protected String getFindByParameters() {
+        return FIND_BY_PARAMETERS;
+    }
+
+    @Override
+    public Client getEntityFromResultSet(ResultSet resultSet) throws DaoException {
+        PositionDao positionDao = daoManager.getPositionDao();
+
+        Client client = new Client();
+        try {
+            client.setId(resultSet.getInt("id"));
+            client.setLogin(resultSet.getString("login"));
+            client.setPassword(resultSet.getString("password"));
+            client.setFirstName(resultSet.getString("firstname"));
+            client.setLastName(resultSet.getString("lastname"));
+            client.setMiddleName(resultSet.getString("middlename"));
+            client.setAddress(resultSet.getString("address"));
+            client.setTelephone(resultSet.getString("telephone"));
+            client.setMobilephone(resultSet.getString("mobilephone"));
+            client.setRole(positionDao.findById(resultSet.getInt("position_id")));
+            client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return client;
     }
 }

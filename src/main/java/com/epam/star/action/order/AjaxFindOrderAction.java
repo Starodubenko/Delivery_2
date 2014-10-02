@@ -26,7 +26,7 @@ public class AjaxFindOrderAction implements Action {
 
         H2OrderDao orderDao = daoManager.getOrderDao();
 
-        SearchePagination pagination = new SearchePagination();
+        PaginatedSearch pagination = new PaginatedSearch();
         pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
 
         daoManager.closeConnection();

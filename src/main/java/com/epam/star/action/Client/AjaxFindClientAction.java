@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @MappedAction("GET/findClient")
 public class AjaxFindClientAction implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(AjaxFindClientAction.class);
-    private ActionResult orderr = new ActionResult("clientsBlock");
+    private ActionResult order = new ActionResult("clientsBlock");
     private ActionResult jsonn = new ActionResult("json");
 
     private Dao dao;
@@ -25,12 +25,12 @@ public class AjaxFindClientAction implements Action {
 
         H2ClientDao clientDao = daoManager.getClientDao();
 
-        SearchePagination pagination = new SearchePagination();
+        PaginatedSearch pagination = new PaginatedSearch();
         pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
 
         daoManager.closeConnection();
 
-        return orderr;
+        return order;
     }
 
     public void determineEntity() {
