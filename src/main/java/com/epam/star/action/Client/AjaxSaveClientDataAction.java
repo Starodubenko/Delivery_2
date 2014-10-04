@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 @MappedAction("GET/saveClientData")
-public class AjaxSaveClientData implements Action {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveClientData.class);
+public class AjaxSaveClientDataAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSaveClientDataAction.class);
     ActionResult jsonn = new ActionResult("json");
 
     @Override

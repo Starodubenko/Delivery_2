@@ -3,25 +3,33 @@
 
 
 <table class="table table-hover" ID="ordersTable">
-    <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+    <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
     <tr>
-        <th></th>
+        <th>
+            <p> Check all</p>
+
+            <div class="checkbox">
+                <label>
+                    <input id="maincheck" type="checkbox">
+                </label>
+            </div>
+        </th>
         <th>ID</th>
         <th>Order date</th>
         <th>Goods name</th>
         <th>Goods count</th>
         <th>Order cost</th>
-        <th>Delivry date</th>
-        <th>Delivry time</th>
+        <th>Delivery date</th>
+        <th>Delivery time</th>
         <th>Additional info</th>
         <th>Status</th>
     </tr>
-    <c:forEach var="row" items="${ordersList}">
-        <tr>
+    <c:forEach var="row" items="${ordersPaginatedList}">
+        <tr data-toggle="collapse" data-parent="#accordion">
             <td>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="IdOrder" value="${row.getId()}">
+                        <input type="checkbox" name="IdOrder" class="mc" value="${row.getId()}">
                     </label>
                 </div>
             </td>

@@ -3,7 +3,7 @@
 
 
 <table class="table table-hover" ID="clientsTable">
-    <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
+    <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
     <tr>
         <th>ID</th>
         <th>Firs name</th>
@@ -14,7 +14,7 @@
         <th>Mobilephone</th>
         <th>Create order</th>
     </tr>
-    <c:forEach var="row" items="${clientsList}">
+    <c:forEach var="row" items="${clientsPaginatedList}">
         <tr>
             <td class="id">${row.getId()}</td>
             <td>${row.getFirstName()}</td>
@@ -25,6 +25,7 @@
             <td>${row.getMobilephone()}</td>
             <td class=" createOrder">
                 <button type="button" class="btn btn-primary" data-toggle="modal"
+                        value="${row.getId()}"
                         data-target="#myModel">Order
                 </button>
             </td>

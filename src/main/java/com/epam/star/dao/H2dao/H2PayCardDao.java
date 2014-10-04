@@ -207,7 +207,7 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     }
 
     @Override
-    protected Map<String, String> getParametersMap() {
+    public Map<String, String> getParametersMap() {
         return null;
     }
 

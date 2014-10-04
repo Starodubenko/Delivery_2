@@ -136,7 +136,7 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    protected Map<String, String> getParametersMap() {
+    public Map<String, String> getParametersMap() {
         return null;
     }
 

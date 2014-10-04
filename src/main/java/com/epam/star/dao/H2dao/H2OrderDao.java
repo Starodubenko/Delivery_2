@@ -1,13 +1,14 @@
 package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.*;
-import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
-import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    protected Map<String, String> getParametersMap() {
+    public Map<String, String> getParametersMap() {
         return fieldsQueryMap;
     }
 

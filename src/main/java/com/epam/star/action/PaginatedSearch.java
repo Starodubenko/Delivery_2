@@ -2,11 +2,12 @@ package com.epam.star.action;
 
 import com.epam.star.dao.H2dao.AbstractH2Dao;
 import com.epam.star.dao.H2dao.DaoException;
+import com.epam.star.entity.AbstractEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-public class PaginatedSearch<T, E extends AbstractH2Dao> {
+public class PaginatedSearch<T extends AbstractEntity, E extends AbstractH2Dao> {
     public static final int DEFAULT_PAGE_NUMBER = 1;
     public static final int DEFAULT_ROWS_COUNT = 10;
 
@@ -32,34 +33,41 @@ public class PaginatedSearch<T, E extends AbstractH2Dao> {
         String rowsString = request.getParameter(targetName + "rows");
         if (rowsString != null) rowsCount = Integer.valueOf(rowsString);
         if (pageString != null) pageNumber = Integer.valueOf(pageString);
-        int firstRow = pageNumber * rowsCount - DEFAULT_ROWS_COUNT;
+        int firstRow = pageNumber * rowsCount - rowsCount;
 
-        List<T> tableList = null;
-        int tableLenght;
-        Map<String, String> queryMap = getQueryMap(request);
-        tableList = genericDao.findRangeTest(firstRow, rowsCount, queryMap);
-        tableLenght = tableList.size();
+        Map<String, String> queryMap = getQueryMap(request, genericDao);
+        PaginatedList<T> paginatedList = genericDao.findRangeTest(firstRow, rowsCount, queryMap);
 
-        List<Integer> paginationList = new ArrayList<>();
-        for (int i = 0; i < tableLenght / rowsCount + 1; i++) {
-            paginationList.add(i + 1);
-        }
+//        List<T> tableList = null;
+//        int tableLenght;
+//        Map<String, String> queryMap = getQueryMap(request);
+//        tableList = genericDao.findRangeTest(firstRow, rowsCount, queryMap);
+//        tableLenght = tableList.size();
+//
+//        List<Integer> paginationList = new ArrayList<>();
+//        for (int i = 0; i < tableLenght / rowsCount + 1; i++) {
+//            paginationList.add(i + 1);
+//        }
 
-        request.setAttribute(targetName + "Paginationlist", paginationList);
-        request.setAttribute(targetName + "List", tableList);
-        request.setAttribute(targetName + "PageNumber", pageNumber);
-        request.setAttribute(targetName + "RowsCount", rowsCount);
+//        request.setAttribute(targetName + "Paginationlist", paginationList);
+//        request.setAttribute(targetName + "List", tableList);
+//        request.setAttribute(targetName + "PageNumber", pageNumber);
+//        request.setAttribute(targetName + "RowsCount", rowsCount);
+        request.setAttribute(targetName + "PaginatedList", paginatedList);
 
     }
 
-    private Map<String, String> getQueryMap(HttpServletRequest request) {
+    private Map<String, String> getQueryMap(HttpServletRequest request, E genericDao) {
 
         Map<String, String> result = new HashMap<>();
+        Map<String, String> parsqlParametersMap = genericDao.getParametersMap();
 
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            if (entry.getValue() != null && entry.getValue()[0] != "") result.put(entry.getKey(), entry.getValue()[0]);
+            if (parsqlParametersMap.get(entry.getKey()) != null)
+                if (entry.getValue() != null && entry.getValue()[0] != "")
+                    result.put(entry.getKey(), entry.getValue()[0]);
         }
 
         return result;

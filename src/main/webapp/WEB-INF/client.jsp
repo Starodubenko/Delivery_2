@@ -27,10 +27,29 @@
         <t:payment></t:payment>
     </div>
 
+    <div class="panel panel-default border client-avatar">
+        <img src="/style/img/no%20avatar.jpg">
+
+        <div class="form-group">
+            <label for="inputAvatarUrl">Avatar</label>
+            <input type="text" class="form-control" id="inputAvatarUrl" placeholder="Avatar url">
+        </div>
+    </div>
+
+    <div class="orders">
+        <div class="form-group">
+            <label>Your orders count: </label>
+            <br>
+            <label><a href="">Browse orders</a></label>
+        </div>
+    </div>
+
     <div class="orderList panel panel-default">
         <ul class="nav nav-tabs  nav-justified" role="tablist">
-            <li class="active"><a href="#Today" role="tab" data-toggle="tab">Today</a></li>
-            <li><a href="#HistoryOrders" role="tab" data-toggle="tab">History of orders</a></li>
+            <li class="active"><a href="#Today" role="tab" data-toggle="tab"><fmt:message
+                    key="client.information.today"/></a></li>
+            <li><a href="#HistoryOrders" role="tab" data-toggle="tab"><fmt:message
+                    key="client.information.history"/></a></li>
         </ul>
         <form action="${pageContext.request.contextPath}/do/cancelOrder" id="cancelOrderForm">
             <div class="tab-content">
@@ -38,16 +57,16 @@
                     <table class="table table-hover">
                         <tr>
                             <th></th>
-                            <th>ID</th>
-                            <th>Order date</th>
-                            <th>Goods name</th>
-                            <th>Goods count</th>
-                            <th>Order cost</th>
-                            <th>Paid</th>
-                            <th>Delivry date</th>
-                            <th>Delivry time</th>
-                            <th>Additional info</th>
-                            <th>Status</th>
+                            <th><fmt:message key="view.client.orders.client.table.id"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.order.date"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.goods.name"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.goods.count"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.order.cost"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.paid"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.delivery.date"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.delivery.time"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.additional.info"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.status"/></th>
                         </tr>
                         <c:forEach var="row" items="${todayOrders}">
                             <tr>
@@ -76,16 +95,16 @@
                     <table class="table table-hover">
                         <tr>
                             <th></th>
-                            <th>ID</th>
-                            <th>Order date</th>
-                            <th>Goods name</th>
-                            <th>Goods count</th>
-                            <th>Order cost</th>
-                            <th>Paid</th>
-                            <th>Delivry date</th>
-                            <th>Delivry time</th>
-                            <th>Additional info</th>
-                            <th>Status</th>
+                            <th><fmt:message key="view.client.orders.client.table.id"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.order.date"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.goods.name"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.goods.count"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.order.cost"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.paid"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.delivery.date"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.delivery.time"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.additional.info"/></th>
+                            <th><fmt:message key="view.client.orders.client.table.status"/></th>
                         </tr>
                         <c:forEach var="row" items="${pastOrders}">
                             <tr>

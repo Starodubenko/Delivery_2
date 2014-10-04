@@ -15,7 +15,8 @@
 
                     <p align="center" class="name_surname">${user.getLastName()}</p>
                     <br>
-                    <input type="submit" class="logoutbtn btn btn-primary" value="Logout">
+                    <input type="submit" class="logoutbtn btn btn-primary"
+                           value="<fmt:message key="authentication.button.logout"/>">
                 </form>
             </div>
         </c:if>

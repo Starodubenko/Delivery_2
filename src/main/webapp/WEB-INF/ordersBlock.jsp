@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div id="orders-block">
     <ul id="change" class="pagination">
         <li id="oBack"><a href="#page">&laquo;</a></li>
 
-        <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
-            <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
+        <c:forEach var="i" begin="1" end="${ordersPaginatedList.getPageCount()}">
+            <li value="${i}" name="page${i}"
+                class="oNumbered page"><a href="#page${i}">${i}</a>
             </li>
         </c:forEach>
 
@@ -22,30 +23,18 @@
         <option>Executed</option>
     </select>
 
-    <div class="form-group rows-count floatRight">
-        <label class="labelCount" for="ordersrows">Rows count</label>
-
-        <form action="${pageContext.request.contextPath}/do/dispatcher">
-            <div class="input-group">
-                <input type="text" name="ordersrows" id="ordersrows" value="${ordersRowsCount}"
-                       class="form-control textCount">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default floatRight" type="submit">aply</button>
-                        </span>
-            </div>
-        </form>
-    </div>
+    <t:rowsCount></t:rowsCount>
 
     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
         <table class="table table-hover" ID="ordersTable">
-            <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+            <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
             <tr>
                 <th>
                     <p> Check all</p>
 
                     <div class="checkbox">
                         <label>
-                            <input id="maincheck" type="checkbox" value="${row.getId()}">
+                            <input id="maincheck" type="checkbox">
                         </label>
                     </div>
                 </th>
@@ -59,7 +48,7 @@
                 <th>Additional info</th>
                 <th>Status</th>
             </tr>
-            <c:forEach var="row" items="${ordersList}">
+            <c:forEach var="row" items="${ordersPaginatedList}">
                 <tr data-toggle="collapse" data-parent="#accordion">
                     <td>
                         <div class="checkbox">

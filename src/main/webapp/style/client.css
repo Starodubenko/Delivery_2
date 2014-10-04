@@ -164,3 +164,13 @@ text {
     z-index: 1151 !important;
 }
 
+.client-avatar {
+    padding: 5px;
+    margin: 10px;
+    float: left;
+}
+
+.orders {
+    margin: 10px;
+}
+

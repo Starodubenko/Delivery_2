@@ -19,7 +19,7 @@ public class AjaxChangeClientsPageAction implements Action {
 
         H2ClientDao clientDao = daoManager.getClientDao();
 
-        Pagination pagination = new Pagination();
+        PaginatedSearch pagination = new PaginatedSearch();
         pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
 
         daoManager.closeConnection();

@@ -136,7 +136,7 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    protected Map<String, String> getParametersMap() {
+    public Map<String, String> getParametersMap() {
         return null;
     }
 

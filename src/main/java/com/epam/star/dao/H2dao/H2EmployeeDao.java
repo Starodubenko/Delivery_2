@@ -201,7 +201,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    protected Map<String, String> getParametersMap() {
+    public Map<String, String> getParametersMap() {
         return null;
     }
 

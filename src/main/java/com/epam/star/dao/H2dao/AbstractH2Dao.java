@@ -1,10 +1,10 @@
 package com.epam.star.dao.H2dao;
 
+import com.epam.star.action.PaginatedList;
 import com.epam.star.entity.AbstractEntity;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +37,12 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     public abstract int getRecordsCount();
 
-    public List<T> findRangeTest(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
-        List<T> result;
+    public PaginatedList<T> findRangeTest(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
+        int count = getRecordsCount();
+
+        PaginatedList<T> result;
+
+//        fieldsMap = checkFields(fieldsMap);
 
         String findByParameters = getFindByParameters();
 
@@ -79,12 +83,17 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
             prstmIndex++;
             prstm.setInt(prstmIndex, firstRow);
 
-            result = new ArrayList<>();
+            result = new PaginatedList<>();
 
             resultSet = prstm.executeQuery();
             while (resultSet.next()) {
                 result.add(getEntityFromResultSet(resultSet));
             }
+
+            result.setTotalRowsCount(count);
+            result.setPageNumber(firstRow);
+            result.setRowsPerPage(rowsCount);
+
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -95,7 +104,7 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
 
     protected abstract String getFindByParameters();
 
-    protected abstract Map<String, String> getParametersMap();
+    public abstract Map<String, String> getParametersMap();
 
     private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
         if (prstm != null) {
@@ -122,10 +131,12 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         if (fields.size() <= 0) return "";
         StringBuilder query = new StringBuilder(" where 1=1");
 //todo check map parameters count
+        String fieldValue;
         Map<String, String> fieldsMap = getParametersMap();
         for (Map.Entry<String, String> field : fields.entrySet()) {
+            fieldValue = fieldsMap.get(field.getKey());
             query.append(" and ");
-            query.append(fieldsMap.get(field.getKey()));
+            query.append(fieldValue);
         }
         return query.toString();
     }

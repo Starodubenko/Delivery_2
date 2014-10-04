@@ -1,38 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div id="clients-block">
     <ul id="changee" class="pagination">
         <li id="cBack"><a href="#page">&laquo;</a></li>
 
-        <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
-            <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                class="cNumbered "><a href="#page${pl.intValue()}"
-                                      class="page">${pl.intValue()}</a>
+        <c:forEach var="i" begin="1" end="${clientsPaginatedList.getPageCount()}">
+            <li value="${i}" name="page${i}" class="cNumbered "><a href="#page${i}" class="page">${i}</a>
             </li>
         </c:forEach>
 
         <li id="cNext"><a href="#page">&raquo;</a></li>
     </ul>
 
-    <div class="form-group rows-count floatRight">
-        <label class="labelCount" for="clientsrows">Rows count</label>
-
-        <form action="${pageContext.request.contextPath}/do/dispatcher">
-            <div class="input-group">
-                <input type="text" name="clientsrows" id="clientsrows" value="${clientsRowsCount}"
-                       class="form-control textCount">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default floatRight" type="submit">aply</button>
-                        </span>
-            </div>
-        </form>
-    </div>
+    <t:rowsCount>
+    </t:rowsCount>
 
     <div class="orderListHeight tab-pane" style="overflow-y: scroll">
         <table class="table table-hover" ID="clientsTable">
-            <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
+            <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
             <tr>
                 <th>ID</th>
                 <th>Firs name</th>
@@ -43,7 +31,7 @@
                 <th>Mobilephone</th>
                 <th>Create order</th>
             </tr>
-            <c:forEach var="row" items="${clientsList}">
+            <c:forEach var="row" items="${clientsPaginatedList}">
                 <tr>
                     <td class="id">${row.getId()}</td>
                     <td>${row.getFirstName()}</td>

@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @MappedAction("GET/SetClientToEditFields")
-public class AjaxClientEditFields implements Action {
-    private ActionResult editOrdersBlock = new ActionResult("ajaxOrderTableRow");
+public class AjaxSetClientToEditFieldsAction implements Action {
+    private ActionResult editClientsRow = new ActionResult("ajaxClientTableRow");
 
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
@@ -31,6 +31,6 @@ public class AjaxClientEditFields implements Action {
 
         daoManager.closeConnection();
 
-        return editOrdersBlock;
+        return editClientsRow;
     }
 }

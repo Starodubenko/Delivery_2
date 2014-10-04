@@ -1,7 +1,6 @@
 package com.epam.star.action.Client;
 
 import com.epam.star.action.*;
-import com.epam.star.dao.Dao;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
@@ -17,8 +16,6 @@ public class AjaxFindClientAction implements Action {
     private ActionResult order = new ActionResult("clientsBlock");
     private ActionResult jsonn = new ActionResult("json");
 
-    private Dao dao;
-
     @Override
     public ActionResult execute(HttpServletRequest request) throws ActionException, SQLException {
         DaoManager daoManager = DaoFactory.getInstance().getDaoManager();
@@ -31,9 +28,5 @@ public class AjaxFindClientAction implements Action {
         daoManager.closeConnection();
 
         return order;
-    }
-
-    public void determineEntity() {
-        dao = DaoFactory.getInstance().getDaoManager().getClientDao();
     }
 }

@@ -111,6 +111,7 @@
 </div>
 
 <div class="orderList panel panel-default">
+
     <ul class="nav nav-tabs  nav-justified" role="tablist">
         <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab">Clients</a>
         </li>
@@ -118,14 +119,12 @@
     </ul>
     <div class="tab-content">
         <div class="orderListHeight tab-pane active" id="Clients">
-            <div id="Clients-block">
+            <div id="clients-block">
                 <ul id="changee" class="pagination">
                     <li id="cBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach varStatus="status" items="${clientsPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                            class="cNumbered "><a href="#page${pl.intValue()}"
-                                                  class="page">${pl.intValue()}</a>
+                    <c:forEach var="i" begin="1" end="${clientsPaginatedList.getPageCount()}">
+                        <li value="${i}" name="page${i}" class="cNumbered page"><a href="#page${i}">${i}</a>
                         </li>
                     </c:forEach>
 
@@ -136,7 +135,7 @@
 
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="clientsTable">
-                        <input type="hidden" id="clientsPageNumber" value="${clientsPageNumber}"/>
+                        <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
                         <tr>
                             <th>ID</th>
                             <th>Firs name</th>
@@ -147,7 +146,7 @@
                             <th>Mobilephone</th>
                             <th>Create order</th>
                         </tr>
-                        <c:forEach var="row" items="${clientsList}">
+                        <c:forEach var="row" items="${clientsPaginatedList}">
                             <tr>
                                 <td class="id">${row.getId()}</td>
                                 <td>${row.getFirstName()}</td>
@@ -170,13 +169,12 @@
         </div>
 
         <div class="orderListHeight tab-pane" id="Orders">
-            <div id="Orders-block">
+            <div id="orders-block">
                 <ul id="change" class="pagination">
                     <li id="oBack"><a href="#page">&laquo;</a></li>
 
-                    <c:forEach varStatus="status" items="${ordersPaginationlist}" var="pl">
-                        <li value="${pl.intValue()}" name="page${pl.intValue()}"
-                            class="oNumbered page"><a href="#page${pl.intValue()}">${pl.intValue()}</a>
+                    <c:forEach var="i" begin="1" end="${ordersPaginatedList.getPageCount()}">
+                        <li value="${i}" name="page${i}" class="oNumbered page"><a href="#page${i}">${i}</a>
                         </li>
                     </c:forEach>
 
@@ -194,14 +192,14 @@
 
                 <div class="orderListHeight tab-pane" style="overflow-y: scroll">
                     <table class="table table-hover" ID="ordersTable">
-                        <input type="hidden" id="ordersPageNumber" value="${ordersPageNumber}"/>
+                        <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
                         <tr>
                             <th>
                                 <p> Check all</p>
 
                                 <div class="checkbox">
                                     <label>
-                                        <input id="maincheck" type="checkbox" value="${row.getId()}">
+                                        <input id="maincheck" type="checkbox">
                                     </label>
                                 </div>
                             </th>
@@ -215,7 +213,7 @@
                             <th>Additional info</th>
                             <th>Status</th>
                         </tr>
-                        <c:forEach var="row" items="${ordersList}">
+                        <c:forEach var="row" items="${ordersPaginatedList}">
                             <tr data-toggle="collapse" data-parent="#accordion">
                                 <td>
                                     <div class="checkbox">

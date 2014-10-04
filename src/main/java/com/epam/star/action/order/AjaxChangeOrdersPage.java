@@ -19,7 +19,7 @@ public class AjaxChangeOrdersPage implements Action {
 
         H2OrderDao orderDao = daoManager.getOrderDao();
 
-        Pagination pagination = new Pagination();
+        PaginatedSearch pagination = new PaginatedSearch();
         pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
 
         daoManager.closeConnection();
