@@ -17,4 +17,14 @@ $(document).ready(function () {
     });
 });
 
+$('#browse-orders').click(function () {
+
+    if (!$('#collapseOne').hasClass('in')) {
+        $.get("browseOrders",
+            function (data) {
+                $('.orderList').html(data);
+            });
+    }
+});
+
 

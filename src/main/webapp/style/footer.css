@@ -1,11 +1,16 @@
 .footer {
-    height: 20%;
+    height: 100%;
     background-color: #F0F8FF;
     padding: 10px;
     margin-top: 20px;
     border-top-width: 3px;
     border-top-color: #6FBBDB;
     margin-bottom: 0;
+}
+
+.footer-block {
+    width: 1282px;
+    background-color: #ffffff;
 }
 
 .center {

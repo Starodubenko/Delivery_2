@@ -118,18 +118,22 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public Order findByClientAddress(String address) throws DaoException {
-        return null;
-    }
+    public int getClientOrdersCount(int id) {
 
-    @Override
-    public Order findByPeriod(String period) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public Order findByGoods(String period) throws DaoException {
-        return null;
+        int result = 0;
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM orders where user_id = " + id);
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
     }
 
     @Override

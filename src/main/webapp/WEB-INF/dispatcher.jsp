@@ -30,7 +30,7 @@
             <h4 class="panel-title">
                 <div class="center">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearche">
-                        Searching
+                        <fmt:message key="view.dispatcher.message.serch"/>
                     </a>
                 </div>
             </h4>
@@ -40,13 +40,15 @@
                 <form id="findForm">
                     <div id="searcheFields">
                         <div class="form-group edit">
-                            <div class="center"><label for="order-id" class="edit-field">ID</label>
+                            <div class="center"><label for="order-id" class="edit-field"><fmt:message
+                                    key="view.dispatcher.table.clients.message.ID"/></label>
                             </div>
                             <input type="text" class="form-control" name="order-id" id="order-id"
                                    value="39">
                         </div>
                         <div class="form-group edit">
-                            <div class="center"><label for="order-date" class="edit-field">Date</label>
+                            <div class="center"><label for="order-date" class="edit-field"><fmt:message
+                                    key="view.dispatcher.table.clients.message."/></label>
                             </div>
                             <input type="text" class="form-control searchDate" name="order-date"
                                    id="order-date"
@@ -113,9 +115,11 @@
 <div class="orderList panel panel-default">
 
     <ul class="nav nav-tabs  nav-justified" role="tablist">
-        <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab">Clients</a>
+        <li id="t1" class="active table" value="Clients"><a href="#Clients" role="tab" data-toggle="tab"><fmt:message
+                key="view.dispatcher.table.clients.header"/></a>
         </li>
-        <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab">Orders</a></li>
+        <li id="t2" class="table" value="Orders"><a href="#Orders" role="tab" data-toggle="tab"><fmt:message
+                key="view.dispatcher.table.orders.header"/></a></li>
     </ul>
     <div class="tab-content">
         <div class="orderListHeight tab-pane active" id="Clients">
@@ -137,28 +141,29 @@
                     <table class="table table-hover" ID="clientsTable">
                         <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
                         <tr>
-                            <th>ID</th>
-                            <th>Firs name</th>
-                            <th>Middle name</th>
-                            <th>Last name</th>
-                            <th>Address</th>
-                            <th>Telephone</th>
-                            <th>Mobilephone</th>
-                            <th>Create order</th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.ID"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.last.name"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.first.name"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.middle.name"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.address"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.telephone"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.message.mobilephone"/></th>
+                            <th><fmt:message key="view.dispatcher.table.clients.button.order"/></th>
                         </tr>
                         <c:forEach var="row" items="${clientsPaginatedList}">
                             <tr>
                                 <td class="id">${row.getId()}</td>
+                                <td>${row.getLastName()}</td>
                                 <td>${row.getFirstName()}</td>
                                 <td>${row.getMiddleName()}</td>
-                                <td>${row.getLastName()}</td>
                                 <td>${row.getAddress()}</td>
                                 <td>${row.getTelephone()}</td>
                                 <td>${row.getMobilephone()}</td>
                                 <td class=" createOrder">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                             value="${row.getId()}"
-                                            data-target="#myModel">Order
+                                            data-target="#myModel"><fmt:message
+                                            key="view.dispatcher.table.clients.message.create.order"/>
                                     </button>
                                 </td>
                             </tr>
@@ -195,7 +200,7 @@
                         <input type="hidden" id="ordersPageNumber" value="${ordersPaginatedList.getPageNumber()}"/>
                         <tr>
                             <th>
-                                <p> Check all</p>
+                                <p><fmt:message key="view.dispatcher.table.orders.message.select.all"/></p>
 
                                 <div class="checkbox">
                                     <label>
@@ -203,15 +208,15 @@
                                     </label>
                                 </div>
                             </th>
-                            <th>ID</th>
-                            <th>Order date</th>
-                            <th>Goods name</th>
-                            <th>Goods count</th>
-                            <th>Order cost</th>
-                            <th>Delivery date</th>
-                            <th>Delivery time</th>
-                            <th>Additional info</th>
-                            <th>Status</th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.id"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.order.date"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.goods.name"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.goods.count"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.order.cost"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.delivery.date"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.delivery.time"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.additional.info"/></th>
+                            <th><fmt:message key="view.dispatcher.table.orders.message.status"/></th>
                         </tr>
                         <c:forEach var="row" items="${ordersPaginatedList}">
                             <tr data-toggle="collapse" data-parent="#accordion">
@@ -248,7 +253,7 @@
                 <div class="panel-heading edit-panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            Edit
+                            <fmt:message key="view.dispatcher.message.edit"/>
                         </a>
                     </h4>
                 </div>

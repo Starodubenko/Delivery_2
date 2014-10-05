@@ -4,7 +4,7 @@
 
 <fmt:bundle basename="i18n.messages">
     <div class="eWalet panel panel-default">
-        <label class="balance"> Your balance: </label>
+        <label class="balance"> <fmt:message key="payment.message.your.balance"/>: </label>
         <label> ${user.getVirtualBalance()} </label>
         <br>
         <button class="logoutbtn btn btn-primary" data-toggle="modal" data-target="#Payment">

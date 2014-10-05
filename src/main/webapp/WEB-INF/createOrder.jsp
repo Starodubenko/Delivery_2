@@ -9,8 +9,9 @@
     <head>
         <title>Welcome</title>
         <link rel='stylesheet' href='<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>'>
-            <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>--%>
-            <%--<link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.css"/>'>--%>
+        <link rel='stylesheet' href='<c:url value="/webjars/bootstrap-datepicker/1.3.0/css/datepicker3.css"/>'>
+        <link rel='stylesheet'
+              href='<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/css/bootstrap-datetimepicker.css"/>'>
         <link rel='stylesheet'
               href='<c:url value="/webjars/bootstrap-timepicker/0.2.3/css/bootstrap-timepicker.min.css"/>'>
         <link rel='stylesheet' href='<c:url value="/style/createOrder.css"/>'>
@@ -30,20 +31,22 @@
         </div>
 
         <c:if test="${empty user}">
-            <div class="nonLogin"><h1>Login please !</h1></div>
+            <div class="nonLogin"><h1><fmt:message key="order.create.message.unlogin"/></h1></div>
         </c:if>
 
         <c:if test="${not empty user}">
             <div class="panel panel-default create-order-panel">
-                <div class="center"><h1>Creation the order</h1></div>
+                <div class="center"><h1><fmt:message key="order.create.message.header"/></h1></div>
                 <div>
                     <div class="orderText form-group">
-                        <div class="center"><label for="Datee">Delivery date</label></div>
+                        <div class="center"><label for="Datee"><fmt:message
+                                key="order.create.message.delivery.date"/></label></div>
                         <input type="text" name="deliverydate" placeholder="Date" class="form-control timepicker"
                                id="Datee">
                     </div>
                     <div class="orderText form-group">
-                        <div class="center"><label for="PeriodTime">Delivery time</label></div>
+                        <div class="center"><label for="PeriodTime"><fmt:message
+                                key="order.create.message.delivery.time"/></label></div>
                         <select class="form-control" name="deliverytime" value="Time" class="form-control"
                                 id="PeriodTime">
                             <c:forEach var="period" items="${periods}">
@@ -52,7 +55,8 @@
                         </select>
                     </div>
                     <div class="orderText form-group">
-                        <div class="center"><label for="GoodsName">Goods type</label></div>
+                        <div class="center"><label for="GoodsName"><fmt:message
+                                key="order.create.message.goods.name"/></label></div>
                         <select class="form-control" name="goodsname" value="Goods name" class="form-control"
                                 id="GoodsName">
                             <c:forEach var="goodss" items="${goods}">
@@ -61,11 +65,13 @@
                         </select>
                     </div>
                     <div class="orderText form-group">
-                        <div class="center"><label for="Count">Goods count</label></div>
-                        <input type="text" name="goodscount" value="Count" class="form-control" id="Count">
+                        <div class="center"><label for="Count"><fmt:message
+                                key="order.create.message.goods.count"/></label></div>
+                        <input type="text" name="goodscount" value="1" class="form-control" id="Count">
                     </div>
                     <div class="orderInfo form-group">
-                        <div class="center"><label for="Additional Information">Additional Information</label></div>
+                        <div class="center"><label for="Additional Information"><fmt:message
+                                key="order.create.message.additional.info"/></label></div>
                         <textarea name="additionalinformation" value="Count" class="form-control"
                                   id="Additional Information">
                         </textarea>
@@ -73,35 +79,23 @@
                 </div>
 
                 <div class="center form-group">
-                    <label class="paymentTypeContent">Online =></label><input type="radio" name="paymentType"
-                                                                              value="online">
-
-                    <p>
-                        <label class="paymentTypeContent">Cache =></label><input type="radio" name="paymentType"
-                                                                                 value="cache">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="paymentType" value="online" checked>
+                            <fmt:message key="order.create.message.online"/>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="paymentType" value="cache">
+                            <fmt:message key="order.create.message.cache"/>
+                        </label>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="create">Create order</button>
+                    <button type="button" class="btn btn-primary" id="create"><fmt:message
+                            key="order.create.button.create.order"/></button>
                 </div>
-
-                <div class="input-append bootstrap-timepicker">
-                    <input id="timepicker2" type="text" class="input-small">
-                    <span class="add-on">
-                        <i class="icon-time"></i>
-                    </span>
-                </div>
-
-                <script type="text/javascript">
-                    $('#timepicker2').timepicker({
-                        minuteStep: 1,
-                        template: 'modal',
-                        appendWidgetTo: 'body',
-                        showSeconds: true,
-                        showMeridian: false,
-                        defaultTime: false
-                    });
-                </script>
-
             </div>
         </c:if>
 
@@ -112,8 +106,8 @@
 
     <script src="<c:url value="/webjars/jquery/1.11.1/jquery.min.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"/>"></script>
-        <%--<script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>--%>
-        <%--<script src="<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.js"/>"></script>--%>
+    <script src="<c:url value="/webjars/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"/>"></script>
+    <script src="<c:url value="/webjars/bootstrap-datetimepicker/2.3.1/js/bootstrap-datetimepicker.js"/>"></script>
     <script src="<c:url value="/webjars/bootstrap-timepicker/0.2.3/js/bootstrap-timepicker.min.js"/>"></script>
     <script src="<c:url value="/script/createOrder.js"/>"></script>
     </body>

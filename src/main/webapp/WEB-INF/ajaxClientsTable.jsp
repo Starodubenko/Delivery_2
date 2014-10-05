@@ -1,34 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<table class="table table-hover" ID="clientsTable">
-    <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
-    <tr>
-        <th>ID</th>
-        <th>Firs name</th>
-        <th>Middle name</th>
-        <th>Last name</th>
-        <th>Address</th>
-        <th>Telephone</th>
-        <th>Mobilephone</th>
-        <th>Create order</th>
-    </tr>
-    <c:forEach var="row" items="${clientsPaginatedList}">
+<fmt:bundle basename="i18n.messages">
+    <table class="table table-hover" ID="clientsTable">
+        <input type="hidden" id="clientsPageNumber" value="${clientsPaginatedList.getPageNumber()}"/>
         <tr>
-            <td class="id">${row.getId()}</td>
-            <td>${row.getFirstName()}</td>
-            <td>${row.getMiddleName()}</td>
-            <td>${row.getLastName()}</td>
-            <td>${row.getAddress()}</td>
-            <td>${row.getTelephone()}</td>
-            <td>${row.getMobilephone()}</td>
-            <td class=" createOrder">
-                <button type="button" class="btn btn-primary" data-toggle="modal"
-                        value="${row.getId()}"
-                        data-target="#myModel">Order
-                </button>
-            </td>
+            <th><fmt:message key="view.dispatcher.table.clients.message.ID"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.last.name"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.first.name"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.middle.name"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.address"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.telephone"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.mobilephone"/></th>
+            <th><fmt:message key="view.dispatcher.table.clients.message.create.order"/></th>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach var="row" items="${clientsPaginatedList}">
+            <tr>
+                <td class="id">${row.getId()}</td>
+                <td>${row.getLastName()}</td>
+                <td>${row.getFirstName()}</td>
+                <td>${row.getMiddleName()}</td>
+                <td>${row.getAddress()}</td>
+                <td>${row.getTelephone()}</td>
+                <td>${row.getMobilephone()}</td>
+                <td class=" createOrder">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            value="${row.getId()}"
+                            data-target="#myModel"><fmt:message key="view.dispatcher.table.clients.button.order"/>
+                    </button>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</fmt:bundle>

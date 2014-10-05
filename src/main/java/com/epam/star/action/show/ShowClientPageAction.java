@@ -10,7 +10,6 @@ import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.OrderDao;
 import com.epam.star.entity.Client;
 import com.epam.star.entity.Goods;
-import com.epam.star.entity.Order;
 import com.epam.star.entity.Period;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +30,7 @@ public class ShowClientPageAction implements Action {
         Client currentClient = (Client) request.getSession().getAttribute("user");
         Client user = clientDao.findById(currentClient.getId());
 
-        List<Order> todayOrders = orderDao.findAllByClientIdToday(user.getId());
-        List<Order> pastOrders = orderDao.findAllByClientIdLastDays(user.getId());
+        int clientOrdersCount = orderDao.getClientOrdersCount(user.getId());
 
         List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
         List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
@@ -41,8 +39,7 @@ public class ShowClientPageAction implements Action {
         session.setAttribute("user", user);
         session.setAttribute("periods", periods);
         session.setAttribute("goods", goods);
-        session.setAttribute("todayOrders", todayOrders);
-        session.setAttribute("pastOrders", pastOrders);
+        session.setAttribute("ordersCount", clientOrdersCount);
 
         daoManager.closeConnection();
 

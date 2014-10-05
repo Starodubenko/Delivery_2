@@ -177,7 +177,7 @@ $(document).ready(function () {
 //            });
 //    });
 
-    $('#Orders-block').on('click', 'tr', function () {
+    $('#orders-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
@@ -190,7 +190,7 @@ $(document).ready(function () {
 //        $('#collapseOne').addClass('collapse in');
     });
 
-    $('#Clients-block').on('click', 'tr', function () {
+    $('#clients-block').on('click', 'tr', function () {
         $('tr').removeClass('info');
         $(this).addClass('info');
 
