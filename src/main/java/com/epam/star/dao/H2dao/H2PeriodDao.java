@@ -144,11 +144,6 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public List findRange(int startRow, int rowsCount) {
-        return null;
-    }
-
-    @Override
     public int getRecordsCount() {
         return 0;
     }

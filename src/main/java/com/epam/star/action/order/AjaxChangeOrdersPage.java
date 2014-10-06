@@ -4,6 +4,7 @@ import com.epam.star.action.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2OrderDao;
+import com.epam.star.dao.util.Pagination;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -19,8 +20,8 @@ public class AjaxChangeOrdersPage implements Action {
 
         H2OrderDao orderDao = daoManager.getOrderDao();
 
-        PaginatedSearch pagination = new PaginatedSearch();
-        pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
+        Pagination pagination = new Pagination();
+        pagination.paginationEntity(request, orderDao, "orders");
 
         daoManager.closeConnection();
 

@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 public class H2StatusDao extends AbstractH2Dao implements StatusDao {
@@ -122,11 +121,6 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
 
     @Override
     public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public List findRange(int startRow, int rowsCount) {
         return null;
     }
 

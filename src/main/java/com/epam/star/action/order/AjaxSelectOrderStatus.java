@@ -3,7 +3,7 @@ package com.epam.star.action.order;
 import com.epam.star.action.Action;
 import com.epam.star.action.ActionException;
 import com.epam.star.action.ActionResult;
-import com.epam.star.action.Pagination;
+import com.epam.star.dao.util.Pagination;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2OrderDao;
@@ -22,7 +22,7 @@ public class AjaxSelectOrderStatus implements Action {
         H2OrderDao orderDao = daoManager.getOrderDao();
 
         Pagination pagination = new Pagination();
-        pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
+        pagination.paginationEntity(request, orderDao, "orders");
 
         daoManager.closeConnection();
 

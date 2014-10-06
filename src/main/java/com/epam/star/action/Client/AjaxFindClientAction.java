@@ -4,6 +4,7 @@ import com.epam.star.action.*;
 import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
+import com.epam.star.dao.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,8 @@ public class AjaxFindClientAction implements Action {
 
         H2ClientDao clientDao = daoManager.getClientDao();
 
-        PaginatedSearch pagination = new PaginatedSearch();
-        pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
+        Pagination pagination = new Pagination();
+        pagination.paginationEntity(request, clientDao, "clients");
 
         daoManager.closeConnection();
 

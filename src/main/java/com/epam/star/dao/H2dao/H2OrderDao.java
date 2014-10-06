@@ -237,27 +237,6 @@ public class H2OrderDao extends AbstractH2Dao implements OrderDao {
     }
 
     @Override
-    public List findRange(int startRow, int rowsCount) {
-        List<Order> result = new ArrayList<>();
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement(RANGE_ORDERS);
-            prstm.setInt(1, rowsCount);
-            prstm.setInt(2, startRow);
-            resultSet = prstm.executeQuery();
-            while (resultSet.next())
-                result.add(getEntityFromResultSet(resultSet));
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
-    }
-
-    @Override
     public int getRecordsCount() {
         int result = 0;
 

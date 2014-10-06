@@ -114,7 +114,7 @@ $(document).ready(function () {
     });
 
 
-    $('#check').click(function () {
+    $('#create').click(function () {
 
         var deliverydate = $('#Date').val();
         var deliverytime = $('#PeriodTime').val();
@@ -214,10 +214,10 @@ $(document).ready(function () {
 
     $('.searchDate').datepicker({
         format: 'yyyy-mm-dd'
-    })
+    });
 
     $('li.table').click(function () {
-        var tab = $(this).text();
+        var tab = $(this).attr('value');
         $.get('checkTable' + '?' + "entityName=" + tab,
             function (data) {
                 $('#findForm').html(data);

@@ -1,4 +1,4 @@
-package com.epam.star.action;
+package com.epam.star.dao.util;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,7 @@ public class PaginatedList<E> extends ArrayList<E> {
     }
 
     public int getPageCount() {
+
         return ((totalRowsCount + (rowsPerPage - (totalRowsCount % rowsPerPage))) / rowsPerPage);
     }
 }

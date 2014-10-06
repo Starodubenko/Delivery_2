@@ -5,6 +5,7 @@ import com.epam.star.dao.H2dao.DaoFactory;
 import com.epam.star.dao.H2dao.DaoManager;
 import com.epam.star.dao.H2dao.H2ClientDao;
 import com.epam.star.dao.H2dao.H2OrderDao;
+import com.epam.star.dao.util.Pagination;
 import com.epam.star.entity.Goods;
 import com.epam.star.entity.Period;
 
@@ -28,9 +29,9 @@ public class ShowDispatcherPageAction implements Action {
         List<Period> periods = daoManager.getPeriodDao().getAllPeriods();
         List<Goods> goods = daoManager.getGoodsDao().getAllGoods();
 
-        PaginatedSearch pagination = new PaginatedSearch();
-        pagination.executePaginationAction(request, clientDao, "dispatcher", "clients");
-        pagination.executePaginationAction(request, orderDao, "dispatcher", "orders");
+        Pagination pagination = new Pagination();
+        pagination.paginationEntity(request, clientDao, "clients");
+        pagination.paginationEntity(request, orderDao, "orders");
 
         HttpSession session = request.getSession();
         session.setAttribute("periods", periods);

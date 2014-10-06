@@ -12,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
@@ -176,28 +174,6 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     @Override
     public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         return null;
-    }
-
-    @Override
-    public List findRange(int startRow, int rowsCount) {
-        List<Employee> result = new ArrayList<>();
-
-        PreparedStatement prstm = null;
-        ResultSet resultSet = null;
-        try {
-            prstm = conn.prepareStatement(RANGE_EMPLOYEE);
-            prstm.setInt(1, rowsCount);
-            prstm.setInt(2, startRow);
-            resultSet = prstm.executeQuery();
-            while (resultSet.next()) {
-                result.add(getEmployeeFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeStatement(prstm, resultSet);
-        }
-        return result;
     }
 
     @Override

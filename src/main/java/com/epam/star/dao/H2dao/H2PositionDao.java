@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 public class H2PositionDao extends AbstractH2Dao implements PositionDao {
@@ -108,11 +107,6 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
 
     @Override
     public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public List findRange(int startRow, int rowsCount) {
         return null;
     }
 

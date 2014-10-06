@@ -1,11 +1,10 @@
 package com.epam.star.dao.H2dao;
 
-import com.epam.star.action.PaginatedList;
+import com.epam.star.dao.util.PaginatedList;
 import com.epam.star.entity.AbstractEntity;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractH2Dao<T extends AbstractEntity> {
@@ -33,16 +32,12 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         this.conn = conn;
     }
 
-    public abstract List<T> findRange(int startRow, int rowsCount);
-
     public abstract int getRecordsCount();
 
-    public PaginatedList<T> findRangeTest(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
+    public PaginatedList<T> findRange(int firstRow, int rowsCount, Map<String, String> fieldsMap) {
         int count = getRecordsCount();
 
         PaginatedList<T> result;
-
-//        fieldsMap = checkFields(fieldsMap);
 
         String findByParameters = getFindByParameters();
 
@@ -101,6 +96,69 @@ public abstract class AbstractH2Dao<T extends AbstractEntity> {
         }
         return result;
     }
+
+//    public PaginatedList<T> findRange(int firstRow, int rowsCount, List list) {
+//        int count = getRecordsCount();
+//
+//        PaginatedList<T> result;
+//
+//        String findByParameters = getFindByParameters();
+//
+//        String conditionsForFindEntity = createQueryString(fieldsMap);
+//
+//        String query = String.format(findByParameters, conditionsForFindEntity);
+//
+//        PreparedStatement prstm = null;//todo try-with-resources
+//        ResultSet resultSet = null;
+//        try {
+//            prstm = conn.prepareStatement(query);
+//
+//            int prstmIndex = 0;
+//
+////            Identification obtained data, for setting it to PreparedStatement
+//            for (Map.Entry<String, String> entry : fieldsMap.entrySet()) {//todo create separate method
+//                String dynamicalString = String.valueOf(fieldsMap.get(entry.getKey()));
+//                try {
+//                    if (dynamicalString != null & dynamicalString != "") {
+//                        int num = Integer.parseInt(dynamicalString);
+//                        prstmIndex++;
+//                        prstm.setInt(prstmIndex, num);
+//                    }
+//                } catch (Exception e) {
+//                    try {
+//                        Date date = new Date(new SimpleDateFormat("yy-MM-dd").parse(dynamicalString).getTime());
+//                        prstmIndex++;
+//                        prstm.setDate(prstmIndex, date);
+//                    } catch (Exception e1) {
+//                        prstmIndex++;
+//                        prstm.setString(prstmIndex, dynamicalString);
+//                    }
+//                }
+//            }
+//
+//            prstmIndex++;
+//            prstm.setInt(prstmIndex, rowsCount);
+//            prstmIndex++;
+//            prstm.setInt(prstmIndex, firstRow);
+//
+//            result = new PaginatedList<>();
+//
+//            resultSet = prstm.executeQuery();
+//            while (resultSet.next()) {
+//                result.add(getEntityFromResultSet(resultSet));
+//            }
+//
+//            result.setTotalRowsCount(count);
+//            result.setPageNumber(firstRow);
+//            result.setRowsPerPage(rowsCount);
+//
+//        } catch (SQLException e) {
+//            throw new DaoException(e);
+//        } finally {
+//            closeStatement(prstm, resultSet);
+//        }
+//        return result;
+//    }
 
     protected abstract String getFindByParameters();
 

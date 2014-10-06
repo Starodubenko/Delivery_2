@@ -32,7 +32,6 @@ public class ShowClientInfoPageAction implements Action {
         List<Order> todayOrders = orderDao.findAllByClientIdToday(user.getId());
         List<Order> pastOrders = orderDao.findAllByClientIdLastDays(user.getId());
 
-
         HttpSession session = request.getSession();
         session.setAttribute("todayOrders", todayOrders);
         session.setAttribute("pastOrders", pastOrders);

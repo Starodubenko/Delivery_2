@@ -1,50 +1,43 @@
 package com.epam.star;
 
-import com.epam.star.dao.Dao;
-import com.epam.star.dao.H2dao.DaoFactory;
-import com.epam.star.dao.H2dao.DaoManager;
-import com.epam.star.dao.H2dao.H2ClientDao;
-import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.epam.star.dao.util.UtilDao;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
+    private static final UtilDao utilDao = new UtilDao();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
+    public static void main(String[] args) throws SQLException, ParseException {
+        List result = parseSearchStaring("39 2014-09-14 Water 20L");
 
-    private static final Map<String, Dao> daoMap = new HashMap<>();
+        for (Object o : result) {
+//            if (entry.getKey().equals("Integer"))
+//                System.out.println(entry.getKey() + "=>" + entry.getValue());
+//            if (entry.getKey().equals("Date"))
+//                System.out.println(entry.getKey() + "=>" + entry.getValue());
+//            if (entry.getKey().equals("String"))
+//                System.out.println(entry.getKey() + "=>" + entry.getValue());
 
-    static {
-        Reflections reflections = new Reflections(Main.class.getPackage().getName());
-        Set<Class<? extends Dao>> daos = reflections.getSubTypesOf(Dao.class);
-
-        for (Class<?> dao : daos) {
-            Dao daoo = null;
-            try {
-                daoo = (Dao) dao.newInstance();
-            } catch (InstantiationException e) {
-                LOGGER.error(e.toString());
-            } catch (IllegalAccessException e) {
-                LOGGER.error(e.toString());
-            }
-            daoMap.put(dao.getSimpleName(), daoo);
+            System.out.println(o.getClass().getSimpleName() + "=>" + o.toString());
         }
     }
 
-    public static void main(String[] args) throws SQLException, ParseException {
 
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        DaoManager daoManager = daoFactory.getDaoManager();
-        H2ClientDao clientDao = daoManager.getClientDao();
+    private static List parseSearchStaring(String searchString) {
+        List parametersValue = new ArrayList<>();
+        String[] value = searchString.split(" ");
 
-        System.out.println(clientDao.getClass().getName());
-        System.out.println(clientDao.getClass().getSimpleName());
-        System.out.println(daoMap);
+        Object val = null;
+
+        for (String s : value) {
+            val = utilDao.getIntValue(s);
+            if (val == null) val = utilDao.getDateValue(s);
+            if (val == null) val = s;
+
+            parametersValue.add(val);
+        }
+        return parametersValue;
     }
 }
