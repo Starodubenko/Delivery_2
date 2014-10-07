@@ -112,8 +112,8 @@ public class AjaxCreateOrderAction implements Action {
         if (onlinePayment) {
             user.setVirtualBalance(res);
             if (user.getRole().equals(statusDao.findByStatusName("Client")))
-                clientDao.updateElement((Client) user);
-            else employeeDao.updateElement((Employee) user);
+                clientDao.updateEntity((Client) user);
+            else employeeDao.updateEntity((Employee) user);
         }
     }
 }

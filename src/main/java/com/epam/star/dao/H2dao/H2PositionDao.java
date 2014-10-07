@@ -67,12 +67,12 @@ public class H2PositionDao extends AbstractH2Dao implements PositionDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Position entity) throws DaoException {
+    public String updateEntity(Position entity) throws DaoException {
         return null;
     }
 

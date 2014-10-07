@@ -2,7 +2,6 @@ package com.epam.star.dao.H2dao;
 
 import com.epam.star.dao.EmployeeDao;
 import com.epam.star.dao.PositionDao;
-import com.epam.star.entity.AbstractEntity;
 import com.epam.star.entity.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +11,46 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_EMPLOYEE = "INSERT INTO  USERS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_EMPLOYEE = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
-            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
     private static final String DELETE_EMPLOYEE = "DELETE FROM users WHERE id = ?";
-    private static final String RANGE_EMPLOYEE = "SELECT * FROM users LIMIT ? OFFSET ?";
+    private static final String UPDATE_EMPLOYEE =
+            " UPDATE users SET id = ?, login = ?, password = ?, firstname = ?,  lastname = ?, middlename = ?," +
+                    " address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?," +
+                    " position_id = ?, virtual_balance = ? WHERE id = ?";
+
+    private static final String FIND_BY_PARAMETERS =
+            " SELECT " +
+                    " users.id, users.login, users.password, users.firstname, users.lastname, users.middlename," +
+                    " users.address, users.telephone, users.mobilephone, users.identitycard, users.workbook," +
+                    " users.rnn, users.sik, positions.position_name, virtual_balance" +
+                    " FROM users" +
+                    " inner join positions" +
+                    " on users.position_id = positions.id" +
+                    " %s LIMIT ? OFFSET ?";
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    static {
+        fieldsQueryMap.put("id", " users.id = ?");
+        fieldsQueryMap.put("login", " users.login = ?");
+        fieldsQueryMap.put("password", " users.password = ?");
+        fieldsQueryMap.put("first-name", " users.firstname = ?");
+        fieldsQueryMap.put("middle-name", " users.middlename = ?");
+        fieldsQueryMap.put("last-name", " users.lastname = ?");
+        fieldsQueryMap.put("address", " users.address = ?");
+        fieldsQueryMap.put("telephone", " users.telephone = ?");
+        fieldsQueryMap.put("mobilephone", " users.mobilephone = ?");
+        fieldsQueryMap.put("identitycard", " users.identitycard = ?");
+        fieldsQueryMap.put("workbook", " users.workbook = ?");
+        fieldsQueryMap.put("rnn", " users.rnn = ?");
+        fieldsQueryMap.put("sik", " users.sik = ?");
+        fieldsQueryMap.put("position_id", " users.position_id = ?");
+        fieldsQueryMap.put("virtual_balance", " users.virtual_balance = ?");
+    }
 
     protected H2EmployeeDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -40,7 +70,7 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next())
-                employee = getEmployeeFromResultSet(resultSet);
+                employee = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -88,12 +118,12 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Employee employee) throws DaoException {
+    public String updateEntity(Employee employee) throws DaoException {
         String status = "Employee do not updated";
 
         PreparedStatement prstm = null;
@@ -126,8 +156,26 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         return status;
     }
 
-    private Employee getEmployeeFromResultSet(ResultSet resultSet) throws DaoException {
+    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
+        if (prstm != null) {
+            try {
+                prstm.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
 
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new DaoException(e);
+            }
+        }
+    }
+
+    @Override
+    public Employee getEntityFromResultSet(ResultSet resultSet) throws DaoException {
         PositionDao positionDao = daoManager.getPositionDao();
 
         Employee employee = new Employee();
@@ -153,41 +201,32 @@ public class H2EmployeeDao extends AbstractH2Dao implements EmployeeDao {
         return employee;
     }
 
-    private void closeStatement(PreparedStatement prstm, ResultSet resultSet) {
-        if (prstm != null) {
-            try {
-                prstm.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-        }
-    }
-
-    @Override
-    public AbstractEntity getEntityFromResultSet(ResultSet resultSet) throws DaoException {
-        return null;
-    }
-
     @Override
     public Map<String, String> getParametersMap() {
-        return null;
+        return fieldsQueryMap;
     }
 
     @Override
     public int getRecordsCount() {
-        return 0;
+        int result = 0;
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM users where position_id != 11");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
     }
 
     @Override
     protected String getFindByParameters() {
-        return null;
+        return FIND_BY_PARAMETERS;
     }
 }

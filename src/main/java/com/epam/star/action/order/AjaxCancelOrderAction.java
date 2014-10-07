@@ -46,7 +46,7 @@ public class AjaxCancelOrderAction implements Action {
                     if (!order.getStatus().equals(status)) {
                         order.setStatus(status);
 
-                        orderDao.updateElement(order);
+                        orderDao.updateEntity(order);
 
                         returnFunds(order, daoManager);
                     }
@@ -75,6 +75,6 @@ public class AjaxCancelOrderAction implements Action {
 
         client.setVirtualBalance(summ);
 
-        clientDao.updateElement(client);
+        clientDao.updateEntity(client);
     }
 }

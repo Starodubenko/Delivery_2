@@ -81,12 +81,12 @@ public class H2PayCardStatusDao extends AbstractH2Dao implements PayCardStatusDa
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(StatusPayCard entity) throws DaoException {
+    public String updateEntity(StatusPayCard entity) throws DaoException {
         return null;
     }
 

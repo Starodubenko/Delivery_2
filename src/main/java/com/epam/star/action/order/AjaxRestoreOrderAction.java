@@ -42,7 +42,7 @@ public class AjaxRestoreOrderAction implements Action {
                     Status status = statusDao.findByStatusName("active");
                     order.setStatus(status);
 
-                    orderDao.updateElement(order);
+                    orderDao.updateEntity(order);
                 }
             } else {
                 LOGGER.error("The order was not selected {}");

@@ -134,8 +134,8 @@ public class CreateOrderAction implements Action {
         if (onlinePayment) {
             user.setVirtualBalance(res);
             if (user.getRole().equals(positionDao.findByPositionName("Client")))
-                clientDao.updateElement((Client) user);
-            else employeeDao.updateElement((Employee) user);
+                clientDao.updateEntity((Client) user);
+            else employeeDao.updateEntity((Employee) user);
             return true;
         }
         return false;

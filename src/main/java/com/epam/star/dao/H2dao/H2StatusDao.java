@@ -81,12 +81,12 @@ public class H2StatusDao extends AbstractH2Dao implements StatusDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Status entity) throws DaoException {
+    public String updateEntity(Status entity) throws DaoException {
         return null;
     }
 

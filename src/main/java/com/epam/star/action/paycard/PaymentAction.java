@@ -48,7 +48,7 @@ public class PaymentAction implements Action {
                 BigDecimal newBal = userbal.add(payBal);
 
                 payCard.setStatusPayCard(statusPayCardDao.findByStatusName("activated"));
-                payCardDao.updateElement(payCard);
+                payCardDao.updateEntity(payCard);
 
                 user.setVirtualBalance(newBal);
 
@@ -56,10 +56,10 @@ public class PaymentAction implements Action {
                 Position clientRole = userPositionDao.findByPositionName("registration");
 
                 if (userRole.equals(clientRole)) {
-                    clientDao.updateElement((Client) user);
+                    clientDao.updateEntity((Client) user);
                 }
                 if (!userRole.equals(clientRole))
-                    employeeDao.updateElement((Employee) user);
+                    employeeDao.updateEntity((Employee) user);
             } else {
                 LOGGER.error("The payment card have status: {}", payCard.getStatusPayCard().getStatusName());
                 request.setAttribute("PaymentInfo", "The payment card already activated");

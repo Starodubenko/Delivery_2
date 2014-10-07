@@ -31,7 +31,7 @@ public class AjaxSaveOrderData implements Action {
         try {
             OrderDao orderDao = daoManager.getOrderDao();
             order = createOrder(request, daoManager);
-            orderDao.updateElement(order);
+            orderDao.updateEntity(order);
 
             daoManager.commit();
         } catch (Exception e) {

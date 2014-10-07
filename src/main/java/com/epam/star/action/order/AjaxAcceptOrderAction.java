@@ -42,7 +42,7 @@ public class AjaxAcceptOrderAction implements Action {
                     Status status = statusDao.findByStatusName("accept");
                     order.setStatus(status);
 
-                    orderDao.updateElement(order);
+                    orderDao.updateEntity(order);
                 }
             } else {
                 LOGGER.error("The order was not selected {}");

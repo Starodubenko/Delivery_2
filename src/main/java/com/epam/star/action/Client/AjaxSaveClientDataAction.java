@@ -27,7 +27,7 @@ public class AjaxSaveClientDataAction implements Action {
         try {
             ClientDao clientDao = daoManager.getClientDao();
             client = createClient(request, daoManager);
-            clientDao.updateElement(client);
+            clientDao.updateEntity(client);
 
             daoManager.commit();
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,21 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(H2ClientDao.class);
     private static final String ADD_CONTACT = "INSERT INTO CONTACTS VALUES (?, ?, ?)";
     private static final String DELETE_CONTACT = "DELETE FROM CONTACTS WHERE id = ?";
+    private static final String UPDATE_CONTACT = "UPDATE contacts SET id = ?, telephone = ?, owner = ? WHERE id = ?";
+
+    private static Map<String, String> fieldsQueryMap = new HashMap<>();
+
+    private static final String FIND_BY_PARAMETERS =
+            " SELECT " +
+                    " contacts.id, contacts.telephone, contacts.owner" +
+                    " FROM contacts" +
+                    " %s LIMIT ? OFFSET ?";
+
+    static {
+        fieldsQueryMap.put("contact-id", " contacts.id = ?");
+        fieldsQueryMap.put("contact-id", " contacts.telephone = ?");
+        fieldsQueryMap.put("contact-id", " contacts.owner = ?");
+    }
 
     protected H2ContactDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -79,7 +95,7 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         String status = "Contact do not deleted";
 
         PreparedStatement prstm = null;
@@ -98,8 +114,25 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
     }
 
     @Override
-    public String updateElement(Contact contact) throws DaoException {
-        return null;
+    public String updateEntity(Contact contact) throws DaoException {
+        String status = "Contact do not updated";
+
+        PreparedStatement prstm = null;
+
+        try {
+            prstm = conn.prepareStatement(UPDATE_CONTACT);
+            prstm.setInt(1, contact.getId());
+            prstm.setString(2, contact.getTelephone());
+            prstm.setString(3, contact.getOwner());
+            prstm.setInt(4, contact.getId());
+            prstm.executeUpdate();
+            status = "Contact updated successfully";
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, null);
+        }
+        return status;
     }
 
     public Contact getContactFromResultSet(ResultSet resultSet) throws DaoException {
@@ -139,16 +172,30 @@ public class H2ContactDao extends AbstractH2Dao implements ContactDao {
 
     @Override
     public int getRecordsCount() {
-        return 0;
+        int result = 0;
+
+        PreparedStatement prstm = null;
+        ResultSet resultSet = null;
+        try {
+            prstm = conn.prepareStatement("SELECT COUNT(*) FROM contacts");
+            resultSet = prstm.executeQuery();
+            while (resultSet.next())
+                result = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            closeStatement(prstm, resultSet);
+        }
+        return result;
     }
 
     @Override
     public Map<String, String> getParametersMap() {
-        return null;
+        return fieldsQueryMap;
     }
 
     @Override
     protected String getFindByParameters() {
-        return null;
+        return FIND_BY_PARAMETERS;
     }
 }

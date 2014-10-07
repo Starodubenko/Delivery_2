@@ -130,12 +130,12 @@ public class H2PayCardDao extends AbstractH2Dao implements PayCardDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(PayCard payCard) throws DaoException {
+    public String updateEntity(PayCard payCard) throws DaoException {
 
         PreparedStatement prstm = null;
         try {

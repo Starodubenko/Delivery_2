@@ -44,7 +44,7 @@ public class CancelOrderAction implements Action {
                     Status status = statusDao.findByStatusName("canceled");
                     order.setStatus(status);
 
-                    orderDao.updateElement(order);
+                    orderDao.updateEntity(order);
 
                     returnFunds(order, daoManager);
                 }
@@ -75,7 +75,7 @@ public class CancelOrderAction implements Action {
 
             client.setVirtualBalance(summ);
 
-            clientDao.updateElement(client);
+            clientDao.updateEntity(client);
         }
     }
 }

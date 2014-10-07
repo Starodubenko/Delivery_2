@@ -19,26 +19,37 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     private static final String ADD_CLIENT = "INSERT INTO  users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String RANGE_CLIENT = "SELECT * FROM users LIMIT ? OFFSET ?";
     private static final String UPDATE_CLIENT = "UPDATE users SET id = ?, login = ?, password = ?, firstname = ?, lastname = ?, middlename = ?," +
-            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, position_id = ?, virtual_balance = ? WHERE id = ?";
+            "address = ?, telephone = ?, mobilephone = ?, identitycard = ?, workbook = ?, rnn = ?, sik = ?, " +
+            "position_id = ?, virtual_balance = ? WHERE id = ?";
 
-    private static final String FIND_BY_PARAMETERS = "SELECT *" +
+    private static final String FIND_BY_PARAMETERS =
+            " SELECT " +
+                    " users.id, users.login, users.password, users.firstname, users.lastname, users.middlename," +
+                    " users.address, users.telephone, users.mobilephone, users.identitycard, users.workbook," +
+                    " users.rnn, users.sik, positions.position_name, virtual_balance" +
             " FROM users" +
             " inner join positions" +
             " on users.position_id = positions.id" +
-            "%s LIMIT ? OFFSET ?";
+                    " %s LIMIT ? OFFSET ?";
     private static Map<String, String> fieldsQueryMap = new HashMap<>();
 
     static {
-        fieldsQueryMap.put("first-name", " users.id = ?");
+        fieldsQueryMap.put("id", " users.id = ?");
+        fieldsQueryMap.put("login", " users.login = ?");
+        fieldsQueryMap.put("password", " users.password = ?");
+        fieldsQueryMap.put("first-name", " users.firstname = ?");
         fieldsQueryMap.put("middle-name", " users.middlename = ?");
         fieldsQueryMap.put("last-name", " users.lastname = ?");
         fieldsQueryMap.put("address", " users.address = ?");
         fieldsQueryMap.put("telephone", " users.telephone = ?");
         fieldsQueryMap.put("mobilephone", " users.mobilephone = ?");
+        fieldsQueryMap.put("identitycard", " users.identitycard = ?");
+        fieldsQueryMap.put("workbook", " users.workbook = ?");
+        fieldsQueryMap.put("rnn", " users.rnn = ?");
+        fieldsQueryMap.put("sik", " users.sik = ?");
+        fieldsQueryMap.put("position_id", " users.position_id = ?");
+        fieldsQueryMap.put("virtual_balance", " users.virtual_balance = ?");
     }
-
-    private String conditionsForFindOrders = "";
-
 
     protected H2ClientDao(Connection conn, DaoManager daoManager) {
         super(conn, daoManager);
@@ -103,7 +114,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next()) ;
-            client = getClientFromResultSet(resultSet);
+            client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -123,7 +134,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next()) ;
-            client = getClientFromResultSet(resultSet);
+            client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -142,7 +153,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next()) ;
-            client = getClientFromResultSet(resultSet);
+            client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -161,7 +172,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next()) ;
-            client = getClientFromResultSet(resultSet);
+            client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -180,7 +191,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next()) ;
-            client = getClientFromResultSet(resultSet);
+            client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -202,7 +213,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
         } finally {
             closeStatement(prstm, resultSet);
         }
-        return getClientFromResultSet(resultSet);
+        return getEntityFromResultSet(resultSet);
     }
 
     @Override
@@ -219,7 +230,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next())
-                client = getClientFromResultSet(resultSet);
+                client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -238,7 +249,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             prstm = conn.prepareStatement(sql);
             resultSet = prstm.executeQuery();
             if (resultSet.next())
-                client = getClientFromResultSet(resultSet);
+                client = getEntityFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -282,7 +293,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         String status = "Client do not deleted";
 
         PreparedStatement prstm = null;
@@ -301,7 +312,7 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
     }
 
     @Override
-    public String updateElement(Client client) throws DaoException {
+    public String updateEntity(Client client) throws DaoException {
         String status = "Client do not updated";
 
         PreparedStatement prstm = null;
@@ -332,29 +343,6 @@ public class H2ClientDao extends AbstractH2Dao implements ClientDao {
             closeStatement(prstm, null);
         }
         return status;
-    }
-
-    private Client getClientFromResultSet(ResultSet resultSet) throws DaoException {
-
-        PositionDao positionDao = daoManager.getPositionDao();
-
-        Client client = new Client();
-        try {
-            client.setId(resultSet.getInt("id"));
-            client.setLogin(resultSet.getString("login"));
-            client.setPassword(resultSet.getString("password"));
-            client.setFirstName(resultSet.getString("firstname"));
-            client.setLastName(resultSet.getString("lastname"));
-            client.setMiddleName(resultSet.getString("middlename"));
-            client.setAddress(resultSet.getString("address"));
-            client.setTelephone(resultSet.getString("telephone"));
-            client.setMobilephone(resultSet.getString("mobilephone"));
-            client.setRole(positionDao.findById(resultSet.getInt("position_id")));
-            client.setVirtualBalance(new BigDecimal(resultSet.getInt("virtual_balance")));
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return client;
     }
 
     @Override

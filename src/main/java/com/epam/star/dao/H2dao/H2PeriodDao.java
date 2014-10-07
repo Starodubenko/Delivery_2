@@ -100,12 +100,12 @@ public class H2PeriodDao extends AbstractH2Dao implements PeriodDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Period period) throws DaoException {
+    public String updateEntity(Period period) throws DaoException {
         return null;
     }
 

@@ -103,12 +103,12 @@ public class H2GoodsDao extends AbstractH2Dao implements GoodsDao {
     }
 
     @Override
-    public String deleteElement(int ID) throws DaoException {
+    public String deleteEntity(int ID) throws DaoException {
         return null;
     }
 
     @Override
-    public String updateElement(Goods goods) throws DaoException {
+    public String updateEntity(Goods goods) throws DaoException {
         return null;
     }
 

@@ -8,7 +8,7 @@ public interface Dao<T extends AbstractEntity> {
 
     public String insert(T entity);
 
-    public String deleteElement(int ID);
+    public String deleteEntity(int ID);
 
-    public String updateElement(T entity);
+    public String updateEntity(T entity);
 }
